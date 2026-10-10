@@ -9,6 +9,8 @@
 
 /* ---------- 1. VARIABEL (ganti warna & font di sini) ---------- */
 :root {
+  color-scheme: only light;  /* jangan digelapkan oleh dark mode browser */
+
   /* Palet: hitam, silver, emas, merah, nuansa metalik */
   --black: #0b0506;
   --maroon: #681b1b;          /* teks script di kertas */
