@@ -95,7 +95,8 @@ a { color: inherit; }
 /* Kertas: warna krem + tekstur + bingkai emas ganda */
 .paper {
   position: relative;
-  background: var(--grain), linear-gradient(160deg, #f6f2ea 0%, var(--paper) 55%, #ebe4d7 100%);
+  /* Pakai gambar (bukan warna) supaya tidak digelapkan dark mode Samsung Internet */
+  background: url("../assets/paper.jpg") center / 100% 100% no-repeat, var(--paper);
   box-shadow:
     0 4px 10px rgba(30, 5, 5, .35),
     0 30px 60px -20px rgba(20, 0, 0, .65);
@@ -116,13 +117,13 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: var(--cream-btn);
+  background: url("../assets/cream.png") repeat, var(--cream-btn);
   color: var(--wine);
   font-family: var(--font-body);
   box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
   transition: transform .25s var(--ease-out), box-shadow .25s, background .25s;
 }
-.btn-paper:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .45); background: #fffaf2; }
+.btn-paper:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 0, 0, .45); filter: brightness(1.03); }
 .btn-paper:active { transform: translateY(0); }
 
 /* Tombol emas (Yes, No, Submit di pop-up) */
@@ -130,7 +131,7 @@ a { color: inherit; }
   min-width: 5.2em;
   padding: .2em 1.1em;
   border-radius: 4px;
-  background: linear-gradient(180deg, #d8c28f, var(--gold-btn) 55%, #b39a63);
+  background: url("../assets/gold.png") center / 100% 100% no-repeat, var(--gold-btn);
   color: var(--maroon-ink);
   font-family: var(--font-body);
   font-weight: 500;
@@ -225,7 +226,7 @@ a { color: inherit; }
   inset: 0;
   z-index: 0;
   border-radius: 1%;
-  background: var(--grain), linear-gradient(180deg, #b4a78a 0%, #cdc2a9 45%, #d6ccb5 100%);
+  background: url("../assets/env-back.jpg") center / 100% 100% no-repeat, #cdc2a9;
   box-shadow: inset 0 18px 30px -12px rgba(40, 28, 10, .55), inset 0 0 16px rgba(40, 28, 10, .25);
 }
 
@@ -236,7 +237,7 @@ a { color: inherit; }
   height: 88%;
   z-index: 1;
   border-radius: 2px;
-  background: var(--grain), linear-gradient(170deg, #f8f4ec, var(--paper));
+  background: url("../assets/paper.jpg") center / 100% 100% no-repeat, var(--paper);
   box-shadow: 0 1px 4px rgba(40, 28, 10, .25);
   transition: transform 1.1s var(--ease);
 }
@@ -672,7 +673,7 @@ a { color: inherit; }
   align-items: center;
   min-height: max(76px, calc(180 * var(--w)));
   padding: 0 max(20px, calc(81 * var(--w)));
-  background: rgba(186, 182, 182, .3);
+  background: url("../assets/band.png") repeat;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
@@ -948,7 +949,7 @@ a { color: inherit; }
   font-family: var(--font-body);
   font-size: 19px;
   color: var(--maroon-ink);
-  background: var(--cream-btn);
+  background: url("../assets/cream.png") repeat, var(--cream-btn);
   border: 0;
   border-radius: 2px;
   box-shadow: 0 3px 10px rgba(60, 30, 10, .25) inset, 0 1px 0 rgba(255, 255, 255, .7);
