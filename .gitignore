@@ -1,0 +1,7 @@
+# Bahan desain asli (tidak dipakai web, ukurannya besar)
+Resources/
+
+# File sistem
+.DS_Store
+Thumbs.db
+desktop.ini

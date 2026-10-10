@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Student Ambassador Appreciation Night</title>
+  <meta name="description" content="You have an invitation to the Student Ambassador Appreciation Night.">
+  <meta name="theme-color" content="#1a0306">
+
+  <!-- Font dari Google Fonts (sama dengan di Figma) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Rouge+Script&display=swap" rel="stylesheet">
+
+  <!-- Gambar yang dimuat lebih awal supaya animasi tidak patah-patah -->
+  <link rel="preload" as="image" href="assets/bg.jpg">
+  <link rel="preload" as="image" href="assets/env-closed.png">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+
+  <!-- Latar merah bertekstur (dipakai di semua halaman) -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+
+  <!-- Ikon dipakai ulang -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-house" viewBox="0 0 66 65">
+      <path d="M29.9 1.2C30.7.4 31.9 0 33 0s2.3.4 3.1 1.2l29.2 27.4c.3.3.6.7.7 1.2.1.4 0 .9-.1 1.3-.2.4-.5.8-.9 1-.4.3-.8.4-1.3.4h-7.9v32H42.1V50.8c0-2.4-.9-4.8-2.6-6.5-1.7-1.7-4.1-2.6-6.5-2.6s-4.7.9-6.4 2.6c-1.8 1.7-2.7 4.1-2.7 6.5v13.7H10.2v-32H2.3c-.5 0-.9-.1-1.3-.4-.4-.2-.7-.6-.8-1-.2-.4-.2-.9-.1-1.3.1-.5.3-.9.6-1.2L29.9 1.2Z"/>
+    </symbol>
+    <symbol id="i-ticket" viewBox="0 0 62 44">
+      <path fill-rule="evenodd" d="M59.3 17.1c1.4-.3 2.5-1.6 2.5-3V3.1c0-1.7-1.4-3.1-3.1-3.1H3.1C1.4 0 0 1.4 0 3.1v11c0 1.4 1 2.7 2.5 3 2.1.4 3.7 2.3 3.7 4.5s-1.6 4.1-3.7 4.6c-1.5.2-2.5 1.5-2.5 3v10.9c0 1.7 1.4 3.1 3.1 3.1h40.1v-3.1h3.1v3.1h12.4c1.7 0 3.1-1.4 3.1-3.1V29.2c0-1.5-1.1-2.8-2.5-3-2.2-.5-3.7-2.4-3.7-4.6s1.5-4.1 3.7-4.5ZM46.3 37.1h-3.1v-6.2h3.1v6.2Zm0-9.3h-3.1v-6.2h3.1v6.2Zm0-9.3h-3.1v-6.1h3.1v6.1Zm0-9.2h-3.1V3.1h3.1v6.2Z"/>
+    </symbol>
+  </svg>
+
+  <!-- Template amplop (dipakai di animasi pembuka & dekorasi halaman detail) -->
+  <template id="envelope-tpl">
+    <div class="env">
+      <div class="env__back"></div>
+      <div class="env__paper"><span class="env__paper-border"></span></div>
+      <img class="env__pocket" src="assets/pocket.png" alt="">
+      <div class="env__flap">
+        <img class="env__flap-front" src="assets/flap.png" alt="">
+        <img class="env__flap-inside" src="assets/flap.png" alt="">
+      </div>
+      <img class="env__closed" src="assets/env-closed.png" alt="">
+    </div>
+  </template>
+
+  <!-- =====================================================
+       BAGIAN 1 — PEMBUKA: amplop → dibuka → sampul undangan
+       (Desktop 1, 2, 6, 7, 8 di Figma)
+       ===================================================== -->
+  <section class="scene" id="scene" aria-label="Invitation">
+    <div class="stage" id="stage">
+
+      <h1 class="intro-title">You have an invitation!</h1>
+
+      <div class="env-holder" id="envHolder">
+        <!-- amplop dimasukkan dari template oleh script.js -->
+        <img class="env-seal" id="envSeal" src="assets/seal.png" alt="">
+      </div>
+
+      <button class="btn-paper intro-btn" id="openBtn" type="button">Open Me</button>
+
+      <!-- Sampul undangan (Desktop 8) -->
+      <article class="cover" id="cover" aria-hidden="true">
+        <div class="cover__card paper">
+          <p class="cover__label">Invitation</p>
+          <p class="cover__sub">Student Ambassador</p>
+          <h2 class="cover__title">Appreciation Night</h2>
+          <span class="cover__line" aria-hidden="true"></span>
+          <button class="seal-btn" id="coverSeal" type="button" aria-label="Tap the seal to read details">
+            <img src="assets/seal.png" alt="">
+          </button>
+          <p class="cover__tap">Tap the seal to read details</p>
+        </div>
+        <img class="ornament ornament--tr" src="assets/ornament.png" alt="" aria-hidden="true">
+        <img class="ornament ornament--bl" src="assets/ornament.png" alt="" aria-hidden="true">
+      </article>
+
+    </div>
+    <button class="skip-btn" id="skipBtn" type="button">Skip</button>
+  </section>
+
+  <!-- =====================================================
+       BAGIAN 2 — HALAMAN UTAMA (navbar + halaman-halaman)
+       ===================================================== -->
+  <div class="app" id="app" hidden>
+
+    <!-- Navbar: item aktif berwarna emas, yang lain silver -->
+    <nav class="nav" aria-label="Main">
+      <a class="nav__icon" href="#home" data-nav="home" aria-label="Home">
+        <svg><use href="#i-house"/></svg>
+      </a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <a class="nav__link" href="#about" data-nav="about">About</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <a class="nav__link" href="#dresscode" data-nav="dresscode">Dresscode</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <a class="nav__link" href="#contact" data-nav="contact">Contact</a>
+      <span class="nav__spacer"></span>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <a class="nav__icon nav__icon--ticket" href="#ticket" data-nav="ticket" aria-label="Event ticket">
+        <svg><use href="#i-ticket"/></svg>
+      </a>
+    </nav>
+
+    <main>
+
+      <!-- ---------- HALAMAN DETAIL (Desktop 5) ---------- -->
+      <div class="page" id="page-home" data-page="home">
+
+        <section class="hero" id="home">
+          <h1 class="page-title">Dear <span id="guestName">Guest</span>,</h1>
+
+          <div class="hero__stage">
+          <div class="hero__env" id="heroEnv" aria-hidden="true"></div>
+
+          <article class="details-card paper reveal">
+            <p class="details-card__invite">You’re Invited To Attend</p>
+            <p class="details-card__sub">Student Ambassador</p>
+            <h2 class="details-card__title">Appreciation Night</h2>
+            <span class="cover__line" aria-hidden="true"></span>
+
+            <!-- GANTI: isi detail acara di sini -->
+            <dl class="event-info">
+              <div><dt>Theme</dt><dd class="event-info__theme">Met Gala</dd></div>
+              <div><dt>Date</dt><dd>Saturday, 00 Month 2026</dd></div>
+              <div><dt>Time</dt><dd>00.00 – 00.00</dd></div>
+              <div><dt>Venue</dt><dd>Venue name<br><span>Venue address</span></dd></div>
+              <!-- Catatan tambahan (nanti): hapus tanda komentar di baris bawah ini
+              <div><dt>Note</dt><dd>Tulis catatan di sini</dd></div>
+              -->
+            </dl>
+          </article>
+
+          <article class="rsvp-card paper reveal" id="rsvpCard">
+            <p class="rsvp-card__q">Do you accept the<br>invitation?</p>
+            <div class="rsvp-card__actions">
+              <button class="btn-gold" type="button" id="yesBtn">Yes</button>
+              <button class="btn-gold" type="button" id="noBtn">No</button>
+            </div>
+            <p class="rsvp-card__status" id="rsvpStatus" hidden></p>
+          </article>
+          </div>
+        </section>
+
+        <!-- What is SAAE? -->
+        <section class="block" id="about">
+          <header class="band band--right"><h2>What is SAAE?</h2></header>
+          <div class="block__body block__body--tint">
+            <!-- GANTI: deskripsi acara -->
+            <p class="lead">Write a short description of the event here — what SAAE is, why it is held, and who it celebrates.</p>
+            <p>Add a second paragraph if needed, for example the highlights of the night or a thank-you note to all student ambassadors.</p>
+          </div>
+        </section>
+
+        <!-- Dresscode -->
+        <section class="block" id="dresscode">
+          <header class="band band--left"><h2>Dresscode</h2></header>
+          <div class="block__body">
+            <!-- GANTI: aturan dresscode -->
+            <p class="lead">Theme: Met Gala</p>
+            <p>Describe the dresscode here — for example how guests can interpret the Met Gala theme, the level of formality (black tie / formal), and any colours or details to avoid.</p>
+          </div>
+        </section>
+
+        <!-- Contact Us -->
+        <section class="block" id="contact">
+          <header class="band band--right"><h2>Contact Us</h2></header>
+          <div class="block__body block__body--tint">
+            <!-- GANTI: kontak panitia -->
+            <p class="lead">Have a question? Reach out to the committee.</p>
+            <ul class="contact-list">
+              <li><span>Name</span><a href="#">+62 000 0000 0000</a></li>
+              <li><span>Email</span><a href="mailto:email@example.com">email@example.com</a></li>
+              <li><span>Instagram</span><a href="#">@username</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <footer class="footer">Student Ambassador Appreciation Night</footer>
+      </div>
+
+      <!-- ---------- HALAMAN TIKET (Desktop 9 & 10) ---------- -->
+      <div class="page" id="page-ticket" data-page="ticket" hidden>
+        <section class="simple-page">
+          <p class="page-kicker" id="ticketKicker">You’re Not Registered Yet!</p>
+          <h1 class="page-title">Event Ticket</h1>
+
+          <!-- Belum isi RSVP -->
+          <div class="panel ticket-empty" id="ticketEmpty">
+            <p>You haven’t filled the<br>RSVP form</p>
+            <a class="link-gold" href="#rsvp">Fill It Now</a>
+          </div>
+
+          <!-- Sudah isi RSVP -->
+          <div class="ticket-wrap" id="ticketFull" hidden>
+            <div class="ticket">
+              <img src="assets/ticket.png" alt="">
+              <div class="ticket__main">
+                <p class="ticket__kicker">Admit One</p>
+                <p class="ticket__event">Appreciation Night</p>
+                <p class="ticket__name" id="ticketName">Guest Name</p>
+                <p class="ticket__meta">Saturday, 00 Month 2026 · Venue name</p>
+              </div>
+              <div class="ticket__stub">
+                <span id="ticketCode">SAAE-0000</span>
+              </div>
+            </div>
+            <p class="ticket-note">Please show this before entering the venue<br>See you there!</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- ---------- HALAMAN RSVP ---------- -->
+      <div class="page" id="page-rsvp" data-page="rsvp" hidden>
+        <section class="simple-page">
+          <h1 class="page-title">RSVP</h1>
+
+          <form class="panel rsvp-form" id="rsvpForm" novalidate>
+            <!-- GANTI: tambah/kurangi kolom sesuai kebutuhan -->
+            <label class="field">
+              <span>Full Name</span>
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label class="field">
+              <span>Phone Number</span>
+              <input type="tel" name="phone" autocomplete="tel">
+            </label>
+            <label class="field">
+              <span>Faculty / Programme</span>
+              <input type="text" name="programme">
+            </label>
+            <label class="field">
+              <span>Dietary Requirements</span>
+              <input type="text" name="dietary" placeholder="e.g. vegetarian, allergies">
+            </label>
+            <label class="field">
+              <span>Message for the Committee</span>
+              <textarea name="message" rows="3"></textarea>
+            </label>
+
+            <p class="form-error" id="formError" role="alert" hidden></p>
+            <p class="rsvp-form__note">A ticket will be sent to your email after submitting</p>
+          </form>
+
+          <button class="btn-paper" type="submit" form="rsvpForm" id="submitBtn">Submit</button>
+        </section>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Pop-up kalau memilih "No" (Frame 1 & Frame 2 di Figma) -->
+  <div class="modal" id="reasonModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__card paper" role="dialog" aria-modal="true" aria-labelledby="reasonTitle">
+      <div class="modal__step" id="reasonStep">
+        <p class="modal__title" id="reasonTitle">Please state your reason</p>
+        <textarea id="reasonText" rows="3" aria-label="Your reason"></textarea>
+        <button class="btn-gold" type="button" id="reasonSubmit">Submit</button>
+      </div>
+      <div class="modal__step" id="thanksStep" hidden>
+        <p class="modal__title">Thank you for telling us<br>See you next time</p>
+      </div>
+      <button class="modal__close" type="button" data-close aria-label="Close">×</button>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
