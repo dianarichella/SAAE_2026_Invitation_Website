@@ -9,12 +9,8 @@ const CONFIG = {
   // Nama tamu default. Untuk nama per orang, buka web dengan
   // alamat ...index.html?name=Diana  →  "Dear Diana,"
   defaultName: 'Guest',
-
-  // Alamat untuk mengirim data RSVP (misalnya Google Apps Script
-  // atau Formspree). Biarkan kosong '' kalau belum ada:
-  // data hanya disimpan di browser tamu.
-  rsvpEndpoint: '',
-  declineEndpoint: '',
+  
+  sheetEndpoint: 'https://script.google.com/macros/s/AKfycbwjn2PWP7q6lmLZ7HEwHWykSeQhSfKGKWK04HjGrz2cnx6QksLw9GdYZYO7sHnvIHWp7A/exec',
 };
 
 const STORE_KEY = 'saae-rsvp';
@@ -271,9 +267,17 @@ $('#rsvpForm').addEventListener('change', e => { if (e.target.name === 'attend')
 const msgBox = $('#rsvpForm textarea[name="message"]');
 msgBox.addEventListener('input', () => { msgBox.style.height = 'auto'; msgBox.style.height = msgBox.scrollHeight + 'px'; });
 
+// Kirim data ke Google Sheets lewat Apps Script
 async function postJSON(url, body) {
   if (!url) return;
-  await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) });
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },  // tanpa preflight CORS
+    body: JSON.stringify(body),
+  });
+  const out = await res.json().catch(() => ({}));
+  if (!res.ok || out.ok === false) throw new Error(out.error || 'Failed to send');
+  return out;
 }
 
 $('#yesBtn').addEventListener('click', () => { location.hash = store.get(STORE_KEY) ? '#ticket' : '#rsvp'; });
@@ -308,7 +312,7 @@ $('#rsvpForm').addEventListener('submit', async e => {
   btn.disabled = true;
   btn.textContent = 'Sending…';
   try {
-    await postJSON(CONFIG.rsvpEndpoint, data);
+    await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data });
     store.set(STORE_KEY, data);
     localStorage.removeItem(DECLINE_KEY);
     renderRsvpStatus();
@@ -339,7 +343,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hid
 $('#reasonSubmit').addEventListener('click', async () => {
   const reason = $('#reasonText').value.trim();
   const data = { name: guestName, reason, submittedAt: new Date().toISOString() };
-  try { await postJSON(CONFIG.declineEndpoint, data); } catch { /* tetap lanjut */ }
+  try { await postJSON(CONFIG.sheetEndpoint, { type: 'decline', ...data }); } catch { /* tetap lanjut */ }
   store.set(DECLINE_KEY, data);
   renderRsvpStatus();
   $('#reasonStep').hidden = true;
