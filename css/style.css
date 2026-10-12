@@ -72,7 +72,7 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: url("../assets/bg.jpg") center / cover no-repeat, #1a0306;
+  background: url("../assets/bg-scarlet.jpg") center / cover no-repeat, #1a0306;
 }
 
 /* Kilau kecil emas & silver yang melayang */
@@ -559,10 +559,10 @@ a { color: inherit; }
 
 /* Kartu & amplop: ukurannya menyesuaikan tinggi layar supaya muat satu layar */
 .hero__stage {
-  --w: min(calc(100vw / 1440), calc((100dvh - var(--nav-h) - max(30px, calc(72 * var(--wp))) * 1.15 - max(22px, calc(40 * var(--wp))) - 30px) / 1290), 1.15px);
+  --w: min(calc((100vw - 2 * max(18px, calc(81 * var(--wp))) - 30px) / 1440), calc((100dvh - var(--nav-h) - max(30px, calc(72 * var(--wp))) * 1.15 - max(22px, calc(40 * var(--wp))) - 30px) / 1250), 1.15px);
   position: relative;
   width: calc(1440 * var(--w));
-  height: calc(1330 * var(--w));
+  height: calc(1370 * var(--w));
   margin: max(10px, calc(14 * var(--wp))) auto 0;
 }
 
@@ -581,7 +581,7 @@ a { color: inherit; }
 
 .details-card {
   position: absolute;
-  left: calc(153 * var(--w));
+  left: calc(120 * var(--w));
   top: calc(40 * var(--w));
   width: calc(1098 * var(--w));
   min-height: calc(1171 * var(--w));
@@ -639,11 +639,15 @@ a { color: inherit; }
 
 .rsvp-card {
   position: absolute;
-  left: calc(900 * var(--w));
-  top: calc(880 * var(--w));
-  width: calc(700 * var(--w));
-  padding: calc(70 * var(--w)) calc(50 * var(--w)) calc(60 * var(--w));
-  transform: rotate(10deg);
+  left: calc(820 * var(--w));
+  top: calc(800 * var(--w));
+  width: calc(610 * var(--w));
+  min-height: calc(480 * var(--w));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: calc(80 * var(--w)) calc(60 * var(--w)) calc(85 * var(--w));
+  transform: rotate(6deg);
   color: var(--maroon-ink);
   text-align: center;
   z-index: 2;
@@ -652,9 +656,9 @@ a { color: inherit; }
 .rsvp-card__actions {
   display: flex;
   justify-content: center;
-  gap: calc(60 * var(--w));
-  margin-top: calc(40 * var(--w));
-  font-size: max(17px, calc(40 * var(--w)));
+  gap: calc(44 * var(--w));
+  margin-top: calc(46 * var(--w));
+  font-size: max(14px, calc(34 * var(--w)));
 }
 .rsvp-card__status {
   margin-top: calc(26 * var(--w));
@@ -673,7 +677,7 @@ a { color: inherit; }
   min-height: max(76px, calc(180 * var(--w)));
   padding: 0 max(20px, calc(81 * var(--w)));
   /* Pakai gambar supaya tidak digelapkan dark mode Samsung Internet */
-  background: url("../assets/band.png") repeat;
+  background: url("../assets/band-dark.png") repeat;
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
@@ -737,7 +741,8 @@ a { color: inherit; }
   .details-card__invite { text-align: center; }
   .details-card__sub { margin-top: 18px; }
   .details-card .cover__line { margin: 22px auto; }
-  .event-info { max-width: none; margin: 0 auto; }
+  .event-info { max-width: 440px; margin: 0 auto; padding: 0 6px; }
+  .details-card { padding-left: max(30px, 7%); padding-right: max(30px, 7%); }
   .rsvp-card {
     position: relative;
     left: auto;
@@ -851,9 +856,9 @@ a { color: inherit; }
   gap: max(22px, calc(44 * var(--w))) max(22px, calc(60 * var(--w)));
 }
 .field { display: grid; gap: 8px; }
-.field:nth-last-of-type(1),
-.field:nth-last-of-type(2),
+.field--full,
 .rsvp-form .form-error,
+.rsvp-form__intro,
 .rsvp-form__note { grid-column: 1 / -1; }
 .field span {
   font-family: var(--font-title);
@@ -931,7 +936,7 @@ a { color: inherit; }
   width: min(100%, 653px);
   min-height: 300px;
   padding: 46px 38px 40px;
-  transform: rotate(-4deg);
+  transform: none;
   color: var(--maroon-ink);
   text-align: center;
   display: grid;
@@ -939,7 +944,7 @@ a { color: inherit; }
   animation: card-in .55s var(--ease-out) both;
 }
 @keyframes fade-in { from { opacity: 0; } }
-@keyframes card-in { from { opacity: 0; transform: translateY(40px) rotate(-12deg) scale(.92); } }
+@keyframes card-in { from { opacity: 0; transform: translateY(40px) scale(.94); } }
 .modal__step { display: grid; justify-items: center; gap: 18px; width: 100%; }
 .modal__title { font-size: clamp(26px, 6vw, 42px); line-height: 1.2; }
 .modal textarea {
@@ -961,9 +966,13 @@ a { color: inherit; }
   position: absolute;
   right: 14px;
   top: 8px;
-  font-size: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 34px;
+  line-height: 1;
+  padding: 6px 10px;
   color: var(--maroon);
-  opacity: .6;
+  opacity: .75;
 }
 .modal__close:hover { opacity: 1; }
 
@@ -973,4 +982,56 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
+}
+
+/* ---------- RSVP: pilihan hadir penuh atau tidak ---------- */
+.rsvp-form__intro {
+  text-align: center;
+  font-style: italic;
+  font-size: max(17px, calc(32 * var(--w)));
+  opacity: .9;
+}
+.choice { border: 0; padding: 0; margin: 0; min-width: 0; }
+.choice legend {
+  margin-bottom: 12px;
+  font-family: var(--font-title);
+  font-size: max(12px, calc(22 * var(--w)));
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--silver);
+}
+.choice__options { display: flex; flex-wrap: wrap; gap: 12px; }
+.choice__opt { position: relative; cursor: pointer; }
+.choice__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.choice__opt span {
+  display: inline-block;
+  padding: .45em 1.2em;
+  border: 1px solid rgba(186, 182, 182, .55);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-size: max(16px, calc(28 * var(--w)));
+  letter-spacing: .02em;
+  text-transform: none;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.choice__opt:hover span { border-color: var(--gold-active); }
+.choice__opt input:checked + span { background: var(--gold-active); border-color: var(--gold-active); color: #2a0a0f; }
+.choice__opt input:focus-visible + span { outline: 2px solid var(--gold-active); outline-offset: 3px; }
+.choice.is-invalid .choice__opt span { border-color: #ff8a80; }
+.field textarea[name="message"] { min-height: 1.8em; resize: none; overflow: hidden; }
+.rsvp-card .btn-gold { min-width: 4.6em; padding: .25em 1em; }
+
+/* Layar lebar (laptop full screen): kotak RSVP lebih lebar dan menjorok ke
+   ruang kosong di kanan, seperti desain awal. Layar sempit/split tetap ringkas. */
+@media (min-width: 901px) and (min-aspect-ratio: 7/5) {
+  .rsvp-card {
+    left: calc(880 * var(--w));
+    top: calc(860 * var(--w));
+    width: calc(700 * var(--w));
+    min-height: calc(420 * var(--w));
+    padding: calc(70 * var(--w)) calc(60 * var(--w)) calc(70 * var(--w));
+    transform: rotate(9deg);
+  }
+  .rsvp-card__actions { font-size: max(15px, calc(42 * var(--w))); gap: calc(60 * var(--w)); }
+  .rsvp-card .btn-gold { min-width: 5em; }
 }

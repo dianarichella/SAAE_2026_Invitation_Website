@@ -6,7 +6,7 @@
 An interactive digital invitation for the **Student Ambassador Appreciation Event (SAAE)**.
 Guests open a wax-sealed envelope, read the invitation, and RSVP — all in the browser.
 
-**Theme:** Met Gala
+**Theme:** Scarlet Gala
 
 ## Features
 
@@ -20,16 +20,17 @@ Guests open a wax-sealed envelope, read the invitation, and RSVP — all in the 
 ## Built with
 
 - HTML, CSS and vanilla JavaScript (no frameworks)
-- Fonts from Google Fonts: Cinzel, Cormorant Garamond and Rouge Script
+- Fonts: Confirm Serif and Waza (headings), with Cormorant Garamond from Google Fonts as fallback
 - Designed in Figma
 
 ## Project structure
 
 ```
 ├── index.html      # page content
-├── css/style.css   # layout, colours, animations
+├── css/style.css   # layout and animations
+├── css/scarlet.css # Scarlet Gala theme: colours and fonts
 ├── js/script.js    # envelope animation, navigation, RSVP logic
-└── assets/         # images (background, envelope, seal, ornament, ticket)
+└── assets/         # images and web fonts
 ```
 
 ## Running locally
@@ -40,7 +41,7 @@ Open `index.html` in a browser, or use the **Live Server** extension in VS Code.
 
 - [ ] **Event details** — date, time and venue (search for `GANTI` in `index.html`)
 - [ ] **What is SAAE?** — event description
-- [ ] **Dresscode** — dress code guidelines for the Met Gala theme
+- [ ] **Dresscode** — dress code guidelines for the Scarlet Gala theme
 - [ ] **Contact Us** — committee contact details
 - [ ] **Event ticket** — date and venue shown on the ticket
 - [ ] **Additional notes** — optional "Note" row on the invitation card (already prepared in `index.html`)

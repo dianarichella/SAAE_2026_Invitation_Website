@@ -53,7 +53,8 @@ const env = makeEnvelope(envHolder, envSeal);
 makeEnvelope($('#heroEnv'));
 
 // Nama tamu dari alamat web (?name=...)
-const params = new URLSearchParams(location.search);
+// Juga membaca nama yang ditulis setelah tanda # (misalnya ...#home?name=Diana)
+const params = new URLSearchParams(location.search || (location.hash.split('?')[1] || ''));
 const guestName = (params.get('name') || params.get('to') || CONFIG.defaultName).trim().slice(0, 40);
 $('#guestName').textContent = guestName;
 
@@ -255,7 +256,20 @@ function fillForm() {
   const form = $('#rsvpForm');
   if (data) Object.entries(data).forEach(([k, v]) => { if (form.elements[k]) form.elements[k].value = v; });
   else if (guestName !== CONFIG.defaultName && !form.elements.name.value) form.elements.name.value = guestName;
+  toggleAttendNote();
 }
+
+// Kolom "bagian mana yang dihadiri" hanya muncul kalau memilih "No"
+function toggleAttendNote() {
+  const form = $('#rsvpForm');
+  const partial = form.elements.attend.value === 'No';
+  $('#attendNoteField').hidden = !partial;
+}
+$('#rsvpForm').addEventListener('change', e => { if (e.target.name === 'attend') toggleAttendNote(); });
+
+// Kotak pesan membesar sendiri mengikuti isi
+const msgBox = $('#rsvpForm textarea[name="message"]');
+msgBox.addEventListener('input', () => { msgBox.style.height = 'auto'; msgBox.style.height = msgBox.scrollHeight + 'px'; });
 
 async function postJSON(url, body) {
   if (!url) return;
@@ -275,8 +289,9 @@ $('#rsvpForm').addEventListener('submit', async e => {
   const problems = [];
   if (!name) { problems.push('your full name'); form.elements.name.closest('.field').classList.add('is-invalid'); }
   if (!/^\S+@\S+\.\S+$/.test(email)) { problems.push('a valid email'); form.elements.email.closest('.field').classList.add('is-invalid'); }
+  if (!form.elements.attend.value) { problems.push('whether you can attend the full event'); $('#attendField').classList.add('is-invalid'); }
   if (problems.length) {
-    err.textContent = `Please fill in ${problems.join(' and ')}.`;
+    err.textContent = `Please fill in ${problems.join(', ')}.`;
     err.hidden = false;
     return;
   }

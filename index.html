@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Student Ambassador Appreciation Night</title>
+  <title>Student Ambassador Appreciation Night — Scarlet Gala</title>
   <meta name="description" content="You have an invitation to the Student Ambassador Appreciation Night.">
   <meta name="theme-color" content="#1a0306">
   <!-- Mencegah mode gelap otomatis di browser HP menggelapkan kertas -->
@@ -15,11 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Rouge+Script&display=swap" rel="stylesheet">
 
   <!-- Gambar yang dimuat lebih awal supaya animasi tidak patah-patah -->
-  <link rel="preload" as="image" href="assets/bg.jpg">
-  <link rel="preload" as="image" href="assets/env-closed.png">
+  <link rel="preload" as="image" href="assets/bg-scarlet.jpg">
+  <link rel="preload" as="image" href="assets/env-closed-gold.png">
 
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=11">
+  <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
+  <link rel="stylesheet" href="css/scarlet.css?v=12">
 </head>
 <body class="is-loading">
 
@@ -47,7 +49,7 @@
         <img class="env__flap-front" src="assets/flap.png" alt="">
         <img class="env__flap-inside" src="assets/flap.png" alt="">
       </div>
-      <img class="env__closed" src="assets/env-closed.png" alt="">
+      <img class="env__closed" src="assets/env-closed-gold.png" alt="">
     </div>
   </template>
 
@@ -58,11 +60,11 @@
   <section class="scene" id="scene" aria-label="Invitation">
     <div class="stage" id="stage">
 
-      <h1 class="intro-title">You have an invitation!</h1>
+      <h1 class="intro-title"><span class="sw sw-Y">Y</span>ou have an Invitation!</h1>
 
       <div class="env-holder" id="envHolder">
         <!-- amplop dimasukkan dari template oleh script.js -->
-        <img class="env-seal" id="envSeal" src="assets/seal.png" alt="">
+        <img class="env-seal" id="envSeal" src="assets/seal-gold.png" alt="">
       </div>
 
       <button class="btn-paper intro-btn" id="openBtn" type="button">Open Me</button>
@@ -72,10 +74,10 @@
         <div class="cover__card paper">
           <p class="cover__label">Invitation</p>
           <p class="cover__sub">Student Ambassador</p>
-          <h2 class="cover__title">Appreciation Night</h2>
+          <h2 class="cover__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</h2>
           <span class="cover__line" aria-hidden="true"></span>
           <button class="seal-btn" id="coverSeal" type="button" aria-label="Tap the seal to read details">
-            <img src="assets/seal.png" alt="">
+            <img src="assets/seal-gold.png" alt="">
           </button>
           <p class="cover__tap">Tap the seal to read details</p>
         </div>
@@ -116,7 +118,7 @@
       <div class="page" id="page-home" data-page="home">
 
         <section class="hero" id="home">
-          <h1 class="page-title">Dear <span id="guestName">Guest</span>,</h1>
+          <h1 class="page-title"><span class="sw sw-D">D</span>ear <span id="guestName">Guest</span>,</h1>
 
           <div class="hero__stage">
           <div class="hero__env" id="heroEnv" aria-hidden="true"></div>
@@ -124,12 +126,12 @@
           <article class="details-card paper reveal">
             <p class="details-card__invite">You’re Invited To Attend</p>
             <p class="details-card__sub">Student Ambassador</p>
-            <h2 class="details-card__title">Appreciation Night</h2>
+            <h2 class="details-card__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</h2>
             <span class="cover__line" aria-hidden="true"></span>
 
             <!-- GANTI: isi detail acara di sini -->
             <dl class="event-info">
-              <div><dt>Theme</dt><dd class="event-info__theme">Met Gala</dd></div>
+              <div><dt>Theme</dt><dd class="event-info__theme">Scarlet Gala</dd></div>
               <div><dt>Date</dt><dd>Saturday, 00 Month 2026</dd></div>
               <div><dt>Time</dt><dd>00.00 – 00.00</dd></div>
               <div><dt>Venue</dt><dd>Venue name<br><span>Venue address</span></dd></div>
@@ -152,7 +154,7 @@
 
         <!-- What is SAAE? -->
         <section class="block" id="about">
-          <header class="band band--right"><h2>What is SAAE?</h2></header>
+          <header class="band band--right"><h2><span class="sw sw-W">W</span>hat is SAAE?</h2></header>
           <div class="block__body block__body--tint">
             <!-- GANTI: deskripsi acara -->
             <p class="lead">Write a short description of the event here — what SAAE is, why it is held, and who it celebrates.</p>
@@ -162,17 +164,17 @@
 
         <!-- Dresscode -->
         <section class="block" id="dresscode">
-          <header class="band band--left"><h2>Dresscode</h2></header>
+          <header class="band band--left"><h2><span class="sw sw-D">D</span>resscode</h2></header>
           <div class="block__body">
             <!-- GANTI: aturan dresscode -->
-            <p class="lead">Theme: Met Gala</p>
-            <p>Describe the dresscode here — for example how guests can interpret the Met Gala theme, the level of formality (black tie / formal), and any colours or details to avoid.</p>
+            <p class="lead">Theme: Scarlet Gala</p>
+            <p>Describe the dresscode here — for example how guests can interpret the Scarlet Gala theme, the level of formality (black tie / formal), and any colours or details to avoid.</p>
           </div>
         </section>
 
         <!-- Contact Us -->
         <section class="block" id="contact">
-          <header class="band band--right"><h2>Contact Us</h2></header>
+          <header class="band band--right"><h2><span class="sw sw-C">C</span>ontact Us</h2></header>
           <div class="block__body block__body--tint">
             <!-- GANTI: kontak panitia -->
             <p class="lead">Have a question? Reach out to the committee.</p>
@@ -184,14 +186,17 @@
           </div>
         </section>
 
-        <footer class="footer">Student Ambassador Appreciation Night</footer>
+        <footer class="footer">
+          <span class="footer__sub">Student Ambassador</span>
+          <span class="footer__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</span>
+        </footer>
       </div>
 
       <!-- ---------- HALAMAN TIKET (Desktop 9 & 10) ---------- -->
       <div class="page" id="page-ticket" data-page="ticket" hidden>
         <section class="simple-page">
           <p class="page-kicker" id="ticketKicker">You’re Not Registered Yet!</p>
-          <h1 class="page-title">Event Ticket</h1>
+          <h1 class="page-title"><span class="sw sw-E">E</span>vent Ticket</h1>
 
           <!-- Belum isi RSVP -->
           <div class="panel ticket-empty" id="ticketEmpty">
@@ -221,17 +226,23 @@
       <!-- ---------- HALAMAN RSVP ---------- -->
       <div class="page" id="page-rsvp" data-page="rsvp" hidden>
         <section class="simple-page">
-          <h1 class="page-title">RSVP</h1>
+          <h1 class="page-title page-title--rsvp"><span class="sw sw-R">R</span>SVP</h1>
 
           <form class="panel rsvp-form" id="rsvpForm" novalidate>
             <!-- GANTI: tambah/kurangi kolom sesuai kebutuhan -->
-            <label class="field">
+            <p class="rsvp-form__intro">Kindly fill in the form below to confirm your attendance.</p>
+
+            <label class="field field--full">
               <span>Full Name</span>
               <input type="text" name="name" autocomplete="name" required>
             </label>
             <label class="field">
               <span>Email</span>
               <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label class="field">
+              <span>Telegram Username</span>
+              <input type="text" name="telegram" placeholder="@username" autocapitalize="off" spellcheck="false">
             </label>
             <label class="field">
               <span>Phone Number</span>
@@ -241,13 +252,26 @@
               <span>Faculty / Programme</span>
               <input type="text" name="programme">
             </label>
-            <label class="field">
+
+            <fieldset class="field field--full choice" id="attendField">
+              <legend>Will you be able to attend the full event?</legend>
+              <div class="choice__options">
+                <label class="choice__opt"><input type="radio" name="attend" value="Yes"><span>Yes, the whole event</span></label>
+                <label class="choice__opt"><input type="radio" name="attend" value="No"><span>No, only part of it</span></label>
+              </div>
+            </fieldset>
+            <label class="field field--full" id="attendNoteField" hidden>
+              <span>Which part will you attend? (e.g. arriving late, leaving early)</span>
+              <input type="text" name="attendNote">
+            </label>
+
+            <label class="field field--full">
               <span>Dietary Requirements</span>
               <input type="text" name="dietary" placeholder="e.g. vegetarian, allergies">
             </label>
-            <label class="field">
-              <span>Message for the Committee</span>
-              <textarea name="message" rows="3"></textarea>
+            <label class="field field--full">
+              <span>Additional Notes</span>
+              <textarea name="message" rows="1" placeholder="Optional"></textarea>
             </label>
 
             <p class="form-error" id="formError" role="alert" hidden></p>
@@ -277,6 +301,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=2"></script>
+  <script src="js/script.js?v=5"></script>
 </body>
 </html>
