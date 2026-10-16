@@ -19,9 +19,9 @@
   <link rel="preload" as="image" href="assets/env-closed-gold.png">
 
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
-  <link rel="stylesheet" href="css/style.css?v=11">
+  <link rel="stylesheet" href="css/style.css?v=12">
   <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
-  <link rel="stylesheet" href="css/scarlet.css?v=12">
+  <link rel="stylesheet" href="css/scarlet.css?v=17">
 </head>
 <body class="is-loading">
 
@@ -206,19 +206,42 @@
 
           <!-- Sudah isi RSVP -->
           <div class="ticket-wrap" id="ticketFull" hidden>
-            <div class="ticket">
-              <img src="assets/ticket.png" alt="">
-              <div class="ticket__main">
-                <p class="ticket__kicker">Admit One</p>
-                <p class="ticket__event">Appreciation Night</p>
-                <p class="ticket__name" id="ticketName">Guest Name</p>
-                <p class="ticket__meta">Saturday, 00 Month 2026 · Venue name</p>
-              </div>
-              <div class="ticket__stub">
-                <span id="ticketCode">SAAE-0000</span>
+            <div class="tk-holder">
+              <div class="ticket" aria-label="Event ticket">
+                <div class="tk-body">
+                  <div class="tk-frame"></div>
+                  <div class="tk-title">
+                    <p class="tk-sub tk-sub--top">Student Ambassador</p>
+                    <p class="tk-name1 tk-foil"><span class="tk-sw tk-sw-S">S</span>carlet</p>
+                    <p class="tk-name2 tk-foil"><span class="tk-sw tk-sw-G">G</span>ala</p>
+                    <div class="tk-rule"></div>
+                    <p class="tk-sub tk-sub--bottom">Appreciation Night</p>
+                  </div>
+                  <div class="tk-divider"></div>
+                  <div class="tk-info">
+                    <div class="tk-row tk-guest"><span>Guest</span><strong id="ticketName">Full Name</strong></div>
+                    <div class="tk-row"><span>Date</span><strong>Friday, 13 November 2026</strong></div>
+                    <div class="tk-grid">
+                      <div class="tk-row"><span>Time</span><strong>18.30 &ndash; 22.15</strong><em class="tk-note">Registration opens 18.00</em></div>
+                      <div class="tk-row"><span>Admit</span><strong>One</strong></div>
+                    </div>
+                    <div class="tk-row"><span>Venue</span><strong>Metropolitan YMCA</strong><em class="tk-note">60 Stevens Rd, Singapore 257854</em></div>
+                  </div>
+                </div>
+                <div class="tk-stub">
+                  <p class="tk-g-kicker">Student Ambassador<br>Appreciation Night</p>
+                  <span class="tk-g-rule tk-g-rule--top"></span>
+                  <div class="tk-g-lock">
+                    <p class="tk-g-cap tk-g-cap1 tk-foil"><span class="tk-sw tk-sw-L">L</span><span class="tk-g-rest">ucky</span></p>
+                    <p class="tk-g-cap tk-g-cap2 tk-foil"><span class="tk-sw tk-sw-D">D</span>raw</p>
+                  </div>
+                  <span class="tk-g-rule tk-g-rule--bottom"></span>
+                  <div class="tk-g-no"><span>No.</span> <b id="ticketCode">0000</b></div>
+                  <p class="tk-g-note">To be detached by<br>our staff at registration</p>
+                </div>
               </div>
             </div>
-            <p class="ticket-note">Please show this before entering the venue<br>See you there!</p>
+            <p class="ticket-note">Please show this at registration<br>See you there!</p>
           </div>
         </section>
       </div>
@@ -301,6 +324,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=6"></script>
+  <script src="js/script.js?v=7"></script>
 </body>
 </html>

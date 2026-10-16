@@ -226,7 +226,8 @@ function renderTicket() {
   $('#ticketKicker').textContent = data ? 'You’re Registered!' : 'You’re Not Registered Yet!';
   if (data) {
     $('#ticketName').textContent = data.name;
-    $('#ticketCode').textContent = data.code;
+    // nomor lucky draw = angka di kode tiket (SAAE-1234 → 1234)
+    $('#ticketCode').textContent = String(data.code || '').replace(/^SAAE-/, '');
   }
 }
 

@@ -236,10 +236,6 @@
 .page-kicker { color: var(--silver-mb); }
 .ticket-empty { color: var(--ivory); }
 .link-gold { color: var(--gold-mb); }
-.ticket__main { color: #3a0610; }
-.ticket__kicker { color: #8a6421; }
-.ticket__event { font-family: var(--font-title); text-transform: uppercase; color: var(--scarlet-dark); font-size: max(20px, 6cqw); }
-.ticket__event .sw { color: var(--scarlet); }
 
 .modal__title { color: var(--ivory); }
 .modal__close { color: var(--ivory); }
@@ -334,3 +330,219 @@
 /* Teks paragraf: Confirm Serif tampak lebih besar dari Cormorant, jadi dikecilkan */
 .block__body { font-size: max(16px, calc(30 * var(--w))); line-height: 1.65; }
 .lead { font-size: 1.15em; }
+
+
+/* ---------- TIKET SCARLET GALA ----------
+   Sama dengan desain tiket cetak (SAAE_ticket.png).
+   Ukuran semua isi memakai cqw (1cqw = 1% lebar tiket), jadi tiket
+   bisa membesar/mengecil tanpa mengubah tata letak. */
+.tk-holder {
+  --gold-foil: linear-gradient(115deg, #7a5a22 0%, #e9cd84 18%, #a9822f 34%, #f6e3a6 50%, #b38a36 66%, #e4c57a 82%, #7d5c24 100%);
+  width: min(100%, calc(1000 * var(--w) + 80px));
+  margin: 0 auto;
+}
+.ticket {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1000 / 380;
+  display: flex;
+  container-type: inline-size;
+  filter: drop-shadow(0 1.8cqw 3cqw rgba(0, 0, 0, .55));
+  text-align: left;
+  line-height: normal;
+  font-family: 'Confirm', 'Cormorant Garamond', serif;
+  font-variant-numeric: lining-nums; /* angka 4 (font cadangan) sejajar dengan angka lain */
+}
+.ticket p { margin: 0; }
+
+.ticket .tk-body {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 1.2cqw 0 0 1.2cqw;
+  background: #0d0607 url("../assets/ticket-satin.jpg") center / cover;
+  /* lubang setengah lingkaran di garis sobek */
+  -webkit-mask: radial-gradient(circle 1.6cqw at 100% 0, transparent 98%, #000) top right / 100% 51% no-repeat,
+                radial-gradient(circle 1.6cqw at 100% 100%, transparent 98%, #000) bottom right / 100% 51% no-repeat;
+          mask: radial-gradient(circle 1.6cqw at 100% 0, transparent 98%, #000) top right / 100% 51% no-repeat,
+                radial-gradient(circle 1.6cqw at 100% 100%, transparent 98%, #000) bottom right / 100% 51% no-repeat;
+}
+.ticket .tk-body { background: #4a0814 url("../assets/ticket-satin.jpg") center / cover; }
+
+.ticket .tk-frame { position: absolute; inset: 2.2cqw 2.4cqw 2.2cqw 2.2cqw; border: .12cqw solid rgba(214,180,105,.85); pointer-events: none; }
+.ticket .tk-frame::after { content: ""; position: absolute; inset: .55cqw; border: .08cqw solid rgba(214,180,105,.5); }
+
+.ticket .tk-title {
+  position: absolute;
+  left: 5cqw; top: 0; bottom: 0;
+  width: 36cqw;
+  display: flex; flex-direction: column; justify-content: center;
+  text-align: center;
+}
+.ticket .tk-kicker {
+  font-family: 'Confirm Cond', 'Cormorant Garamond', serif;
+  font-size: 1.55cqw; letter-spacing: .42em; text-transform: uppercase;
+  color: #d9bd7c;
+}
+.ticket .tk-foil {
+  background: var(--gold-foil);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 .15cqw .2cqw rgba(0,0,0,.55));
+  /* ruang ekstra supaya hiasan huruf tidak terpotong oleh efek emas */
+  padding: .45em .6em;
+  margin: -.45em -.6em;
+}
+.ticket .tk-name1, .ticket .tk-name2 {
+  font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-weight: 400;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.ticket .tk-name1 { font-size: 4.8cqw; margin-top: 1.2cqw; }
+.ticket .tk-name2 { font-size: 6cqw; margin-top: .9cqw; }
+.ticket .tk-sw { font-family: 'Waza', cursive; text-transform: none; font-size: 1.55em; line-height: 0; vertical-align: -.1em; }
+.ticket .tk-sw-A { margin-right: .1em; }
+.ticket .tk-sw-N { margin-right: .08em; }
+.ticket .tk-rule { width: 60%; height: .1cqw; margin: 1.6cqw auto 1.2cqw; background: linear-gradient(90deg, transparent, #d6b469, transparent); }
+.ticket .tk-theme { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1.5cqw; letter-spacing: .38em; text-transform: uppercase; color: #e7d6b8; }
+.ticket .tk-theme b { font-weight: 400; color: #e8c97e; }
+
+.ticket .tk-divider { position: absolute; left: 43.5cqw; top: 6cqw; bottom: 6cqw; width: .1cqw; background: linear-gradient(180deg, transparent, #d6b469 20%, #d6b469 80%, transparent); }
+
+.ticket .tk-info {
+  position: absolute; left: 46.5cqw; right: 3.4cqw; top: 0; bottom: 0;
+  display: flex; flex-direction: column; justify-content: center; gap: 1.35cqw;
+  color: #f3e6d8;
+}
+.ticket .tk-row span {
+  display: block;
+  font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1.25cqw; letter-spacing: .32em; text-transform: uppercase;
+  color: #d6b469; margin-bottom: .35cqw;
+}
+.ticket .tk-row strong { font-weight: 400; font-size: 2.15cqw; line-height: 1.15; }
+.ticket .tk-row.tk-guest strong { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; text-transform: uppercase; letter-spacing: .06em; font-size: 2.8cqw; color: #fff4e6; }
+.ticket .tk-note { display: block; margin-top: .35cqw; font-style: italic; font-size: 1.25cqw; color: #d9c6b4; }
+.ticket .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.7cqw 2cqw; }
+
+.ticket .tk-stub {
+  position: relative;
+  width: 21cqw;
+  border-radius: 0 1.2cqw 1.2cqw 0;
+  background: var(--gold-foil);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2cqw;
+  color: #2a0a0f;
+  -webkit-mask: radial-gradient(circle 1.6cqw at 0 0, transparent 98%, #000) top left / 100% 51% no-repeat,
+                radial-gradient(circle 1.6cqw at 0 100%, transparent 98%, #000) bottom left / 100% 51% no-repeat;
+          mask: radial-gradient(circle 1.6cqw at 0 0, transparent 98%, #000) top left / 100% 51% no-repeat,
+                radial-gradient(circle 1.6cqw at 0 100%, transparent 98%, #000) bottom left / 100% 51% no-repeat;
+}
+.ticket .tk-stub::before {
+  content: ""; position: absolute; left: 0; top: 2.4cqw; bottom: 2.4cqw;
+  border-left: .22cqw dashed rgba(42,10,15,.55);
+}
+  font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1.9cqw; letter-spacing: .38em; text-transform: uppercase;
+}
+  width: 12.2cqw; aspect-ratio: 1;
+  padding: .8cqw;
+  background: #fbf3e3;
+  border: .15cqw solid rgba(42,10,15,.6);
+}
+.ticket .tk-stub { gap: .9cqw; }
+.ticket .tk-g-kicker { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1cqw; line-height: 1.55; letter-spacing: .26em; text-transform: uppercase; text-align: center; color: #d9c6b4; }
+.ticket .tk-g-rule { width: 8cqw; height: .1cqw; background: linear-gradient(90deg, transparent, #d6b469, transparent); }
+.ticket .tk-g-title { font-family: 'Waza', cursive; font-size: 4.1cqw; line-height: 1; padding: .8em 1.1em .6em; margin: -.4em -1.1em -.65em; }
+.ticket .tk-g-title--2 { margin-top: -.5em; }
+.ticket .tk-g-no { display: flex; align-items: baseline; gap: .5em; padding: .55cqw 1.6cqw; border: .12cqw solid rgba(214,180,105,.75); font-family: 'Confirm Cond', 'Cormorant Garamond', serif; color: #f3e6d8; }
+.ticket .tk-g-no span { font-size: 1.2cqw; letter-spacing: .2em; text-transform: uppercase; color: #d6b469; }
+.ticket .tk-g-no b { font-weight: 400; font-size: 2.6cqw; letter-spacing: .1em; }
+.ticket .tk-g-note { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1cqw; line-height: 1.4; text-align: center; color: #d9c6b4; }
+
+.ticket .tk-stub { background: #3a0510 url("../assets/ticket-satin.jpg") right center / 500% 100%; color: #e2c47c; }
+.ticket .tk-stub::before { border-left-color: rgba(214,180,105,.55); }
+.ticket .tk-stub::after { content: ""; position: absolute; inset: 2.2cqw 2.2cqw 2.2cqw 2.4cqw; border: .12cqw solid rgba(214,180,105,.7); pointer-events: none; }
+.ticket .tk-title .tk-sw {
+  background: var(--gold-foil); -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding: 1.2em 1.6em 1.2em 1em;
+}
+.ticket .tk-title .tk-sw-S { margin: 0 calc(.16em - 1.6em) 0 -1em; }
+.ticket .tk-title .tk-sw-G { margin: 0 calc(.04em - 1.6em) 0 -1em; }
+.ticket .tk-name1 { font-size: 5.2cqw; margin-top: 1.4cqw; }
+.ticket .tk-name2 { font-size: 6cqw; margin-top: .2cqw; }
+.ticket .tk-name1, .ticket .tk-name2 { position: relative; }
+.ticket .tk-name1 { left: -3.55cqw; }
+.ticket .tk-name2 { left: 2.45cqw; }
+.ticket .tk-title .tk-rule { margin-top: 4.6cqw; margin-bottom: 1.1cqw; }
+.ticket .tk-title .tk-sw-A { margin: 0 calc(.1em - 1.6em) 0 -1em; }
+.ticket .tk-title .tk-sw-N {
+  margin: 0 calc(.08em - 1.6em) 0 -1em;
+  /* ujung ikal N dihilangkan supaya tidak jadi lingkaran di atas T */
+  -webkit-mask: linear-gradient(90deg, #000 76%, transparent 80%);
+          mask: linear-gradient(90deg, #000 76%, transparent 80%);
+}
+.ticket .tk-g-rule--top { margin-bottom: 1.3cqw; }
+.ticket .tk-g-rule--bottom { margin-top: -1cqw; margin-bottom: .9cqw; }
+.ticket .tk-info { text-shadow: 0 .1cqw .3cqw rgba(0,0,0,.6); }
+
+.ticket .tk-title { align-items: center; }
+.ticket .tk-title .tk-sw { font-size: var(--swz); }
+.ticket .tk-title { --swz: 8.6cqw; }
+.ticket .tk-title .tk-sw-S { margin-right: calc(var(--gapS, -.02em) - 1.6em); }
+.ticket .tk-title .tk-sw-G { margin-right: calc(var(--gapG, .07em) - 1.6em); }
+.ticket .tk-title .tk-name1 { font-size: 4.8cqw; margin-top: 1.8cqw; left: var(--x1, -2.9cqw); }
+.ticket .tk-title .tk-name2 { font-size: 5.5cqw; margin-top: -2.8cqw; left: var(--x2, 2.5cqw); }
+.ticket .tk-sub { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; font-size: 1.85cqw; line-height: 1.1; color: #e8d3b0; text-shadow: 0 .1cqw .3cqw rgba(0,0,0,.5); }
+.ticket .tk-title .tk-rule { width: 55%; margin: 4.4cqw auto 1cqw; }
+
+.ticket .tk-row span { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: .02em; font-size: 1.5cqw; color: #d6b469; margin-bottom: .15cqw; }
+.ticket .tk-row strong { font-style: italic; }
+.ticket .tk-row.tk-guest strong { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: 0; font-size: 3cqw; }
+.ticket .tk-note { font-size: 1.3cqw; }
+.ticket .tk-g-kicker { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: .02em; font-size: 1.35cqw; line-height: 1.3; }
+.ticket .tk-g-no { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; }
+.ticket .tk-g-no span { text-transform: none; letter-spacing: .02em; font-size: 1.4cqw; }
+.ticket .tk-g-no b { letter-spacing: .04em; }
+
+.ticket .tk-stub { width: 24cqw; }
+.ticket .tk-title { left: 3.6cqw; width: 33cqw; }
+.ticket .tk-divider { left: 38.8cqw; }
+.ticket .tk-info { left: 41.8cqw; }
+.ticket .tk-g-title { font-size: 4.4cqw; }
+.ticket .tk-stub { gap: .75cqw; }
+.ticket .tk-g-title { position: relative; left: -1.35cqw; }
+.ticket .tk-g-kicker { font-size: 1.4cqw; }
+.ticket .tk-g-no { padding: .6cqw 1.9cqw; }
+.ticket .tk-g-no b { font-size: 2.9cqw; }
+.ticket .tk-g-note { font-size: 1.2cqw; }
+.ticket .tk-g-rule { width: 9cqw; }
+
+.ticket .tk-g-lock { display: flex; flex-direction: column; align-items: center; --swz: 4.6cqw; --mt2: .5cqw; --gapD: .12em; --gapL: .34em; --l1: -1.47cqw; --l2: 1.33cqw; margin: 1.4cqw 0 1.4cqw; }
+.ticket .tk-g-cap .tk-sw-L { vertical-align: -.15em; }
+.ticket .tk-g-lock { position: relative; top: -.65cqw; }
+.ticket .tk-g-rest { position: relative; top: var(--ucky, .35em); background: var(--gold-foil); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ticket .tk-g-cap { position: relative; font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-weight: 400; text-transform: uppercase; line-height: 1; }
+.ticket .tk-g-cap .tk-sw { font-family: 'Waza', cursive; text-transform: none; font-size: var(--swz); line-height: 0; vertical-align: -.1em;
+  background: var(--gold-foil); -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding: 1.2em 1.6em 1.2em 1em; }
+.ticket .tk-g-cap1 { font-size: 3.4cqw; left: var(--l1); }
+.ticket .tk-g-cap2 { font-size: 3.9cqw; margin-top: var(--mt2); left: var(--l2); }
+.ticket .tk-g-cap .tk-sw-L { margin: 0 calc(var(--gapL, -.02em) - 1.6em) 0 -1em; }
+.ticket .tk-g-cap .tk-sw-D { margin: 0 calc(var(--gapD, -.02em) - 1.6em) 0 -1em; }
+
+.ticket .tk-title, .ticket .tk-g-lock { --gold-foil: linear-gradient(115deg, #efe4dc 0%, #ffffff 30%, #f4ebe5 55%, #ffffff 80%, #ece0d7 100%); }
+
+/* Layar sempit (HP): tiket diputar tegak supaya tulisannya tetap terbaca */
+@media (max-width: 640px) {
+  .tk-holder {
+    width: min(100%, 300px);
+    aspect-ratio: 380 / 1000;
+    position: relative;
+    container-type: inline-size;
+  }
+  .tk-holder .ticket {
+    position: absolute; left: 0; top: 0;
+    width: calc(100cqw * 1000 / 380);
+    transform-origin: 0 0;
+    transform: rotate(90deg) translateY(-100%);
+    filter: drop-shadow(0 1.2cqw 2cqw rgba(0, 0, 0, .55));
+  }
+}
