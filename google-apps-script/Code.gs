@@ -169,3 +169,122 @@ function sendTicket_(d) {
     name: 'SAAE Committee',
   });
 }
+
+/* =========================================================
+   KIRIM UNDANGAN DARI GOOGLE SHEETS (lewat Gmail akun ini)
+   ---------------------------------------------------------
+   1. Buka tab "Invites" (dibuat otomatis), isi kolom Name & Email.
+   2. Jalankan sendTestInvitation dulu (dikirim ke email kamu sendiri).
+   3. Jalankan sendInvitations. Baris yang sudah terkirim ditandai "Sent",
+      jadi aman dijalankan ulang (tidak ada email dobel).
+   ========================================================= */
+const SITE_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/';
+const INVITE_HEADER_URL = SITE_URL + 'assets/invite-header.jpg';
+const INVITE_SHEET = 'Invites';
+const INVITE_HEADERS = ['Name', 'Email', 'Status', 'Sent At'];
+const INVITE_SUBJECT = 'You’re invited — Student Ambassador Appreciation Night 2026';
+const SENDER_NAME = 'SIM Student Ambassador Appreciation Event Team';
+
+// Menu "SAAE" di Google Sheets (muncul kalau script ini terhubung ke spreadsheet-nya)
+function onOpen() {
+  try {
+    SpreadsheetApp.getUi().createMenu('SAAE')
+      .addItem('Send test invitation to me', 'sendTestInvitation')
+      .addItem('Send invitations', 'sendInvitations')
+      .addToUi();
+  } catch (e) { /* script tidak terhubung ke spreadsheet: jalankan dari editor */ }
+}
+
+function inviteLink_(name) {
+  return SITE_URL + '?name=' + encodeURIComponent(String(name).trim());
+}
+
+function sendTestInvitation() {
+  const sheet = getSheet_(SpreadsheetApp.openById(SPREADSHEET_ID), INVITE_SHEET, INVITE_HEADERS);
+  const me = Session.getEffectiveUser().getEmail();
+  const firstName = sheet.getLastRow() >= 2 ? String(sheet.getRange(2, 1).getValue() || 'Guest') : 'Guest';
+  sendInvite_(me, firstName);
+  Logger.log('Test invitation sent to ' + me + ' (as "' + firstName + '")');
+}
+
+function sendInvitations() {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    const sheet = getSheet_(SpreadsheetApp.openById(SPREADSHEET_ID), INVITE_SHEET, INVITE_HEADERS);
+    const last = sheet.getLastRow();
+    if (last < 2) { Logger.log('No guests in the "Invites" tab yet.'); return; }
+    const rows = sheet.getRange(2, 1, last - 1, 4).getValues();
+    let sent = 0, skipped = 0;
+    for (let i = 0; i < rows.length; i++) {
+      const [name, email, status] = rows[i];
+      if (status === 'Sent' || !email) continue;
+      if (!/^\S+@\S+\.\S+$/.test(String(email).trim())) {
+        sheet.getRange(i + 2, 3).setValue('Invalid email'); skipped++; continue;
+      }
+      if (MailApp.getRemainingDailyQuota() < 1) {
+        Logger.log('Daily email limit reached. Run sendInvitations again tomorrow to continue.');
+        break;
+      }
+      try {
+        sendInvite_(String(email).trim(), String(name || 'Guest').trim());
+        sheet.getRange(i + 2, 3, 1, 2).setValues([['Sent', new Date()]]);
+        sent++;
+      } catch (err) {
+        sheet.getRange(i + 2, 3).setValue('Error: ' + String(err).slice(0, 80));
+      }
+    }
+    Logger.log(`Sent ${sent} invitation(s). Skipped ${skipped}. Remaining quota today: ${MailApp.getRemainingDailyQuota()}`);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function sendInvite_(email, name) {
+  const link = inviteLink_(name);
+  const plain =
+    `Dear ${name},\n\n` +
+    `You're invited to attend Student Ambassador Appreciation Night.\n\n` +
+    `Date: ${EVENT.date}\nTime: 18.30 – 22.15 (registration opens 18.00)\nVenue: ${EVENT.venue}\n\n` +
+    `Please RSVP here: ${link}\n\n` +
+    `For more inquiries, please contact Min Hal Jin (Telegram: @minhaljin).\n\n` +
+    `${SENDER_NAME}`;
+  MailApp.sendEmail({
+    to: email,
+    subject: INVITE_SUBJECT,
+    body: plain,
+    htmlBody: inviteHtml_(name, link),
+    name: SENDER_NAME,
+  });
+}
+
+// Desain undangan. Warna latar memakai bgcolor + gradient supaya
+// mode gelap di aplikasi Gmail tidak mudah mengubah warnanya.
+function inviteHtml_(name, link) {
+  const red = '#5c140f', dark = '#4a100c', cream = '#fff7ee';
+  const bg = c => `bgcolor="${c}" style="background-color:${c};background-image:linear-gradient(${c},${c})`;
+  const font = 'Arial,Helvetica,sans-serif';
+  return `
+  <div style="background:#f2f2f2;padding:20px 8px">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;border-radius:10px;overflow:hidden">
+    <tr><td ${bg(dark)};padding:20px 0;text-align:center;font-family:${font};font-size:20px;letter-spacing:.5px;color:${cream}">SAAE INVITATION</td></tr>
+    <tr><td ${bg(dark)}"><a href="${link}"><img src="${INVITE_HEADER_URL}" width="600" alt="Scarlet Gala — Student Ambassador Appreciation Night 2026" style="display:block;width:100%;height:auto;border:0"></a></td></tr>
+    <tr><td ${bg(red)};padding:34px 44px 8px;font-family:${font};color:${cream};text-align:left">
+      <p style="margin:0 0 14px;font-size:16px;color:${cream}">Dear ${esc_(name)},</p>
+      <p style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Night</p>
+      <p style="margin:0 0 6px;font-size:15px;font-weight:bold;color:${cream}">Event details:</p>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.15 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
+    </td></tr>
+    <tr><td ${bg(red)};padding:24px 44px 34px;text-align:left">
+      <a href="${link}" style="display:inline-block;background:#efe6b8;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
+    </td></tr>
+    <tr><td ${bg(red)};padding:0 24px"><div style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
+    <tr><td ${bg(red)};padding:30px 44px 30px;font-family:${font};font-size:14px;line-height:1.6;color:${cream}">
+      For more inquiries, please contact:<br>Min Hal Jin<br>Telegram: <a href="https://t.me/minhaljin" style="color:${cream}">@minhaljin</a>
+    </td></tr>
+    <tr><td ${bg(dark)};padding:22px 0;text-align:center;font-family:${font};font-size:12px;font-weight:bold;line-height:1.8;color:${cream}">
+      ${SENDER_NAME}<br>Singapore | October 2026
+    </td></tr>
+  </table>
+  </div>`;
+}
