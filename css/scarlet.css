@@ -536,21 +536,45 @@
 .ticket .tk-sub, .ticket .tk-g-kicker, .ticket .tk-g-note { color: #f6e4d6; }
 .ticket .tk-logo { display: block; width: 15cqw; margin: -1.2cqw auto 1cqw; filter: drop-shadow(0 .1cqw .25cqw rgba(0,0,0,.45)); }
 
-/* Layar sempit (HP): tiket diputar tegak supaya tulisannya tetap terbaca */
+/* Layar sempit (HP): tiket disusun ke bawah seperti email tiket —
+   logo, Scarlet Gala, detail, lalu potongan lucky draw di bawah garis sobek.
+   Isi tiap bagian memakai ukuran desain desktop yang diperbesar dengan zoom. */
 @media (max-width: 640px) {
-  .tk-holder {
-    width: min(100%, 300px);
-    aspect-ratio: 380 / 1000;
-    position: relative;
-    container-type: inline-size;
+  .tk-holder { width: min(100%, 380px); }
+  .ticket { flex-direction: column; aspect-ratio: auto; filter: drop-shadow(0 4cqw 7cqw rgba(0, 0, 0, .55)); }
+  .ticket .tk-body {
+    flex: none;
+    border-radius: 3cqw 3cqw 0 0;
+    padding: 14cqw 0 13cqw;
+    -webkit-mask: radial-gradient(circle 4cqw at 0 100%, transparent 98%, #000) bottom left / 51% 100% no-repeat,
+                  radial-gradient(circle 4cqw at 100% 100%, transparent 98%, #000) bottom right / 51% 100% no-repeat;
+            mask: radial-gradient(circle 4cqw at 0 100%, transparent 98%, #000) bottom left / 51% 100% no-repeat,
+                  radial-gradient(circle 4cqw at 100% 100%, transparent 98%, #000) bottom right / 51% 100% no-repeat;
   }
-  .tk-holder .ticket {
-    position: absolute; left: 0; top: 0;
-    width: calc(100cqw * 1000 / 380);
-    transform-origin: 0 0;
-    transform: rotate(90deg) translateY(-100%);
-    filter: drop-shadow(0 1.2cqw 2cqw rgba(0, 0, 0, .55));
+  .ticket .tk-frame { inset: 4cqw 4cqw 4cqw; border-width: 1px; }
+  .ticket .tk-frame::after { inset: 1.4cqw; border-width: 1px; }
+  .ticket .tk-title { position: relative; left: 0; top: auto; bottom: auto; width: 33cqw; margin: 0 auto; zoom: 2.45; }
+  .ticket .tk-divider { position: relative; left: auto; top: auto; bottom: auto; width: 62%; height: 1px; margin: 7cqw auto 6cqw;
+    background: linear-gradient(90deg, transparent, #d9b285 20%, #d9b285 80%, transparent); }
+  .ticket .tk-info { position: relative; left: auto; right: auto; top: auto; bottom: auto; width: 33cqw; margin: 0 auto; gap: 2.2cqw; zoom: 2.35; }
+  .ticket .tk-stub {
+    width: 100%;
+    border-radius: 0 0 3cqw 3cqw;
+    padding: 9cqw 0 9cqw;
+    background-size: 100% 500%; background-position: center bottom;
+    -webkit-mask: radial-gradient(circle 4cqw at 0 0, transparent 98%, #000) top left / 51% 100% no-repeat,
+                  radial-gradient(circle 4cqw at 100% 0, transparent 98%, #000) top right / 51% 100% no-repeat;
+            mask: radial-gradient(circle 4cqw at 0 0, transparent 98%, #000) top left / 51% 100% no-repeat,
+                  radial-gradient(circle 4cqw at 100% 0, transparent 98%, #000) top right / 51% 100% no-repeat;
   }
+  .ticket .tk-stub::before { left: 6cqw; right: 6cqw; top: 0; bottom: auto; border-left: 0; border-top: 2px dashed rgba(217, 178, 133, .55); }
+  .ticket .tk-stub::after { inset: 4cqw; border-width: 1px; }
+  .ticket .tk-stub > * { zoom: 2.4; }
+  .ticket .tk-info .tk-row strong { display: block; line-height: 1.15; }
+  .ticket .tk-info .tk-row span { line-height: 1.2; }
+  .ticket .tk-info { gap: 2.3cqw; }
+  .ticket .tk-info .tk-grid { gap: 2.3cqw 2cqw; }
+  .ticket .tk-info .tk-note { margin-top: .5cqw; }
 }
 
 

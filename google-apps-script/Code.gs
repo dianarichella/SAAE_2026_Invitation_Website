@@ -123,10 +123,10 @@ function sendTicket_(d) {
   const [venueName, ...venueRest] = EVENT.venue.split(', ');
   const html = `
   <div style="background:#1a0306;padding:24px 10px">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:${bg};border:1px solid ${gold}">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:${bg};border:1px solid ${gold};border-radius:16px;border-collapse:separate">
       <tr><td style="padding:6px">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55)">
-          <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55);border-radius:11px;border-collapse:separate">
+          <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
           <tr><td style="padding:20px 44px 8px">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
               ${row('Guest', `<span style="font-size:24px">${esc_(d.name)}</span>`)}
@@ -139,7 +139,7 @@ function sendTicket_(d) {
           <tr><td style="padding:4px 44px 30px">
             <div style="height:1px;background:${gold};opacity:.6;margin-bottom:18px"></div>
             <p style="margin:0;font-family:${font};font-style:italic;font-size:15px;line-height:1.5;color:${cream};text-align:center">
-              Dear ${esc_(d.name)}, thank you for your RSVP.<br>Please show this ticket at registration. See you there!
+              Dear ${esc_(d.name)},<br><br>Thank you for your RSVP.<br>Please show this ticket at registration.<br>See you there!
             </p>
           </td></tr>
         </table>
