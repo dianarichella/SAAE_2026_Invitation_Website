@@ -17,15 +17,15 @@ const SEND_TICKET_EMAIL = true;
 const EVENT = {
   name: 'Student Ambassador Appreciation Night',
   theme: 'Scarlet Gala',
-  date: 'Saturday, 00 Month 2026',
-  time: '00.00 – 00.00',
-  venue: 'Venue name, Venue address',
+  date: 'Friday, 13 November 2026',
+  time: '18.30 – 22.15 (registration opens 18.00)',
+  venue: 'Metropolitan YMCA, 60 Stevens Rd, Singapore 257854',
 };
 
 const RSVP_SHEET = 'RSVP';
 const RSVP_HEADERS = [
   'Submitted At', 'Ticket Code', 'Full Name', 'Email', 'Telegram', 'Phone',
-  'Faculty / Programme', 'Full Event?', 'Attending Part', 'Dietary Requirements', 'Additional Notes',
+  'University Partner', 'Full Event?', 'Attending Part', 'Dietary Requirements', 'Additional Notes',
 ];
 
 const DECLINE_SHEET = 'Declined';
@@ -107,22 +107,45 @@ function esc_(s) {
   return String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 }
 
+// Gambar kepala tiket (logo + Scarlet Gala + Appreciation Night) diambil dari website.
+// Pastikan file assets/email-header.jpg sudah di-push ke GitHub.
+const EMAIL_HEADER_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/assets/email-header.jpg';
+
 function sendTicket_(d) {
+  const gold = '#d6b469', cream = '#f6e4d6', bg = '#720613';
+  const font = "Georgia,'Times New Roman',serif";
+  const row = (label, value, note) => `
+        <tr><td style="padding:0 0 18px">
+          <div style="font-family:${font};font-style:italic;font-size:14px;color:${gold};margin-bottom:2px">${label}</div>
+          <div style="font-family:${font};font-style:italic;font-size:19px;color:${cream};line-height:1.3">${value}</div>
+          ${note ? `<div style="font-family:${font};font-style:italic;font-size:13px;color:#e6cdb8;margin-top:2px">${note}</div>` : ''}
+        </td></tr>`;
+  const [venueName, ...venueRest] = EVENT.venue.split(', ');
   const html = `
-    <div style="font-family:Georgia,serif;max-width:520px;margin:auto;background:#4a0814;color:#f3e6d8;padding:32px;border:1px solid #c9a14a">
-      <p style="letter-spacing:3px;color:#c9a14a;font-size:12px;margin:0">ADMIT ONE</p>
-      <h1 style="font-weight:normal;color:#f3e6d8;margin:8px 0 4px">${esc_(EVENT.name)}</h1>
-      <p style="margin:0 0 20px;color:#c9a14a">Theme: ${esc_(EVENT.theme)}</p>
-      <p style="margin:0">Dear ${esc_(d.name)},</p>
-      <p>Thank you for your RSVP. Please show this ticket before entering the venue.</p>
-      <table style="color:#f3e6d8;font-size:15px">
-        <tr><td style="color:#c9a14a;padding-right:16px">Ticket</td><td><b>${esc_(d.code)}</b></td></tr>
-        <tr><td style="color:#c9a14a">Date</td><td>${esc_(EVENT.date)}</td></tr>
-        <tr><td style="color:#c9a14a">Time</td><td>${esc_(EVENT.time)}</td></tr>
-        <tr><td style="color:#c9a14a">Venue</td><td>${esc_(EVENT.venue)}</td></tr>
-      </table>
-      <p style="margin-top:24px">See you there!</p>
-    </div>`;
+  <div style="background:#1a0306;padding:24px 10px">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:${bg};border:1px solid ${gold}">
+      <tr><td style="padding:6px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55)">
+          <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
+          <tr><td style="padding:20px 44px 8px">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+              ${row('Guest', `<span style="font-size:24px">${esc_(d.name)}</span>`)}
+              ${row('Date', esc_(EVENT.date))}
+              ${row('Time', '18.30 – 22.15', 'Registration opens 18.00')}
+              ${row('Venue', esc_(venueName), esc_(venueRest.join(', ')))}
+              ${row('Ticket No.', esc_(d.code))}
+            </table>
+          </td></tr>
+          <tr><td style="padding:4px 44px 30px">
+            <div style="height:1px;background:${gold};opacity:.6;margin-bottom:18px"></div>
+            <p style="margin:0;font-family:${font};font-style:italic;font-size:15px;line-height:1.5;color:${cream};text-align:center">
+              Dear ${esc_(d.name)}, thank you for your RSVP.<br>Please show this ticket at registration. See you there!
+            </p>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </div>`;
   MailApp.sendEmail({
     to: d.email,
     subject: `Your ticket — ${EVENT.name} (${d.code})`,

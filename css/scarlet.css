@@ -66,7 +66,7 @@
   --scarlet: #c8112f;
   --scarlet-dark: #9e0d25;
   --maroon-mb: #5c0a18;
-  --gold-mb: #c9a14a;
+  --gold-mb: #c99d6c;   /* emas champagne, sama seperti gradasi di judul */
   --silver-mb: #b9bec4;
   --ivory: #f3e6d8;
 
@@ -93,7 +93,7 @@
 .bg {
   background:
     radial-gradient(ellipse 60% 45% at 80% 5%, rgba(200, 17, 47, .06), transparent 70%),
-    url("../assets/bg-scarlet.jpg") center / cover no-repeat,
+    linear-gradient(rgba(20,0,4,var(--bg-dim,.45)), rgba(20,0,4,var(--bg-dim,.45))), radial-gradient(ellipse 55% 60% at 50% 50%, rgba(10,0,2,.35), transparent 75%), url("../assets/bg-curtain2.jpg") center / cover no-repeat,
     #070505;
 }
 
@@ -134,7 +134,7 @@
 .intro-title,
 .page-title,
 .band h2 {
-  color: #dc1c3a;   /* scarlet sedikit lebih terang supaya terbaca di latar gelap */
+  color: #f5e3d3;   /* putih krem seperti tulisan di stage backdrop, terbaca di atas gorden */
   text-shadow: 0 0 18px rgba(0, 0, 0, .85), 0 2px 4px rgba(0, 0, 0, .5);
 }
 
@@ -165,14 +165,14 @@
     linear-gradient(160deg, #5c0a18 0%, #4a0814 55%, #33050d 100%);
   color: var(--ivory);
 }
-.paper::before { border-color: rgba(201, 161, 74, .7); }
-.paper::after  { border-color: rgba(201, 161, 74, .4); }
-.env__paper-border { border-color: rgba(201, 161, 74, .8); outline-color: rgba(201, 161, 74, .5); }
+.paper::before { border-color: rgba(201, 157, 108, .7); }
+.paper::after  { border-color: rgba(201, 157, 108, .4); }
+.env__paper-border { border-color: rgba(201, 157, 108, .8); outline-color: rgba(201, 157, 108, .5); }
 
 .cover__label { color: #c9b8a8; font-size: 3.4cqw; letter-spacing: .3em; text-decoration: none; }
 .cover__sub   { color: var(--gold-mb); font-size: 4.2cqw; letter-spacing: .14em; top: 20%; }
 .cover__title { top: 34%; font-size: 7.6cqw; line-height: 1.5; color: var(--ivory); }
-.cover__line  { background: linear-gradient(90deg, transparent, rgba(201, 161, 74, .85) 15%, rgba(201, 161, 74, .85) 85%, transparent) !important; }
+.cover__line  { background: linear-gradient(90deg, transparent, rgba(201, 157, 108, .85) 15%, rgba(201, 157, 108, .85) 85%, transparent) !important; }
 .cover__tap   { color: #d9c6b4; font-size: 2.9cqw; letter-spacing: .22em; }
 
 .seal-btn::before { background: radial-gradient(circle, rgba(212, 175, 105, .45) 0%, rgba(212, 175, 105, 0) 68%); }
@@ -192,7 +192,7 @@
 .btn-paper {
   background: linear-gradient(180deg, #6a0c1c, #3f0710);
   color: var(--ivory);
-  border: 1px solid rgba(201, 161, 74, .85);
+  border: 1px solid rgba(201, 157, 108, .85);
   font-family: var(--font-title);
   text-transform: uppercase;
   letter-spacing: .12em;
@@ -203,7 +203,7 @@
 #submitBtn { font-size: max(18px, calc(44 * var(--w))); }
 
 .btn-gold {
-  background: linear-gradient(180deg, #e2c27a, var(--gold-mb) 55%, #a8823a);
+  background: linear-gradient(180deg, #ecd3bb, #d4ab7f 50%, #a8783f);
   color: #3a0610;
   font-family: var(--font-title);
   text-transform: uppercase;
@@ -212,26 +212,26 @@
 
 /* ---------- 7. NAVBAR ---------- */
 .nav { background: rgba(5, 2, 3, .82); }
-.nav::after { background: var(--gold-mb); box-shadow: 0 0 8px 1px rgba(201, 161, 74, .35); }
+.nav::after { background: var(--gold-mb); box-shadow: 0 0 8px 1px rgba(201, 157, 108, .35); }
 .nav__link { font-family: var(--font-title); text-transform: uppercase; letter-spacing: .1em; font-size: max(14px, calc(30 * var(--w))); }
-.nav [aria-current="page"] { text-shadow: 0 0 12px rgba(201, 161, 74, .5); }
+.nav [aria-current="page"] { text-shadow: 0 0 12px rgba(201, 157, 108, .5); }
 
 /* ---------- 8. BAGIAN DETAIL ---------- */
 .band {
   background: url("../assets/band-dark.png") repeat;
-  border-top: 1px solid rgba(201, 161, 74, .55);
-  border-bottom: 1px solid rgba(201, 161, 74, .55);
+  border-top: 1px solid rgba(201, 157, 108, .55);
+  border-bottom: 1px solid rgba(201, 157, 108, .55);
 }
 .block__body { color: #f3e7e4; }
 .lead { color: var(--ivory); }
-.contact-list li { border-bottom-color: rgba(201, 161, 74, .25); }
+.contact-list li { border-bottom-color: rgba(201, 157, 108, .25); }
 .contact-list a { color: var(--ivory); }
 .contact-list a:hover { color: var(--gold-mb); }
 
 /* ---------- 9. TIKET, RSVP & POP-UP ---------- */
 .panel {
   background: rgba(5, 2, 3, .6);
-  border: 1px solid rgba(201, 161, 74, .35);
+  border: 1px solid rgba(201, 157, 108, .35);
 }
 .page-kicker { color: var(--silver-mb); }
 .ticket-empty { color: var(--ivory); }
@@ -263,7 +263,7 @@
   align-items: center;
   gap: 1.2em;
   padding: max(36px, calc(70 * var(--w))) 20px max(40px, calc(80 * var(--w)));
-  border-top: 1px solid rgba(201, 161, 74, .35);
+  border-top: 1px solid rgba(201, 157, 108, .35);
   color: inherit;
   letter-spacing: 0;
 }
@@ -301,8 +301,8 @@
     radial-gradient(ellipse at 30% 10%, rgba(255, 255, 255, .05), transparent 60%),
     var(--grain),
     linear-gradient(160deg, #5c0a18 0%, #4a0814 55%, #33050d 100%);
-  border: 1px solid rgba(201, 161, 74, .6);
-  outline: 1px solid rgba(201, 161, 74, .35);
+  border: 1px solid rgba(201, 157, 108, .6);
+  outline: 1px solid rgba(201, 157, 108, .35);
   outline-offset: -8px;
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .7);
 }
@@ -310,7 +310,7 @@
 .field span, .choice legend { color: var(--gold-mb); }
 .field input, .field textarea { border-bottom-color: rgba(243, 230, 216, .35); }
 .field input::placeholder, .field textarea::placeholder { color: rgba(243, 230, 216, .4); }
-.choice__opt span { font-family: var(--font-body); text-transform: none; letter-spacing: .02em; color: var(--ivory); border-color: rgba(201, 161, 74, .55); }
+.choice__opt span { font-family: var(--font-body); text-transform: none; letter-spacing: .02em; color: var(--ivory); border-color: rgba(201, 157, 108, .55); }
 .choice__opt input:checked + span { background: var(--gold-mb); border-color: var(--gold-mb); color: #33050d; }
 .rsvp-form__note { color: #d9c6b4; font-size: max(12px, calc(24 * var(--w))); }
 .simple-page:has(#rsvpForm) .page-title { text-align: center; }
@@ -337,7 +337,7 @@
    Ukuran semua isi memakai cqw (1cqw = 1% lebar tiket), jadi tiket
    bisa membesar/mengecil tanpa mengubah tata letak. */
 .tk-holder {
-  --gold-foil: linear-gradient(115deg, #7a5a22 0%, #e9cd84 18%, #a9822f 34%, #f6e3a6 50%, #b38a36 66%, #e4c57a 82%, #7d5c24 100%);
+  --gold-foil: linear-gradient(115deg, #8a5f30 0%, #d9b285 18%, #a8783f 34%, #f1dcc6 50%, #b8894f 66%, #dcb48a 82%, #8a5f30 100%);
   width: min(100%, calc(1000 * var(--w) + 80px));
   margin: 0 auto;
 }
@@ -369,8 +369,8 @@
 }
 .ticket .tk-body { background: #4a0814 url("../assets/ticket-satin.jpg") center / cover; }
 
-.ticket .tk-frame { position: absolute; inset: 2.2cqw 2.4cqw 2.2cqw 2.2cqw; border: .12cqw solid rgba(214,180,105,.85); pointer-events: none; }
-.ticket .tk-frame::after { content: ""; position: absolute; inset: .55cqw; border: .08cqw solid rgba(214,180,105,.5); }
+.ticket .tk-frame { position: absolute; inset: 2.2cqw 2.4cqw 2.2cqw 2.2cqw; border: .12cqw solid rgba(217, 178, 133,.85); pointer-events: none; }
+.ticket .tk-frame::after { content: ""; position: absolute; inset: .55cqw; border: .08cqw solid rgba(217, 178, 133,.5); }
 
 .ticket .tk-title {
   position: absolute;
@@ -382,7 +382,7 @@
 .ticket .tk-kicker {
   font-family: 'Confirm Cond', 'Cormorant Garamond', serif;
   font-size: 1.55cqw; letter-spacing: .42em; text-transform: uppercase;
-  color: #d9bd7c;
+  color: #e6c7a3;
 }
 .ticket .tk-foil {
   background: var(--gold-foil);
@@ -403,11 +403,11 @@
 .ticket .tk-sw { font-family: 'Waza', cursive; text-transform: none; font-size: 1.55em; line-height: 0; vertical-align: -.1em; }
 .ticket .tk-sw-A { margin-right: .1em; }
 .ticket .tk-sw-N { margin-right: .08em; }
-.ticket .tk-rule { width: 60%; height: .1cqw; margin: 1.6cqw auto 1.2cqw; background: linear-gradient(90deg, transparent, #d6b469, transparent); }
+.ticket .tk-rule { width: 60%; height: .1cqw; margin: 1.6cqw auto 1.2cqw; background: linear-gradient(90deg, transparent, #d9b285, transparent); }
 .ticket .tk-theme { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1.5cqw; letter-spacing: .38em; text-transform: uppercase; color: #e7d6b8; }
-.ticket .tk-theme b { font-weight: 400; color: #e8c97e; }
+.ticket .tk-theme b { font-weight: 400; color: #e6c7a3; }
 
-.ticket .tk-divider { position: absolute; left: 43.5cqw; top: 6cqw; bottom: 6cqw; width: .1cqw; background: linear-gradient(180deg, transparent, #d6b469 20%, #d6b469 80%, transparent); }
+.ticket .tk-divider { position: absolute; left: 43.5cqw; top: 6cqw; bottom: 6cqw; width: .1cqw; background: linear-gradient(180deg, transparent, #d9b285 20%, #d9b285 80%, transparent); }
 
 .ticket .tk-info {
   position: absolute; left: 46.5cqw; right: 3.4cqw; top: 0; bottom: 0;
@@ -417,7 +417,7 @@
 .ticket .tk-row span {
   display: block;
   font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1.25cqw; letter-spacing: .32em; text-transform: uppercase;
-  color: #d6b469; margin-bottom: .35cqw;
+  color: #d9b285; margin-bottom: .35cqw;
 }
 .ticket .tk-row strong { font-weight: 400; font-size: 2.15cqw; line-height: 1.15; }
 .ticket .tk-row.tk-guest strong { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; text-transform: uppercase; letter-spacing: .06em; font-size: 2.8cqw; color: #fff4e6; }
@@ -449,17 +449,17 @@
 }
 .ticket .tk-stub { gap: .9cqw; }
 .ticket .tk-g-kicker { font-family: 'Confirm Cond', 'Cormorant Garamond', serif; font-size: 1cqw; line-height: 1.55; letter-spacing: .26em; text-transform: uppercase; text-align: center; color: #d9c6b4; }
-.ticket .tk-g-rule { width: 8cqw; height: .1cqw; background: linear-gradient(90deg, transparent, #d6b469, transparent); }
+.ticket .tk-g-rule { width: 8cqw; height: .1cqw; background: linear-gradient(90deg, transparent, #d9b285, transparent); }
 .ticket .tk-g-title { font-family: 'Waza', cursive; font-size: 4.1cqw; line-height: 1; padding: .8em 1.1em .6em; margin: -.4em -1.1em -.65em; }
 .ticket .tk-g-title--2 { margin-top: -.5em; }
-.ticket .tk-g-no { display: flex; align-items: baseline; gap: .5em; padding: .55cqw 1.6cqw; border: .12cqw solid rgba(214,180,105,.75); font-family: 'Confirm Cond', 'Cormorant Garamond', serif; color: #f3e6d8; }
-.ticket .tk-g-no span { font-size: 1.2cqw; letter-spacing: .2em; text-transform: uppercase; color: #d6b469; }
+.ticket .tk-g-no { display: flex; align-items: baseline; gap: .5em; padding: .55cqw 1.6cqw; border: .12cqw solid rgba(217, 178, 133,.75); font-family: 'Confirm Cond', 'Cormorant Garamond', serif; color: #f3e6d8; }
+.ticket .tk-g-no span { font-size: 1.2cqw; letter-spacing: .2em; text-transform: uppercase; color: #d9b285; }
 .ticket .tk-g-no b { font-weight: 400; font-size: 2.6cqw; letter-spacing: .1em; }
 .ticket .tk-g-note { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; font-size: 1.1cqw; line-height: 1.4; text-align: center; color: #d9c6b4; }
 
-.ticket .tk-stub { background: #3a0510 url("../assets/ticket-satin.jpg") right center / 500% 100%; color: #e2c47c; }
-.ticket .tk-stub::before { border-left-color: rgba(214,180,105,.55); }
-.ticket .tk-stub::after { content: ""; position: absolute; inset: 2.2cqw 2.2cqw 2.2cqw 2.4cqw; border: .12cqw solid rgba(214,180,105,.7); pointer-events: none; }
+.ticket .tk-stub { background: #3a0510 url("../assets/ticket-satin.jpg") right center / 500% 100%; color: #e6c7a3; }
+.ticket .tk-stub::before { border-left-color: rgba(217, 178, 133,.55); }
+.ticket .tk-stub::after { content: ""; position: absolute; inset: 2.2cqw 2.2cqw 2.2cqw 2.4cqw; border: .12cqw solid rgba(217, 178, 133,.7); pointer-events: none; }
 .ticket .tk-title .tk-sw {
   background: var(--gold-foil); -webkit-background-clip: text; background-clip: text; color: transparent;
   padding: 1.2em 1.6em 1.2em 1em;
@@ -493,7 +493,7 @@
 .ticket .tk-sub { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; font-size: 1.85cqw; line-height: 1.1; color: #e8d3b0; text-shadow: 0 .1cqw .3cqw rgba(0,0,0,.5); }
 .ticket .tk-title .tk-rule { width: 55%; margin: 4.4cqw auto 1cqw; }
 
-.ticket .tk-row span { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: .02em; font-size: 1.5cqw; color: #d6b469; margin-bottom: .15cqw; }
+.ticket .tk-row span { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: .02em; font-size: 1.5cqw; color: #d9b285; margin-bottom: .15cqw; }
 .ticket .tk-row strong { font-style: italic; }
 .ticket .tk-row.tk-guest strong { font-family: 'Confirm', 'Cormorant Garamond', serif; font-style: italic; text-transform: none; letter-spacing: 0; font-size: 3cqw; }
 .ticket .tk-note { font-size: 1.3cqw; }
@@ -528,7 +528,13 @@
 .ticket .tk-g-cap .tk-sw-L { margin: 0 calc(var(--gapL, -.02em) - 1.6em) 0 -1em; }
 .ticket .tk-g-cap .tk-sw-D { margin: 0 calc(var(--gapD, -.02em) - 1.6em) 0 -1em; }
 
-.ticket .tk-title, .ticket .tk-g-lock { --gold-foil: linear-gradient(115deg, #efe4dc 0%, #ffffff 30%, #f4ebe5 55%, #ffffff 80%, #ece0d7 100%); }
+/* Emas gradasi seperti poster: huruf hias S/G/L/D emas di kiri lalu memutih,
+   huruf kapital putih krem di tengah dan keemasan di ujung kanan */
+.ticket .tk-title, .ticket .tk-g-lock { --gold-foil: linear-gradient(100deg, #f1d9c4 0%, #fbefe6 35%, #f6e3d4 58%, #dcb48a 82%, #ae7f49 100%); }
+.ticket .tk-title .tk-sw, .ticket .tk-g-lock .tk-sw { background-image: linear-gradient(100deg, #9c6d3c 0%, #b88a56 25%, #d4ab7f 48%, #efd6c0 72%, #fbefe6 100%); }
+/* tulisan miring kecil: putih krem seperti subjudul di poster */
+.ticket .tk-sub, .ticket .tk-g-kicker, .ticket .tk-g-note { color: #f6e4d6; }
+.ticket .tk-logo { display: block; width: 15cqw; margin: -1.2cqw auto 1cqw; filter: drop-shadow(0 .1cqw .25cqw rgba(0,0,0,.45)); }
 
 /* Layar sempit (HP): tiket diputar tegak supaya tulisannya tetap terbaca */
 @media (max-width: 640px) {
@@ -546,3 +552,256 @@
     filter: drop-shadow(0 1.2cqw 2cqw rgba(0, 0, 0, .55));
   }
 }
+
+
+
+
+
+/* ---------- TIRAI PANGGUNG (lapisan depan) ----------
+   Di depan latar gorden, di belakang konten supaya tulisan & menu tidak tertutup. */
+.drapes { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.drape {
+  position: absolute; top: 0; height: 100%;
+  width: min(calc(100vh * 460 / 1198), 22vw);
+  object-fit: cover;
+  filter: drop-shadow(0 0 24px rgba(0, 0, 0, .6));
+}
+.drape--l { left: 0; object-position: right top; }
+.drape--r { right: 0; object-position: left top; }
+@media (max-width: 640px) { .drape { width: 14vw; } }
+
+
+/* ---------- JUDUL: gradasi seperti "Scarlet Gala" di poster & tiket ----------
+   Satu gradasi menyambung untuk seluruh judul (termasuk huruf hias):
+   emas di kiri → putih krem di tengah → emas di kanan. */
+.gt {
+  background: linear-gradient(100deg, #a8783f 0%, #c99d6c 14%, #ecd3bb 32%, #fbefe6 48%, #f6e4d5 62%, #dfb88d 82%, #ad7f49 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  /* ruang lebar supaya ekor huruf hias ikut terwarnai (tidak terpotong) */
+  padding: .9em 1.4em .9em .9em; margin: 0 -1.4em 0 -.9em;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .6));
+}
+.gt * { -webkit-text-fill-color: transparent; text-shadow: none; }
+.gt .sw { background: none; color: transparent; }
+.footer__title, .cover__title, .details-card__title { text-shadow: none; }
+
+/* ---------- TULISAN KECIL: gaya tiket (Confirm Italic) ----------
+   Label → emas, miring; subjudul & catatan → krem, miring. */
+.cover__label, .cover__sub, .cover__tap, .details-card__sub, .page-kicker,
+.footer__sub, .ticket-note, .rsvp-form__note,
+.event-info dt, .field span, .choice legend, .contact-list li > span {
+  font-family: var(--font-body);
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: .02em;
+}
+/* label (seperti Guest / Date di tiket) */
+.event-info dt, .field span, .choice legend, .contact-list li > span { color: #d9b285; }
+/* subjudul & catatan (seperti "Student Ambassador" di tiket) */
+.cover__label, .cover__sub, .cover__tap, .details-card__sub, .page-kicker,
+.footer__sub, .ticket-note, .rsvp-form__note { color: #f6e4d6; }
+/* isi (seperti tanggal & venue di tiket) */
+.event-info dd, .details-card__invite { font-family: var(--font-body); font-style: italic; color: #f6e4d6; }
+.contact-list li > span { font-size: .8em; }
+
+/* ---------- TIRAI: hanya di pembuka (amplop & sampul) ----------
+   Di halaman utama tirai tidak ditampilkan (tanpa animasi). */
+body:not(.is-intro) .drapes { display: none; }
+
+/* label & subjudul miring sedikit lebih besar dari versi kapital supaya tetap terbaca */
+@media (min-width: 901px) { .event-info dt { font-size: 1.3em; } }
+.footer__sub { font-size: max(13px, calc(26 * var(--w))); letter-spacing: .02em; }
+.cover__label { font-size: 4cqw; }
+.cover__tap { font-size: 3.3cqw; }
+.field span, .choice legend { font-size: max(13px, calc(25 * var(--w))); }
+
+/* ---------- KARTU UNDANGAN & FORM RSVP: bahan & bingkai seperti tiket ---------- */
+.paper,
+.rsvp-form.panel {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, .04), rgba(0, 0, 0, .18)),
+    #7a0a1c url("../assets/ticket-satin.jpg") center / cover;
+}
+.paper::before { border-color: rgba(217, 178, 133, .85); }
+.paper::after  { border-color: rgba(217, 178, 133, .5); }
+.rsvp-form.panel { border-color: rgba(217, 178, 133, .85); outline-color: rgba(217, 178, 133, .5); }
+.rsvp-form__intro { font-style: italic; color: #f6e4d6; }
+.field input, .field textarea { color: #f6e4d6; font-style: italic; }
+.field input, .field textarea { border-bottom-color: rgba(217, 178, 133, .45); }
+
+/* Pilihan Yes / No: putih */
+.choice__opt span { color: #fff; border-color: rgba(255, 255, 255, .75); font-style: italic; }
+.choice__opt input:checked + span { background: #fff; border-color: #fff; color: #5c0a18; }
+
+/* Kartu yang keluar dari amplop saat "Open Me": bahan & bingkai sama seperti tiket */
+.env__paper {
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, .04), rgba(0, 0, 0, .18)),
+    #7a0a1c url("../assets/ticket-satin.jpg") center / cover;
+}
+.env__paper-border { border-color: rgba(217, 178, 133, .85); outline-color: rgba(217, 178, 133, .5); }
+
+
+
+/* Kartu undangan dibuat lebih lebar & lebih pendek supaya tidak melewati blok di bawahnya;
+   detail acara di sisi kiri, kartu "Do you accept" di sisi kanan bawah tanpa menutupi tulisan */
+@media (min-width: 901px) {
+  .hero__stage { height: calc(1270 * var(--w)); }
+  .details-card { left: calc(50 * var(--w)); top: calc(20 * var(--w)); width: calc(1320 * var(--w)); min-height: calc(960 * var(--w)); padding-top: calc(100 * var(--w)); padding-bottom: calc(110 * var(--w)); }
+  .details-card .event-info { max-width: 80%; gap: max(10px, calc(24 * var(--w))); }
+  .details-card .event-info dd span { white-space: nowrap; }
+  .rsvp-card, .rsvp-card[class] { left: calc(1110 * var(--w)); top: calc(640 * var(--w)); width: calc(580 * var(--w)); min-height: calc(330 * var(--w)); padding: calc(56 * var(--w)) calc(40 * var(--w)) calc(60 * var(--w)); transform: rotate(6deg); }
+  .rsvp-card__q { font-size: max(17px, calc(48 * var(--w))); white-space: nowrap; }
+  .rsvp-card__actions { font-size: max(14px, calc(36 * var(--w))); gap: calc(40 * var(--w)); }
+}
+.event-info, .contact-list { font-variant-numeric: lining-nums; }
+
+/* RSVP: kata pendek, jadi gradasinya dibuat lebih banyak emas */
+.page-title--rsvp .gt {
+  background-image: linear-gradient(100deg, #9c6d3c 0%, #b4844e 22%, #d9b285 42%, #e8caa4 52%, #cfa271 64%, #b07f47 80%, #9c6d3c 100%);
+}
+
+/* ---------- Kontras: classy tapi modern ----------
+   Latar lebih redup, kartu punya bayangan tegas, tanpa titik-titik putih,
+   segel tanpa lingkaran cahaya. */
+.bg { --bg-dim: .6; }
+.sparkles { display: none; }
+.paper, .rsvp-form.panel { box-shadow: 0 30px 70px -18px rgba(0, 0, 0, .85), 0 0 0 1px rgba(0, 0, 0, .25); }
+.seal-btn::before { display: none; }
+.seal-btn img { filter: drop-shadow(0 3px 4px rgba(30, 0, 5, .5)); }
+.cover__label { top: 10.5%; }
+.cover__sub { top: 21.5%; }
+
+/* =========================================================
+   SUASANA: debu emas melayang pelan + lampu sorot yang bernafas
+   (pengganti titik putih; gorden sendiri tetap diam)
+   ========================================================= */
+.sparkles { display: block; }
+.sparkles i {
+  --c: #d8b06a;
+  border-radius: 50%;
+  filter: blur(.4px);
+  box-shadow: 0 0 8px 2px rgba(216, 176, 106, .45);
+  animation: dust var(--d, 14s) linear var(--delay, 0s) infinite;
+}
+@keyframes dust {
+  0%   { opacity: 0;  transform: translate(0, 0) scale(.7); }
+  15%  { opacity: .7; }
+  85%  { opacity: .55; }
+  100% { opacity: 0;  transform: translate(var(--dx, 20px), -160px) scale(1); }
+}
+.bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 45% 55% at 50% 30%, rgba(255, 196, 150, .14), transparent 70%);
+  animation: spot 9s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes spot {
+  from { opacity: .55; transform: translateX(-4%); }
+  to   { opacity: 1;   transform: translateX(4%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sparkles i, .bg::after { animation: none; }
+}
+
+/* Angka 4 dipinjam dari font cadangan (Confirm demo tidak punya angka 4).
+   Pakai angka "lining" di seluruh website supaya 4 sejajar dengan angka lain,
+   termasuk saat tamu mengetik di form. */
+html, input, textarea, button { font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
+
+/* Halaman tiket: "You're Registered!" dan "Event Ticket" sejajar di tengah, di atas tiket */
+#page-ticket .page-kicker,
+#page-ticket .page-title { text-align: center; }
+
+.env__closed { filter: drop-shadow(0 16px 24px rgba(0, 0, 0, .5)); }
+
+/* ---------- ABOUT: kenangan SAAE 2025 ---------- */
+.memories { margin: 1.8em 0 0; }
+.memories figcaption { font-family: var(--font-body); font-style: italic; color: #d9b285; margin-bottom: .8em; }
+.memories__grid { display: grid; grid-template-columns: 1fr 1fr; gap: max(12px, calc(28 * var(--w))); align-items: start; }
+.memories__grid img { width: 100%; height: auto; display: block; border: 1px solid rgba(217, 178, 133, .6); outline: 1px solid rgba(217, 178, 133, .3); outline-offset: 5px; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .8); }
+.memories__grid img:nth-child(1) { transform: rotate(-1.5deg); }
+.memories__grid img:nth-child(2) { transform: rotate(1.5deg); margin-top: 6%; }
+@media (max-width: 640px) { .memories__grid { grid-template-columns: 1fr; gap: 26px; } .memories__grid img:nth-child(2) { margin-top: 0; } }
+
+/* ---------- DRESSCODE: palet warna + Women / Men ---------- */
+.palette { margin: 1.6em 0 1.8em; text-align: center; }
+.palette__title { font-family: var(--font-title); text-transform: uppercase; letter-spacing: .04em; font-size: 1.5em; color: #f6e4d6; }
+.palette__dots { list-style: none; padding: 0; margin: .7em 0 0; display: flex; justify-content: center; gap: max(10px, calc(26 * var(--w))); }
+.palette__dots li { width: max(44px, calc(96 * var(--w))); aspect-ratio: 1; border-radius: 50%; background: var(--c); border: 1px solid rgba(217, 178, 133, .55); box-shadow: 0 8px 18px -6px rgba(0, 0, 0, .7); }
+.dress { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(217, 178, 133, .55); border-radius: 999px; padding: max(18px, calc(36 * var(--w))) max(24px, calc(70 * var(--w))); text-align: center; }
+.dress__col + .dress__col { border-left: 1px solid rgba(217, 178, 133, .45); }
+.dress__col { padding: 0 max(12px, calc(40 * var(--w))); }
+.dress h3 { font-family: var(--font-title); font-weight: 400; text-transform: uppercase; letter-spacing: .04em; font-size: 1.5em; color: #d9b285; margin: 0 0 .3em; }
+.dress p { margin: 0; }
+@media (max-width: 640px) {
+  .dress { grid-template-columns: 1fr; border-radius: 28px; gap: 18px; }
+  .dress__col + .dress__col { border-left: 0; border-top: 1px solid rgba(217, 178, 133, .45); padding-top: 18px; }
+}
+#dresscode .lead { text-align: center; }
+.dress { margin-bottom: max(10px, calc(20 * var(--w))); }
+
+/* Kotak Women / Men diberi isi merah seperti blok "What is SAAE?" supaya tulisan lebih terbaca */
+.dress { background: var(--red-tint); }
+
+/* =========================================================
+   AMPLOP MERAH DI ATAS NAMPAN HITAM + KARTU MERAH BERBINGKAI EMAS
+   Nampan ikut di belakang amplop dari awal sampai halaman home.
+   ========================================================= */
+.intro-title, .intro-btn, .skip-btn { z-index: 5; }
+.env__back {
+  background: var(--grain), linear-gradient(180deg, #5a0716 0%, #74091d 50%, #820c22 100%);
+  box-shadow: inset 0 18px 30px -12px rgba(20, 0, 4, .6), inset 0 0 16px rgba(20, 0, 4, .3);
+}
+.env { filter: drop-shadow(0 14px 22px rgba(0, 0, 0, .6)); }
+.env-holder::before,
+.hero__env::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: url("../assets/tray-black.png") center / contain no-repeat;
+  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, .7));
+  pointer-events: none;
+  z-index: -1;
+}
+.env-holder::before { top: 56%; width: 112%; transition: width 1.3s var(--ease), top 1.3s var(--ease); }
+.scene.is-cover .env-holder::before { top: 50%; width: 150%; }
+.hero__env { isolation: isolate; }
+.hero__env::before { top: 45%; width: 150%; }
+.paper { box-shadow: 0 0 0 max(4px, .45vw) #d4ab7f, 0 30px 70px -18px rgba(0, 0, 0, .85); }
+.rsvp-card.paper { box-shadow: 0 0 0 max(3px, .3vw) #d4ab7f, 0 20px 40px -14px rgba(0, 0, 0, .85); }
+
+/* HP: beri ruang kiri-kanan supaya kartu (dengan border emas & sedikit miring) tidak menempel ke tepi layar */
+@media (max-aspect-ratio: 4/5) {
+  .cover { left: calc(80 * var(--u)); width: calc(740 * var(--u)); top: calc(420 * var(--u)); }
+}
+@media (max-width: 900px) {
+  .hero { padding-left: 26px; padding-right: 26px; }
+  .rsvp-card { margin-right: 6px; }
+  .block__body { padding-left: max(26px, 6vw); padding-right: max(26px, 6vw); }
+}
+@media (max-aspect-ratio: 4/5) {
+  .env-holder { left: calc(95 * var(--u)); width: calc(710 * var(--u)); }
+}
+/* ruang ekstra di judul gradasi tidak boleh membuat halaman bisa digeser ke samping di HP */
+html, body { overflow-x: clip; }
+.nav { padding-right: max(12px, env(safe-area-inset-right)); }
+.contact-list li > span.contact-list__value { font-family: var(--font-body); font-style: normal; font-size: 1em; letter-spacing: 0; text-transform: none; color: var(--ivory); min-width: 0; }
+:root { --gold-btn: #d4ab7f; }
+/* "Event Ticket": ekor huruf E menjulur ke kiri, jadi judul digeser sedikit supaya badan hurufnya terlihat di tengah */
+#page-ticket .page-title .gt { position: relative; left: -.5em; }
+/* jarak antara kartu undangan dan blok "What is SAAE?" */
+@media (min-width: 901px) { .hero__stage { height: calc(1370 * var(--w)); } }
+@media (max-width: 900px) { .hero { padding-bottom: 110px; } }
+@media (min-width: 901px) and (max-width: 985px) { .rsvp-card, .rsvp-card[class] { left: calc(920 * var(--w)); } }
+
+/* Kartu undangan: judul "Appreciation Night" sedikit lebih besar, dan jarak ke detail acara lebih lega */
+.details-card__title { font-size: min(max(30px, calc(96 * var(--w))), 10.2cqw); }
+.details-card .cover__line { margin-bottom: max(36px, calc(70 * var(--w))) !important; }
+@media (max-width: 900px) { .details-card__title { font-size: min(max(36px, calc(96 * var(--w))), 8.6cqw); } }

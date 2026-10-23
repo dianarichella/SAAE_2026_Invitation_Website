@@ -72,7 +72,7 @@ a { color: inherit; }
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: url("../assets/bg-scarlet.jpg") center / cover no-repeat, #1a0306;
+  background: linear-gradient(rgba(20,0,4,var(--bg-dim,.45)), rgba(20,0,4,var(--bg-dim,.45))), radial-gradient(ellipse 55% 60% at 50% 50%, rgba(10,0,2,.35), transparent 75%), url("../assets/bg-curtain2.jpg") center / cover no-repeat, #1a0306;
 }
 
 /* Kilau kecil emas & silver yang melayang */

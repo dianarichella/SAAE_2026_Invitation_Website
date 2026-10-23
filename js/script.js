@@ -60,14 +60,14 @@ $('#guestName').textContent = guestName;
   const count = window.innerWidth < 700 ? 16 : 28;
   for (let i = 0; i < count; i++) {
     const s = document.createElement('i');
-    const silver = Math.random() < .35;
+    // debu emas: kecil, naik pelan, sedikit bergeser ke samping
     s.style.cssText = [
       `left:${Math.random() * 100}%`,
-      `top:${Math.random() * 100}%`,
-      `--s:${(1.5 + Math.random() * 2.5).toFixed(1)}px`,
-      `--c:${silver ? '#e8e8ec' : '#e6c987'}`,
-      `--d:${(4 + Math.random() * 6).toFixed(1)}s`,
-      `--delay:${(Math.random() * 8).toFixed(1)}s`,
+      `top:${20 + Math.random() * 85}%`,
+      `--s:${(1.5 + Math.random() * 2).toFixed(1)}px`,
+      `--dx:${(Math.random() * 60 - 30).toFixed(0)}px`,
+      `--d:${(10 + Math.random() * 10).toFixed(1)}s`,
+      `--delay:${(-Math.random() * 20).toFixed(1)}s`,
     ].join(';');
     box.appendChild(s);
   }

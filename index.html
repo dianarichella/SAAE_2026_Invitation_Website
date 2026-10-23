@@ -15,19 +15,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Rouge+Script&display=swap" rel="stylesheet">
 
   <!-- Gambar yang dimuat lebih awal supaya animasi tidak patah-patah -->
-  <link rel="preload" as="image" href="assets/bg-scarlet.jpg">
-  <link rel="preload" as="image" href="assets/env-closed-gold.png">
+  <link rel="preload" as="image" href="assets/bg-curtain2.jpg">
+  <link rel="preload" as="image" href="assets/env-closed-red.png">
 
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
-  <link rel="stylesheet" href="css/style.css?v=12">
+  <link rel="stylesheet" href="css/style.css?v=13">
   <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
-  <link rel="stylesheet" href="css/scarlet.css?v=17">
+  <link rel="stylesheet" href="css/scarlet.css?v=48">
 </head>
 <body class="is-loading">
 
   <!-- Latar merah bertekstur (dipakai di semua halaman) -->
   <div class="bg" aria-hidden="true"></div>
   <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+  <!-- Tirai panggung di kiri & kanan layar (di belakang konten) -->
+  <div class="drapes" aria-hidden="true">
+    <img class="drape drape--l" src="assets/drape-left.webp" alt="">
+    <img class="drape drape--r" src="assets/drape-right.webp" alt="">
+  </div>
 
   <!-- Ikon dipakai ulang -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -44,12 +49,12 @@
     <div class="env">
       <div class="env__back"></div>
       <div class="env__paper"><span class="env__paper-border"></span></div>
-      <img class="env__pocket" src="assets/pocket.png" alt="">
+      <img class="env__pocket" src="assets/pocket-red.png" alt="">
       <div class="env__flap">
-        <img class="env__flap-front" src="assets/flap.png" alt="">
-        <img class="env__flap-inside" src="assets/flap.png" alt="">
+        <img class="env__flap-front" src="assets/flap-red.png" alt="">
+        <img class="env__flap-inside" src="assets/flap-red.png" alt="">
       </div>
-      <img class="env__closed" src="assets/env-closed-gold.png" alt="">
+      <img class="env__closed" src="assets/env-closed-red.png" alt="">
     </div>
   </template>
 
@@ -60,11 +65,11 @@
   <section class="scene" id="scene" aria-label="Invitation">
     <div class="stage" id="stage">
 
-      <h1 class="intro-title"><span class="sw sw-Y">Y</span>ou have an Invitation!</h1>
+      <h1 class="intro-title"><span class="gt"><span class="sw sw-Y">Y</span>ou have an Invitation!</span></h1>
 
       <div class="env-holder" id="envHolder">
         <!-- amplop dimasukkan dari template oleh script.js -->
-        <img class="env-seal" id="envSeal" src="assets/seal-gold.png" alt="">
+        <img class="env-seal" id="envSeal" src="assets/seal-sa.png" alt="">
       </div>
 
       <button class="btn-paper intro-btn" id="openBtn" type="button">Open Me</button>
@@ -74,10 +79,10 @@
         <div class="cover__card paper">
           <p class="cover__label">Invitation</p>
           <p class="cover__sub">Student Ambassador</p>
-          <h2 class="cover__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</h2>
+          <h2 class="cover__title"><span class="gt"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</span></h2>
           <span class="cover__line" aria-hidden="true"></span>
           <button class="seal-btn" id="coverSeal" type="button" aria-label="Tap the seal to read details">
-            <img src="assets/seal-gold.png" alt="">
+            <img src="assets/seal-sa.png" alt="">
           </button>
           <p class="cover__tap">Tap the seal to read details</p>
         </div>
@@ -118,7 +123,7 @@
       <div class="page" id="page-home" data-page="home">
 
         <section class="hero" id="home">
-          <h1 class="page-title"><span class="sw sw-D">D</span>ear <span id="guestName">Guest</span>,</h1>
+          <h1 class="page-title"><span class="gt"><span class="sw sw-D">D</span>ear <span id="guestName">Guest</span>,</span></h1>
 
           <div class="hero__stage">
           <div class="hero__env" id="heroEnv" aria-hidden="true"></div>
@@ -126,15 +131,15 @@
           <article class="details-card paper reveal">
             <p class="details-card__invite">You’re Invited To Attend</p>
             <p class="details-card__sub">Student Ambassador</p>
-            <h2 class="details-card__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</h2>
+            <h2 class="details-card__title"><span class="gt"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</span></h2>
             <span class="cover__line" aria-hidden="true"></span>
 
             <!-- GANTI: isi detail acara di sini -->
             <dl class="event-info">
               <div><dt>Theme</dt><dd class="event-info__theme">Scarlet Gala</dd></div>
-              <div><dt>Date</dt><dd>Saturday, 00 Month 2026</dd></div>
-              <div><dt>Time</dt><dd>00.00 – 00.00</dd></div>
-              <div><dt>Venue</dt><dd>Venue name<br><span>Venue address</span></dd></div>
+              <div><dt>Date</dt><dd>Friday, 13 November 2026</dd></div>
+              <div><dt>Time</dt><dd>18.30 – 22.15<br><span>Registration opens 18.00</span></dd></div>
+              <div><dt>Venue</dt><dd>Metropolitan YMCA<br><span>60 Stevens Rd, Singapore 257854</span></dd></div>
               <!-- Catatan tambahan (nanti): hapus tanda komentar di baris bawah ini
               <div><dt>Note</dt><dd>Tulis catatan di sini</dd></div>
               -->
@@ -154,41 +159,63 @@
 
         <!-- What is SAAE? -->
         <section class="block" id="about">
-          <header class="band band--right"><h2><span class="sw sw-W">W</span>hat is SAAE?</h2></header>
+          <header class="band band--right"><h2><span class="gt"><span class="sw sw-W">W</span>hat is SAAE?</span></h2></header>
           <div class="block__body block__body--tint">
-            <!-- GANTI: deskripsi acara -->
-            <p class="lead">Write a short description of the event here — what SAAE is, why it is held, and who it celebrates.</p>
-            <p>Add a second paragraph if needed, for example the highlights of the night or a thank-you note to all student ambassadors.</p>
+            <p class="lead">Student Ambassador Appreciation Night celebrates our student ambassadors’ dedication, recognises outstanding contributions, strengthens friendships, inspires continued involvement, and creates lasting memories for everyone who has contributed throughout the year.</p>
+            <figure class="memories">
+              <figcaption>A look back at SAAE 2025 · 21 Nov 2025</figcaption>
+              <div class="memories__grid">
+                <img src="assets/saae-2025-1.webp" alt="Photo collage from SA Appreciation Night 2025, Diamonds Jubilee" loading="lazy">
+                <img src="assets/saae-2025-2.webp" alt="SAAE 2025 highlights photo collage" loading="lazy">
+              </div>
+            </figure>
           </div>
         </section>
 
         <!-- Dresscode -->
         <section class="block" id="dresscode">
-          <header class="band band--left"><h2><span class="sw sw-D">D</span>resscode</h2></header>
+          <header class="band band--left"><h2><span class="gt"><span class="sw sw-D">D</span>resscode</span></h2></header>
           <div class="block__body">
-            <!-- GANTI: aturan dresscode -->
             <p class="lead">Theme: Scarlet Gala</p>
-            <p>Describe the dresscode here — for example how guests can interpret the Scarlet Gala theme, the level of formality (black tie / formal), and any colours or details to avoid.</p>
+            <div class="palette">
+              <p class="palette__title">Red, Silver, Gold, Black</p>
+              <ul class="palette__dots" aria-label="Dresscode colours">
+                <li style="--c:#b3262f" title="Red"></li>
+                <li style="--c:#5a1119" title="Wine"></li>
+                <li style="--c:#c6c8cc" title="Silver"></li>
+                <li style="--c:#c4a14f" title="Gold"></li>
+                <li style="--c:#0c0909" title="Black"></li>
+              </ul>
+            </div>
+            <div class="dress">
+              <div class="dress__col">
+                <h3>Women</h3>
+                <p>Gowns, long dresses or sharp suits in red, black, metallic, or gold. Add sequins, satin or lace, and accessories.</p>
+              </div>
+              <div class="dress__col">
+                <h3>Men</h3>
+                <p>Suit or tuxedo in black, red or wine. Add a satin or velvet piece, and gold or silver details like cufflinks or chains.</p>
+              </div>
+            </div>
           </div>
         </section>
 
         <!-- Contact Us -->
         <section class="block" id="contact">
-          <header class="band band--right"><h2><span class="sw sw-C">C</span>ontact Us</h2></header>
+          <header class="band band--right"><h2><span class="gt"><span class="sw sw-C">C</span>ontact Us</span></h2></header>
           <div class="block__body block__body--tint">
             <!-- GANTI: kontak panitia -->
             <p class="lead">Have a question? Reach out to the committee.</p>
             <ul class="contact-list">
-              <li><span>Name</span><a href="#">+62 000 0000 0000</a></li>
-              <li><span>Email</span><a href="mailto:email@example.com">email@example.com</a></li>
-              <li><span>Instagram</span><a href="#">@username</a></li>
+              <li><span>Name</span><span class="contact-list__value">Min Hal Jin</span></li>
+              <li><span>Telegram</span><a href="https://t.me/minhaljin" target="_blank" rel="noopener">@minhaljin</a></li>
             </ul>
           </div>
         </section>
 
         <footer class="footer">
           <span class="footer__sub">Student Ambassador</span>
-          <span class="footer__title"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</span>
+          <span class="footer__title"><span class="gt"><span class="sw sw-A">A</span>ppreciation <span class="sw sw-N">N</span>ight</span></span>
         </footer>
       </div>
 
@@ -196,7 +223,7 @@
       <div class="page" id="page-ticket" data-page="ticket" hidden>
         <section class="simple-page">
           <p class="page-kicker" id="ticketKicker">You’re Not Registered Yet!</p>
-          <h1 class="page-title"><span class="sw sw-E">E</span>vent Ticket</h1>
+          <h1 class="page-title"><span class="gt"><span class="sw sw-E">E</span>vent Ticket</span></h1>
 
           <!-- Belum isi RSVP -->
           <div class="panel ticket-empty" id="ticketEmpty">
@@ -211,7 +238,7 @@
                 <div class="tk-body">
                   <div class="tk-frame"></div>
                   <div class="tk-title">
-                    <p class="tk-sub tk-sub--top">Student Ambassador</p>
+                    <img class="tk-logo" src="assets/sa-logo.png" alt="SIM Global Education Student Ambassador">
                     <p class="tk-name1 tk-foil"><span class="tk-sw tk-sw-S">S</span>carlet</p>
                     <p class="tk-name2 tk-foil"><span class="tk-sw tk-sw-G">G</span>ala</p>
                     <div class="tk-rule"></div>
@@ -249,7 +276,7 @@
       <!-- ---------- HALAMAN RSVP ---------- -->
       <div class="page" id="page-rsvp" data-page="rsvp" hidden>
         <section class="simple-page">
-          <h1 class="page-title page-title--rsvp"><span class="sw sw-R">R</span>SVP</h1>
+          <h1 class="page-title page-title--rsvp"><span class="gt"><span class="sw sw-R">R</span>SVP</span></h1>
 
           <form class="panel rsvp-form" id="rsvpForm" novalidate>
             <!-- GANTI: tambah/kurangi kolom sesuai kebutuhan -->
@@ -269,22 +296,22 @@
             </label>
             <label class="field">
               <span>Phone Number</span>
-              <input type="tel" name="phone" autocomplete="tel">
+              <input type="tel" name="phone" autocomplete="tel" placeholder="+65 ">
             </label>
             <label class="field">
-              <span>Faculty / Programme</span>
-              <input type="text" name="programme">
+              <span>University Partner</span>
+              <input type="text" name="programme" placeholder="e.g. University of London">
             </label>
 
             <fieldset class="field field--full choice" id="attendField">
-              <legend>Will you be able to attend the full event?</legend>
+              <legend>Will you be able to stay for the whole evening?</legend>
               <div class="choice__options">
-                <label class="choice__opt"><input type="radio" name="attend" value="Yes"><span>Yes, the whole event</span></label>
-                <label class="choice__opt"><input type="radio" name="attend" value="No"><span>No, only part of it</span></label>
+                <label class="choice__opt"><input type="radio" name="attend" value="Yes"><span>Yes, I’ll be there all night</span></label>
+                <label class="choice__opt"><input type="radio" name="attend" value="No"><span>No, I may arrive late or leave early</span></label>
               </div>
             </fieldset>
             <label class="field field--full" id="attendNoteField" hidden>
-              <span>Which part will you attend? (e.g. arriving late, leaving early)</span>
+              <span>Roughly what time will you arrive or leave? (e.g. arriving around 19.30)</span>
               <input type="text" name="attendNote">
             </label>
 
@@ -324,6 +351,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=7"></script>
+  <script src="js/script.js?v=10"></script>
 </body>
 </html>
