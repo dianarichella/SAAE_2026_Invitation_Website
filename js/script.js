@@ -226,8 +226,8 @@ function renderTicket() {
   $('#ticketKicker').textContent = data ? 'You’re Registered!' : 'You’re Not Registered Yet!';
   if (data) {
     $('#ticketName').textContent = data.name;
-    // nomor lucky draw = angka di kode tiket (SAAE-1234 → 1234)
-    $('#ticketCode').textContent = String(data.code || '').replace(/^SAAE-/, '');
+    // nomor tiket = urutan RSVP dari Google Sheets (SAAE-001 → 001)
+    $('#ticketCode').textContent = String(data.code || '').replace(/^SAAE-/, '') || '—';
   }
 }
 
@@ -306,14 +306,15 @@ $('#rsvpForm').addEventListener('submit', async e => {
   const data = Object.fromEntries(new FormData(form));
   data.name = name;
   data.email = email;
-  data.code = old?.code || `SAAE-${String(Math.floor(1000 + Math.random() * 9000))}`;
   data.submittedAt = new Date().toISOString();
 
   const btn = $('#submitBtn');
   btn.disabled = true;
   btn.textContent = 'Sending…';
   try {
-    await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data });
+    // Nomor tiket dibuat oleh Google Sheets sesuai urutan RSVP (001, 002, ...)
+    const out = await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data });
+    data.code = out?.code || old?.code || '';
     store.set(STORE_KEY, data);
     localStorage.removeItem(DECLINE_KEY);
     renderRsvpStatus();

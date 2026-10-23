@@ -46,19 +46,22 @@ function doPost(e) {
 
     // RSVP
     const sheet = getSheet_(ss, RSVP_SHEET, RSVP_HEADERS);
+    // Kalau email yang sama sudah pernah RSVP, perbarui barisnya (tidak dobel) dan pakai nomor tiket lamanya
+    const existing = findRowByEmail_(sheet, data.email);
+    const codeCol = RSVP_HEADERS.indexOf('Ticket Code') + 1;
+    const oldCode = existing ? String(sheet.getRange(existing, codeCol).getValue()) : '';
+    data.code = /^SAAE-\d{3}$/.test(oldCode) ? oldCode : nextCode_(sheet, codeCol);
     const row = [
       new Date(), clean_(data.code), clean_(data.name), clean_(data.email), clean_(data.telegram),
       clean_(data.phone), clean_(data.programme), clean_(data.attend), clean_(data.attendNote),
       clean_(data.dietary), clean_(data.message),
     ];
 
-    // Kalau email yang sama sudah pernah RSVP, perbarui barisnya (tidak dobel)
-    const existing = findRowByEmail_(sheet, data.email);
     if (existing) sheet.getRange(existing, 1, 1, row.length).setValues([row]);
     else sheet.appendRow(row);
 
     if (SEND_TICKET_EMAIL && data.email) sendTicket_(data);
-    return json_({ ok: true });
+    return json_({ ok: true, code: data.code });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
@@ -84,6 +87,19 @@ function getSheet_(ss, name, headers) {
     sheet.setFrozenRows(1);
   }
   return sheet;
+}
+
+// Nomor tiket berikutnya sesuai urutan RSVP: SAAE-001, SAAE-002, ...
+// (memakai nomor terbesar yang sudah ada + 1, jadi tetap aman kalau ada baris yang dihapus)
+function nextCode_(sheet, codeCol) {
+  let max = 0;
+  if (sheet.getLastRow() >= 2) {
+    sheet.getRange(2, codeCol, sheet.getLastRow() - 1, 1).getValues().forEach(([v]) => {
+      const m = /^SAAE-(\d{3})$/.exec(String(v));
+      if (m) max = Math.max(max, Number(m[1]));
+    });
+  }
+  return 'SAAE-' + String(max + 1).padStart(3, '0');
 }
 
 function findRowByEmail_(sheet, email) {
@@ -133,7 +149,7 @@ function sendTicket_(d) {
               ${row('Date', esc_(EVENT.date))}
               ${row('Time', '18.30 – 22.15', 'Registration opens 18.00')}
               ${row('Venue', esc_(venueName), esc_(venueRest.join(', ')))}
-              ${row('Ticket No.', esc_(d.code))}
+              ${row('Ticket No.', esc_(String(d.code).replace(/^SAAE-/, '')))}
             </table>
           </td></tr>
           <tr><td style="padding:4px 44px 30px">

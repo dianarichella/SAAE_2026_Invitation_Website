@@ -537,19 +537,16 @@
 .ticket .tk-logo { display: block; width: 15cqw; margin: -1.2cqw auto 1cqw; filter: drop-shadow(0 .1cqw .25cqw rgba(0,0,0,.45)); }
 
 /* Layar sempit (HP): tiket disusun ke bawah seperti email tiket —
-   logo, Scarlet Gala, detail, lalu potongan lucky draw di bawah garis sobek.
+   logo, Scarlet Gala, lalu detail.
    Isi tiap bagian memakai ukuran desain desktop yang diperbesar dengan zoom. */
 @media (max-width: 640px) {
   .tk-holder { width: min(100%, 380px); }
   .ticket { flex-direction: column; aspect-ratio: auto; filter: drop-shadow(0 4cqw 7cqw rgba(0, 0, 0, .55)); }
   .ticket .tk-body {
     flex: none;
-    border-radius: 3cqw 3cqw 0 0;
+    border-radius: 3cqw;
     padding: 14cqw 0 13cqw;
-    -webkit-mask: radial-gradient(circle 4cqw at 0 100%, transparent 98%, #000) bottom left / 51% 100% no-repeat,
-                  radial-gradient(circle 4cqw at 100% 100%, transparent 98%, #000) bottom right / 51% 100% no-repeat;
-            mask: radial-gradient(circle 4cqw at 0 100%, transparent 98%, #000) bottom left / 51% 100% no-repeat,
-                  radial-gradient(circle 4cqw at 100% 100%, transparent 98%, #000) bottom right / 51% 100% no-repeat;
+    -webkit-mask: none; mask: none;
   }
   .ticket .tk-frame { inset: 4cqw 4cqw 4cqw; border-width: 1px; }
   .ticket .tk-frame::after { inset: 1.4cqw; border-width: 1px; }
@@ -829,3 +826,22 @@ html, body { overflow-x: clip; }
 .details-card__title { font-size: min(max(30px, calc(96 * var(--w))), 10.2cqw); }
 .details-card .cover__line { margin-bottom: max(36px, calc(70 * var(--w))) !important; }
 @media (max-width: 900px) { .details-card__title { font-size: min(max(36px, calc(96 * var(--w))), 8.6cqw); } }
+
+/* ---------- Tiket tanpa potongan lucky draw ----------
+   Badan tiket jadi satu kartu utuh dengan sudut membulat. */
+.ticket .tk-body { border-radius: 1.2cqw; -webkit-mask: none; mask: none; }
+@media (min-width: 641px) {
+  .tk-holder { width: min(100%, calc(860 * var(--w) + 80px)); }
+  .ticket { aspect-ratio: 1000 / 400; }
+  .ticket .tk-title { left: 7cqw; width: 36cqw; }
+  .ticket .tk-divider { left: 49cqw; }
+  .ticket .tk-info { left: 54cqw; right: 6cqw; }
+}
+
+/* Kartu di dalam amplop memakai border emas yang sama dengan sampul, supaya tidak tiba-tiba muncul */
+.env__paper { box-shadow: 0 0 0 max(3px, .35vw) #d4ab7f, 0 1px 4px rgba(40, 0, 6, .35); }
+.hero__env .env__paper { box-shadow: none; }
+/* HP: judul pembuka diperkecil sedikit supaya hiasan Y dan tanda seru tidak terpotong di tepi layar */
+@media (max-aspect-ratio: 4/5) {
+  .intro-title { font-size: min(max(24px, calc(96 * var(--u))), 7.6vw); padding: 0 6vw; }
+}
