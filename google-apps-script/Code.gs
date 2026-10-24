@@ -127,19 +127,37 @@ function esc_(s) {
 // Pastikan file assets/email-header.jpg sudah di-push ke GitHub.
 const EMAIL_HEADER_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/assets/email-header.jpg';
 
+// Mode gelap Outlook (web / new Outlook) biasanya mengubah warna email.
+// Aturan [data-ogsb]/[data-ogsc] di bawah mengembalikan warna aslinya,
+// jadi tiket & undangan tetap merah-emas seperti desainnya.
+const LOCK_COLORS_CSS = `<style>
+  [data-ogsb] .lk-tk,.lk-tk[data-ogsb]{background-color:#720613 !important}
+  [data-ogsb] .lk-line,.lk-line[data-ogsb]{background-color:#d6b469 !important}
+  [data-ogsc] .lk-gold,.lk-gold[data-ogsc]{color:#d6b469 !important}
+  [data-ogsc] .lk-cream,.lk-cream[data-ogsc]{color:#f6e4d6 !important}
+  [data-ogsc] .lk-note,.lk-note[data-ogsc]{color:#e6cdb8 !important}
+  [data-ogsb] .lk-red,.lk-red[data-ogsb]{background-color:#5c140f !important}
+  [data-ogsb] .lk-dark,.lk-dark[data-ogsb]{background-color:#4a100c !important}
+  [data-ogsc] .lk-ivory,.lk-ivory[data-ogsc]{color:#fff7ee !important}
+  [data-ogsb] .lk-btn,.lk-btn[data-ogsb]{background-color:#efe6b8 !important}
+  [data-ogsc] .lk-btn,.lk-btn[data-ogsc]{color:#7a1a12 !important}
+  [data-ogsb] .lk-rule,.lk-rule[data-ogsb]{border-top-color:#e8cfc0 !important}
+</style>`;
+
 function sendTicket_(d) {
   const gold = '#d6b469', cream = '#f6e4d6', bg = '#720613';
   const font = "Georgia,'Times New Roman',serif";
   const row = (label, value, note) => `
         <tr><td style="padding:0 0 18px">
-          <div style="font-family:${font};font-style:italic;font-size:14px;color:${gold};margin-bottom:2px">${label}</div>
-          <div style="font-family:${font};font-style:italic;font-size:19px;color:${cream};line-height:1.3">${value}</div>
-          ${note ? `<div style="font-family:${font};font-style:italic;font-size:13px;color:#e6cdb8;margin-top:2px">${note}</div>` : ''}
+          <div class="lk-gold" style="font-family:${font};font-style:italic;font-size:14px;color:${gold};margin-bottom:2px">${label}</div>
+          <div class="lk-cream" style="font-family:${font};font-style:italic;font-size:19px;color:${cream};line-height:1.3">${value}</div>
+          ${note ? `<div class="lk-note" style="font-family:${font};font-style:italic;font-size:13px;color:#e6cdb8;margin-top:2px">${note}</div>` : ''}
         </td></tr>`;
   const [venueName, ...venueRest] = EVENT.venue.split(', ');
   const html = `
-  <div style="background:#1a0306;padding:24px 10px">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;margin:0 auto;background:${bg};border:1px solid ${gold};border-radius:16px;border-collapse:separate">
+  ${LOCK_COLORS_CSS}
+  <div style="padding:24px 10px">
+    <table class="lk-tk" role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="${bg}" style="max-width:520px;margin:0 auto;background-color:${bg};background-image:linear-gradient(${bg},${bg});border:1px solid ${gold};border-radius:16px;border-collapse:separate">
       <tr><td style="padding:6px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55);border-radius:11px;border-collapse:separate">
           <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
@@ -153,8 +171,8 @@ function sendTicket_(d) {
             </table>
           </td></tr>
           <tr><td style="padding:4px 44px 30px">
-            <div style="height:1px;background:${gold};opacity:.6;margin-bottom:18px"></div>
-            <p style="margin:0;font-family:${font};font-style:italic;font-size:15px;line-height:1.5;color:${cream};text-align:center">
+            <div class="lk-line" style="height:1px;background-color:${gold};opacity:.6;margin-bottom:18px"></div>
+            <p class="lk-cream" style="margin:0;font-family:${font};font-style:italic;font-size:15px;line-height:1.5;color:${cream};text-align:center">
               Dear ${esc_(d.name)},<br><br>Thank you for your RSVP.<br>Please show this ticket at registration.<br>See you there!
             </p>
           </td></tr>
@@ -285,25 +303,26 @@ function sendInvite_(email, name) {
 // mode gelap di aplikasi Gmail tidak mudah mengubah warnanya.
 function inviteHtml_(name, link) {
   const red = '#5c140f', dark = '#4a100c', cream = '#fff7ee';
-  const bg = c => `bgcolor="${c}" style="background-color:${c};background-image:linear-gradient(${c},${c})`;
+  const bg = c => `class="${c === red ? 'lk-red' : 'lk-dark'} lk-ivory" bgcolor="${c}" style="background-color:${c};background-image:linear-gradient(${c},${c})`;
   const font = 'Arial,Helvetica,sans-serif';
   return `
+  ${LOCK_COLORS_CSS}
   <div style="background:#f2f2f2;padding:20px 8px">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;border-radius:10px;overflow:hidden">
     <tr><td ${bg(dark)};padding:20px 0;text-align:center;font-family:${font};font-size:20px;letter-spacing:.5px;color:${cream}">SAAE INVITATION</td></tr>
     <tr><td ${bg(dark)}"><a href="${link}"><img src="${INVITE_HEADER_URL}" width="600" alt="Scarlet Gala — Student Ambassador Appreciation Night 2026" style="display:block;width:100%;height:auto;border:0"></a></td></tr>
     <tr><td ${bg(red)};padding:34px 44px 8px;font-family:${font};color:${cream};text-align:left">
-      <p style="margin:0 0 14px;font-size:16px;color:${cream}">Dear ${esc_(name)},</p>
-      <p style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Night</p>
-      <p style="margin:0 0 6px;font-size:15px;font-weight:bold;color:${cream}">Event details:</p>
-      <p style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.00 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
+      <p class="lk-ivory" style="margin:0 0 14px;font-size:16px;color:${cream}">Dear ${esc_(name)},</p>
+      <p class="lk-ivory" style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Night</p>
+      <p class="lk-ivory" style="margin:0 0 6px;font-size:15px;font-weight:bold;color:${cream}">Event details:</p>
+      <p class="lk-ivory" style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.00 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
     </td></tr>
     <tr><td ${bg(red)};padding:24px 44px 34px;text-align:left">
-      <a href="${link}" style="display:inline-block;background:#efe6b8;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
+      <a class="lk-btn" href="${link}" style="display:inline-block;background-color:#efe6b8;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
     </td></tr>
-    <tr><td ${bg(red)};padding:0 24px"><div style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
+    <tr><td ${bg(red)};padding:0 24px"><div class="lk-rule" style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
     <tr><td ${bg(red)};padding:30px 44px 30px;font-family:${font};font-size:14px;line-height:1.6;color:${cream}">
-      For more inquiries, please contact us on Telegram:<br>Min Hal Jin – <a href="https://t.me/minhaljin" style="color:${cream}">@minhaljin</a><br>Diana Richella Krisan – <a href="https://t.me/dianark8" style="color:${cream}">@dianark8</a>
+      For more inquiries, please contact us on Telegram:<br>Min Hal Jin – <a href="https://t.me/minhaljin" class="lk-ivory" style="color:${cream}">@minhaljin</a><br>Diana Richella Krisan – <a href="https://t.me/dianark8" class="lk-ivory" style="color:${cream}">@dianark8</a>
     </td></tr>
     <tr><td ${bg(dark)};padding:22px 0;text-align:center;font-family:${font};font-size:12px;font-weight:bold;line-height:1.8;color:${cream}">
       ${SENDER_NAME}<br>Singapore | October 2026

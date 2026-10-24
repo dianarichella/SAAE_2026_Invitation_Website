@@ -296,6 +296,11 @@ $('#rsvpForm').addEventListener('submit', async e => {
   // Hanya email SIM (…@mymail.sim.edu.sg / …@sim.edu.sg), supaya tiket dari Outlook SIM tidak masuk spam
   if (!/^[^\s@]+@(mymail\.)?sim\.edu\.sg$/i.test(email)) { problems.push('your SIM email (e.g. abc001@mymail.sim.edu.sg)'); form.elements.email.closest('.field').classList.add('is-invalid'); }
   if (!form.elements.attend.value) { problems.push('whether you can attend the full event'); $('#attendField').classList.add('is-invalid'); }
+  // Kalau datang telat / pulang cepat, wajib isi perkiraan jamnya
+  if (form.elements.attend.value === 'No' && !form.elements.attendNote.value.trim()) {
+    problems.push('roughly what time you will arrive or leave');
+    $('#attendNoteField').classList.add('is-invalid');
+  }
   if (problems.length) {
     err.textContent = `Please fill in ${problems.join(', ')}.`;
     err.hidden = false;
@@ -307,6 +312,7 @@ $('#rsvpForm').addEventListener('submit', async e => {
   const data = Object.fromEntries(new FormData(form));
   data.name = name;
   data.email = email;
+  if (data.attend !== 'No') data.attendNote = '';
   data.submittedAt = new Date().toISOString();
 
   const btn = $('#submitBtn');
