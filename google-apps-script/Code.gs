@@ -29,7 +29,7 @@ const RSVP_HEADERS = [
 ];
 
 const DECLINE_SHEET = 'Declined';
-const DECLINE_HEADERS = ['Submitted At', 'Name (from link)', 'Reason'];
+const DECLINE_HEADERS = ['Submitted At', 'Name (from link)', 'Reason', 'Email'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -39,8 +39,8 @@ function doPost(e) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
 
     if (data.type === 'decline') {
-      const sheet = getSheet_(ss, DECLINE_SHEET, DECLINE_HEADERS);
-      sheet.appendRow([new Date(), clean_(data.name), clean_(data.reason)]);
+      const sheet = getDeclineSheet_(ss);
+      sheet.appendRow([new Date(), clean_(data.name), clean_(data.reason), '']);
       return json_({ ok: true });
     }
 
@@ -55,7 +55,7 @@ function doPost(e) {
         markCancelled_(sheet, r, true);
       }
       const note = 'Cancelled RSVP' + (code ? ' (' + code + ')' : '') + (data.reason ? ': ' + data.reason : '');
-      getSheet_(ss, DECLINE_SHEET, DECLINE_HEADERS).appendRow([new Date(), clean_(data.name), clean_(note)]);
+      getDeclineSheet_(ss).appendRow([new Date(), clean_(data.name), clean_(note), clean_(data.email)]);
       return json_({ ok: true, found: !!r });
     }
 
@@ -76,6 +76,9 @@ function doPost(e) {
       sheet.getRange(existing, 1, 1, row.length).setValues([row]);
       markCancelled_(sheet, existing, false);   // RSVP lagi setelah cancel → tanda abu-abu dihapus
     } else sheet.appendRow(row);
+
+    // Orang yang sebelumnya klik "No" / cancel lalu RSVP → barisnya di tab Declined ikut dicoret
+    strikeDeclines_(ss, data);
 
     if (SEND_TICKET_EMAIL && data.email) sendTicket_(data);
     return json_({ ok: true, code: data.code });
@@ -119,6 +122,28 @@ function nextCode_(sheet, codeCol) {
   return 'SAAE-' + String(max + 1).padStart(3, '0');
 }
 
+function getDeclineSheet_(ss) {
+  const sheet = getSheet_(ss, DECLINE_SHEET, DECLINE_HEADERS);
+  if (!sheet.getRange(1, 4).getValue()) sheet.getRange(1, 4).setValue('Email').setFontWeight('bold');
+  return sheet;
+}
+
+// Coret baris di tab Declined milik tamu yang akhirnya RSVP
+// (dicocokkan lewat email, atau nama di link undangan / nama lengkap)
+function strikeDeclines_(ss, data) {
+  const sheet = ss.getSheetByName(DECLINE_SHEET);
+  if (!sheet || sheet.getLastRow() < 2) return;
+  const norm = v => String(v || '').trim().toLowerCase();
+  const names = [norm(data.name), norm(data.linkName)].filter(Boolean);
+  const email = norm(data.email);
+  const rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  rows.forEach((r, i) => {
+    if ((email && norm(r[3]) === email) || names.includes(norm(r[1]))) {
+      sheet.getRange(i + 2, 1, 1, 4).setBackground('#d9d9d9').setFontColor('#7f7f7f').setFontLine('line-through');
+    }
+  });
+}
+
 // Tandai / hapus tanda baris yang dibatalkan (abu-abu + coret)
 function markCancelled_(sheet, row, cancelled) {
   const range = sheet.getRange(row, 1, 1, RSVP_HEADERS.length);
@@ -150,6 +175,12 @@ function esc_(s) {
 // Gambar kepala tiket (logo + Scarlet Gala + Appreciation Night) diambil dari website.
 // Pastikan file assets/email-header.jpg sudah di-push ke GitHub.
 const EMAIL_HEADER_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/assets/email-header.jpg';
+// Warna latar email juga dipasang sebagai GAMBAR polos (assets/email-bg-*.png).
+// Mode gelap di aplikasi Outlook mengubah warna latar, tapi tidak mengubah gambar,
+// jadi warnanya tetap seperti desain aslinya.
+const EMAIL_BG = name => `https://dianarichella.github.io/SAAE_2026_Invitation_Website/assets/email-bg-${name}.png`;
+const bgImg_ = (name, color) =>
+  `background="${EMAIL_BG(name)}" bgcolor="${color}" style="background-color:${color};background-image:url('${EMAIL_BG(name)}');background-repeat:repeat`;
 
 // Mode gelap Outlook (web / new Outlook) biasanya mengubah warna email.
 // Aturan [data-ogsb]/[data-ogsc] di bawah mengembalikan warna aslinya,
@@ -181,7 +212,7 @@ function sendTicket_(d) {
   const html = `
   ${LOCK_COLORS_CSS}
   <div style="padding:24px 10px">
-    <table class="lk-tk" role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="${bg}" style="max-width:520px;margin:0 auto;background-color:${bg};background-image:linear-gradient(${bg},${bg});border:1px solid ${gold};border-radius:16px;border-collapse:separate">
+    <table class="lk-tk" role="presentation" width="100%" cellpadding="0" cellspacing="0" ${bgImg_('ticket', bg)};max-width:520px;margin:0 auto;border:1px solid ${gold};border-radius:16px;border-collapse:separate">
       <tr><td style="padding:6px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55);border-radius:11px;border-collapse:separate">
           <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
@@ -195,7 +226,7 @@ function sendTicket_(d) {
             </table>
           </td></tr>
           <tr><td style="padding:4px 44px 30px">
-            <div class="lk-line" style="height:1px;background-color:${gold};opacity:.6;margin-bottom:18px"></div>
+            <div class="lk-line" ${bgImg_('gold', gold)};height:1px;line-height:1px;font-size:0;opacity:.6;margin-bottom:18px">&nbsp;</div>
             <p class="lk-cream" style="margin:0;font-family:${font};font-style:italic;font-size:15px;line-height:1.5;color:${cream};text-align:center">
               Dear ${esc_(d.name)},<br><br>Thank you for your RSVP.<br>Please show this ticket at registration.<br>See you there!
             </p>
@@ -327,7 +358,7 @@ function sendInvite_(email, name) {
 // mode gelap di aplikasi Gmail tidak mudah mengubah warnanya.
 function inviteHtml_(name, link) {
   const red = '#5c140f', dark = '#4a100c', cream = '#fff7ee';
-  const bg = c => `class="${c === red ? 'lk-red' : 'lk-dark'} lk-ivory" bgcolor="${c}" style="background-color:${c};background-image:linear-gradient(${c},${c})`;
+  const bg = c => `class="${c === red ? 'lk-red' : 'lk-dark'} lk-ivory" ${bgImg_(c === red ? 'red' : 'dark', c)}`;
   const font = 'Arial,Helvetica,sans-serif';
   return `
   ${LOCK_COLORS_CSS}
@@ -342,7 +373,7 @@ function inviteHtml_(name, link) {
       <p class="lk-ivory" style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.00 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
     </td></tr>
     <tr><td ${bg(red)};padding:24px 44px 34px;text-align:left">
-      <a class="lk-btn" href="${link}" style="display:inline-block;background-color:#efe6b8;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
+      <a class="lk-btn" href="${link}" ${bgImg_('button', '#efe6b8')};display:inline-block;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
     </td></tr>
     <tr><td ${bg(red)};padding:0 24px"><div class="lk-rule" style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
     <tr><td ${bg(red)};padding:30px 44px 30px;font-family:${font};font-size:14px;line-height:1.6;color:${cream}">

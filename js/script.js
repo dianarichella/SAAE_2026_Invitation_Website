@@ -323,7 +323,8 @@ $('#rsvpForm').addEventListener('submit', async e => {
   btn.textContent = 'Sending…';
   try {
     // Nomor tiket dibuat oleh Google Sheets sesuai urutan RSVP (001, 002, ...)
-    const out = await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data });
+    const linkName = guestName !== CONFIG.defaultName ? guestName : '';
+    const out = await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data, linkName });
     data.code = out?.code || old?.code || '';
     store.set(STORE_KEY, data);
     localStorage.removeItem(DECLINE_KEY);
@@ -382,7 +383,7 @@ $('#reasonSubmit').addEventListener('click', async () => {
     btn.disabled = false;
     localStorage.removeItem(STORE_KEY);
     store.set(DECLINE_KEY, { name: rsvp.name, reason, cancelled: true, rsvp, submittedAt: new Date().toISOString() });
-    $('#thanksText').innerHTML = 'Your RSVP has been cancelled<br>Changed your mind? You can RSVP again anytime';
+    $('#thanksText').textContent = 'Your RSVP has been cancelled';
     renderTicket();
   } else {
     const data = { name: guestName, reason, submittedAt: new Date().toISOString() };
