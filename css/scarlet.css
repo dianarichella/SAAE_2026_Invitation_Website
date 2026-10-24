@@ -845,3 +845,8 @@ html, body { overflow-x: clip; }
 @media (max-aspect-ratio: 4/5) {
   .intro-title { font-size: min(max(24px, calc(96 * var(--u))), 7.6vw); padding: 0 6vw; }
 }
+
+/* Footer: logo SIM Student Ambassador di atas "Appreciation Night" */
+.footer__logo { display: block; width: max(120px, calc(230 * var(--w))); height: auto; margin: 0 auto max(10px, calc(22 * var(--w))); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5)); }
+/* Kontak: nama di kiri, Telegram di kanan */
+.contact-list li > span:first-child { min-width: 11em; }

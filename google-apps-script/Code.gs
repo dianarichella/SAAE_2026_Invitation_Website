@@ -18,7 +18,7 @@ const EVENT = {
   name: 'Student Ambassador Appreciation Night',
   theme: 'Scarlet Gala',
   date: 'Friday, 13 November 2026',
-  time: '18.30 – 22.15 (registration opens 18.00)',
+  time: '18.30 – 22.00 (registration opens 18.00)',
   venue: 'Metropolitan YMCA, 60 Stevens Rd, Singapore 257854',
 };
 
@@ -147,7 +147,7 @@ function sendTicket_(d) {
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
               ${row('Guest', `<span style="font-size:24px">${esc_(d.name)}</span>`)}
               ${row('Date', esc_(EVENT.date))}
-              ${row('Time', '18.30 – 22.15', 'Registration opens 18.00')}
+              ${row('Time', '18.30 – 22.00', 'Registration opens 18.00')}
               ${row('Venue', esc_(venueName), esc_(venueRest.join(', ')))}
               ${row('Ticket No.', esc_(String(d.code).replace(/^SAAE-/, '')))}
             </table>
@@ -166,7 +166,8 @@ function sendTicket_(d) {
     to: d.email,
     subject: `Your ticket — ${EVENT.name} (${d.code})`,
     htmlBody: html,
-    name: 'SAAE Committee',
+    name: SENDER_NAME,
+    replyTo: SENDER_EMAIL,
   });
 }
 
@@ -184,6 +185,16 @@ const INVITE_SHEET = 'Invites';
 const INVITE_HEADERS = ['Name', 'Email', 'Status', 'Sent At'];
 const INVITE_SUBJECT = 'You’re invited — Student Ambassador Appreciation Night 2026';
 const SENDER_NAME = 'SIM Student Ambassador Appreciation Event Team';
+// Alamat pengirim & balasan. Email dikirim dari akun Google yang menjalankan script ini,
+// jadi script & deployment-nya harus dibuat/dijalankan dari akun ini.
+const SENDER_EMAIL = 'krisan001@mymail.sim.edu.sg';
+
+function checkSender_() {
+  const me = Session.getEffectiveUser().getEmail();
+  if (me && me.toLowerCase() !== SENDER_EMAIL) {
+    Logger.log('WARNING: emails are being sent from ' + me + ', not ' + SENDER_EMAIL + '. Log in as ' + SENDER_EMAIL + ' and run/deploy the script from that account.');
+  }
+}
 
 // Menu "SAAE" di Google Sheets (muncul kalau script ini terhubung ke spreadsheet-nya)
 function onOpen() {
@@ -200,6 +211,7 @@ function inviteLink_(name) {
 }
 
 function sendTestInvitation() {
+  checkSender_();
   const sheet = getSheet_(SpreadsheetApp.openById(SPREADSHEET_ID), INVITE_SHEET, INVITE_HEADERS);
   const me = Session.getEffectiveUser().getEmail();
   const firstName = sheet.getLastRow() >= 2 ? String(sheet.getRange(2, 1).getValue() || 'Guest') : 'Guest';
@@ -208,6 +220,7 @@ function sendTestInvitation() {
 }
 
 function sendInvitations() {
+  checkSender_();
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
@@ -245,9 +258,9 @@ function sendInvite_(email, name) {
   const plain =
     `Dear ${name},\n\n` +
     `You're invited to attend Student Ambassador Appreciation Night.\n\n` +
-    `Date: ${EVENT.date}\nTime: 18.30 – 22.15 (registration opens 18.00)\nVenue: ${EVENT.venue}\n\n` +
+    `Date: ${EVENT.date}\nTime: 18.30 – 22.00 (registration opens 18.00)\nVenue: ${EVENT.venue}\n\n` +
     `Please RSVP here: ${link}\n\n` +
-    `For more inquiries, please contact Min Hal Jin (Telegram: @minhaljin).\n\n` +
+    `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nDiana Richella Krisan – @dianark8\n\n` +
     `${SENDER_NAME}`;
   MailApp.sendEmail({
     to: email,
@@ -255,6 +268,7 @@ function sendInvite_(email, name) {
     body: plain,
     htmlBody: inviteHtml_(name, link),
     name: SENDER_NAME,
+    replyTo: SENDER_EMAIL,
   });
 }
 
@@ -273,14 +287,14 @@ function inviteHtml_(name, link) {
       <p style="margin:0 0 14px;font-size:16px;color:${cream}">Dear ${esc_(name)},</p>
       <p style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Night</p>
       <p style="margin:0 0 6px;font-size:15px;font-weight:bold;color:${cream}">Event details:</p>
-      <p style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.15 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
+      <p style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.00 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
     </td></tr>
     <tr><td ${bg(red)};padding:24px 44px 34px;text-align:left">
       <a href="${link}" style="display:inline-block;background:#efe6b8;color:#7a1a12;font-family:${font};font-size:13px;font-weight:bold;letter-spacing:.5px;text-decoration:none;padding:11px 26px;border-radius:3px">RSVP HERE</a>
     </td></tr>
     <tr><td ${bg(red)};padding:0 24px"><div style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
     <tr><td ${bg(red)};padding:30px 44px 30px;font-family:${font};font-size:14px;line-height:1.6;color:${cream}">
-      For more inquiries, please contact:<br>Min Hal Jin<br>Telegram: <a href="https://t.me/minhaljin" style="color:${cream}">@minhaljin</a>
+      For more inquiries, please contact us on Telegram:<br>Min Hal Jin – <a href="https://t.me/minhaljin" style="color:${cream}">@minhaljin</a><br>Diana Richella Krisan – <a href="https://t.me/dianark8" style="color:${cream}">@dianark8</a>
     </td></tr>
     <tr><td ${bg(dark)};padding:22px 0;text-align:center;font-family:${font};font-size:12px;font-weight:bold;line-height:1.8;color:${cream}">
       ${SENDER_NAME}<br>Singapore | October 2026
