@@ -276,8 +276,8 @@
               <input type="text" name="name" autocomplete="name" required>
             </label>
             <label class="field">
-              <span>Email</span>
-              <input type="email" name="email" autocomplete="email" required>
+              <span>SIM Email</span>
+              <input type="email" name="email" autocomplete="email" placeholder="e.g. abc001@mymail.sim.edu.sg" autocapitalize="off" spellcheck="false" required>
             </label>
             <label class="field">
               <span>Telegram Username</span>
@@ -314,7 +314,7 @@
             </label>
 
             <p class="form-error" id="formError" role="alert" hidden></p>
-            <p class="rsvp-form__note">A ticket will be sent to your email after submitting</p>
+            <p class="rsvp-form__note">A ticket will be sent to your SIM email after submitting</p>
           </form>
 
           <button class="btn-paper" type="submit" form="rsvpForm" id="submitBtn">Submit</button>
@@ -340,6 +340,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=11"></script>
+  <script src="js/script.js?v=12"></script>
 </body>
 </html>

@@ -162,13 +162,7 @@ function sendTicket_(d) {
       </td></tr>
     </table>
   </div>`;
-  MailApp.sendEmail({
-    to: d.email,
-    subject: `Your ticket — ${EVENT.name} (${d.code})`,
-    htmlBody: html,
-    name: SENDER_NAME,
-    replyTo: SENDER_EMAIL,
-  });
+  sendMail_(d.email, `Your ticket — ${EVENT.name} (${d.code})`, html);
 }
 
 /* =========================================================
@@ -185,15 +179,37 @@ const INVITE_SHEET = 'Invites';
 const INVITE_HEADERS = ['Name', 'Email', 'Status', 'Sent At'];
 const INVITE_SUBJECT = 'You’re invited — Student Ambassador Appreciation Night 2026';
 const SENDER_NAME = 'SIM Student Ambassador Appreciation Event Team';
-// Alamat pengirim & balasan. Email dikirim dari akun Google yang menjalankan script ini,
-// jadi script & deployment-nya harus dibuat/dijalankan dari akun ini.
+// Alamat pengirim (dipakai Power Automate) & alamat balasan (kalau SEND_VIA_OUTLOOK = false).
 const SENDER_EMAIL = 'krisan001@mymail.sim.edu.sg';
+
+// ===== Kirim lewat Outlook (Power Automate) =====
+// true  = email dititipkan ke Outlook krisan001, lalu Power Automate mengirimnya ke tamu
+//         dari krisan001@mymail.sim.edu.sg (flow "SAAE Relay").
+// false = email langsung dikirim dari Gmail yang menjalankan script ini.
+const SEND_VIA_OUTLOOK = true;
+const RELAY_INBOX = 'krisan001@mymail.sim.edu.sg';
+const RELAY_KEY = 'SAAE-RELAY-e03ae80f89a5';   // harus sama persis dengan "Subject Filter" di Power Automate
+
+function sendMail_(to, subject, html, plain) {
+  if (SEND_VIA_OUTLOOK) {
+    const subj = [RELAY_KEY, String(to).trim(), String(subject).replace(/\|/g, '-')].join('|');
+    MailApp.sendEmail({
+      to: RELAY_INBOX,
+      subject: subj,
+      body: 'Automatic relay message for Power Automate. Please do not reply or delete manually.',
+      name: SENDER_NAME,
+      attachments: [Utilities.newBlob(html, 'text/plain', 'email.txt').setDataFromString(html, 'UTF-8')],
+    });
+  } else {
+    MailApp.sendEmail({ to, subject, htmlBody: html, body: plain || '', name: SENDER_NAME, replyTo: SENDER_EMAIL });
+  }
+}
 
 function checkSender_() {
   const me = Session.getEffectiveUser().getEmail();
-  if (me && me.toLowerCase() !== SENDER_EMAIL) {
-    Logger.log('WARNING: emails are being sent from ' + me + ', not ' + SENDER_EMAIL + '. Log in as ' + SENDER_EMAIL + ' and run/deploy the script from that account.');
-  }
+  Logger.log(SEND_VIA_OUTLOOK
+    ? 'Relaying through ' + RELAY_INBOX + ' (Power Automate sends from ' + SENDER_EMAIL + ')'
+    : 'Sending from ' + me + ' (replies go to ' + SENDER_EMAIL + ')');
 }
 
 // Menu "SAAE" di Google Sheets (muncul kalau script ini terhubung ke spreadsheet-nya)
@@ -262,14 +278,7 @@ function sendInvite_(email, name) {
     `Please RSVP here: ${link}\n\n` +
     `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nDiana Richella Krisan – @dianark8\n\n` +
     `${SENDER_NAME}`;
-  MailApp.sendEmail({
-    to: email,
-    subject: INVITE_SUBJECT,
-    body: plain,
-    htmlBody: inviteHtml_(name, link),
-    name: SENDER_NAME,
-    replyTo: SENDER_EMAIL,
-  });
+  sendMail_(email, INVITE_SUBJECT, inviteHtml_(name, link), plain);
 }
 
 // Desain undangan. Warna latar memakai bgcolor + gradient supaya

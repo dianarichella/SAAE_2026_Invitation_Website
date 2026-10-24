@@ -293,7 +293,8 @@ $('#rsvpForm').addEventListener('submit', async e => {
   $$('.field', form).forEach(f => f.classList.remove('is-invalid'));
   const problems = [];
   if (!name) { problems.push('your full name'); form.elements.name.closest('.field').classList.add('is-invalid'); }
-  if (!/^\S+@\S+\.\S+$/.test(email)) { problems.push('a valid email'); form.elements.email.closest('.field').classList.add('is-invalid'); }
+  // Hanya email SIM (…@mymail.sim.edu.sg / …@sim.edu.sg), supaya tiket dari Outlook SIM tidak masuk spam
+  if (!/^[^\s@]+@(mymail\.)?sim\.edu\.sg$/i.test(email)) { problems.push('your SIM email (e.g. abc001@mymail.sim.edu.sg)'); form.elements.email.closest('.field').classList.add('is-invalid'); }
   if (!form.elements.attend.value) { problems.push('whether you can attend the full event'); $('#attendField').classList.add('is-invalid'); }
   if (problems.length) {
     err.textContent = `Please fill in ${problems.join(', ')}.`;
