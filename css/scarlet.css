@@ -850,3 +850,22 @@ html, body { overflow-x: clip; }
 .footer__logo { display: block; width: max(120px, calc(230 * var(--w))); height: auto; margin: 0 auto max(10px, calc(22 * var(--w))); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5)); }
 /* Kontak: nama di kiri, Telegram di kanan */
 .contact-list li > span:first-child { min-width: 11em; }
+
+/* RSVP card: sudah RSVP → tombol "View your ticket" + tulisan kecil "Cancel your RSVP" */
+.rsvp-card__view { white-space: nowrap; }
+.rsvp-card__cancel {
+  display: block;
+  margin: max(12px, calc(30 * var(--w))) auto 0;
+  padding: 2px 4px;
+  background: none;
+  border: 0;
+  color: rgba(246, 228, 214, .72);
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: max(13px, calc(26 * var(--w)));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.rsvp-card__cancel:hover { color: var(--ivory); }
+.modal__error { color: #ff8a80; font-family: var(--font-body); font-style: italic; margin: 0 0 10px; }

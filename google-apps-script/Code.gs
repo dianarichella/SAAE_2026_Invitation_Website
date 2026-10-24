@@ -44,6 +44,21 @@ function doPost(e) {
       return json_({ ok: true });
     }
 
+    // Batalkan RSVP: baris di tab RSVP ditandai abu-abu + dicoret (TIDAK dihapus),
+    // lalu dicatat juga di tab Declined beserta alasannya.
+    if (data.type === 'cancel') {
+      const sheet = getSheet_(ss, RSVP_SHEET, RSVP_HEADERS);
+      const r = findRowByEmail_(sheet, data.email);
+      let code = '';
+      if (r) {
+        code = String(sheet.getRange(r, RSVP_HEADERS.indexOf('Ticket Code') + 1).getValue());
+        markCancelled_(sheet, r, true);
+      }
+      const note = 'Cancelled RSVP' + (code ? ' (' + code + ')' : '') + (data.reason ? ': ' + data.reason : '');
+      getSheet_(ss, DECLINE_SHEET, DECLINE_HEADERS).appendRow([new Date(), clean_(data.name), clean_(note)]);
+      return json_({ ok: true, found: !!r });
+    }
+
     // RSVP
     const sheet = getSheet_(ss, RSVP_SHEET, RSVP_HEADERS);
     // Kalau email yang sama sudah pernah RSVP, perbarui barisnya (tidak dobel) dan pakai nomor tiket lamanya
@@ -57,8 +72,10 @@ function doPost(e) {
       clean_(data.dietary), clean_(data.message),
     ];
 
-    if (existing) sheet.getRange(existing, 1, 1, row.length).setValues([row]);
-    else sheet.appendRow(row);
+    if (existing) {
+      sheet.getRange(existing, 1, 1, row.length).setValues([row]);
+      markCancelled_(sheet, existing, false);   // RSVP lagi setelah cancel → tanda abu-abu dihapus
+    } else sheet.appendRow(row);
 
     if (SEND_TICKET_EMAIL && data.email) sendTicket_(data);
     return json_({ ok: true, code: data.code });
@@ -100,6 +117,13 @@ function nextCode_(sheet, codeCol) {
     });
   }
   return 'SAAE-' + String(max + 1).padStart(3, '0');
+}
+
+// Tandai / hapus tanda baris yang dibatalkan (abu-abu + coret)
+function markCancelled_(sheet, row, cancelled) {
+  const range = sheet.getRange(row, 1, 1, RSVP_HEADERS.length);
+  if (cancelled) range.setBackground('#d9d9d9').setFontColor('#7f7f7f').setFontLine('line-through');
+  else range.setBackground(null).setFontColor(null).setFontLine('none');
 }
 
 function findRowByEmail_(sheet, email) {

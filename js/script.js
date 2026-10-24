@@ -231,28 +231,31 @@ function renderTicket() {
   }
 }
 
+// Kartu RSVP punya 3 keadaan:
+// - belum menjawab  → Yes / No
+// - sudah RSVP      → tombol "View your ticket" + tulisan kecil "Cancel your RSVP"
+// - menolak/cancel  → hanya Yes + "Changed your mind? Tap Yes to RSVP."
 function renderRsvpStatus() {
   const status = $('#rsvpStatus');
   const data = store.get(STORE_KEY);
-  const declined = store.get(DECLINE_KEY);
-  status.hidden = !(data || declined);
-  status.innerHTML = '';
-  if (data) {
-    status.append('You’re registered — ');
-    const a = document.createElement('a');
-    a.href = '#ticket';
-    a.textContent = 'view your ticket';
-    status.append(a);
-  } else if (declined) {
-    status.textContent = 'Changed your mind? Tap Yes to RSVP.';
-  }
+  const declined = !data && store.get(DECLINE_KEY);
+  $('#rsvpQ').innerHTML = data ? 'You’re registered!' : 'Do you accept the<br>invitation?';
+  $('#yesBtn').hidden = !!data;
+  $('#noBtn').hidden = !!data || !!declined;
+  $('#viewTicketBtn').hidden = !data;
+  $('#cancelRsvp').hidden = !data;
+  status.hidden = !declined;
+  status.textContent = declined ? 'Changed your mind? Tap Yes to RSVP.' : '';
 }
 
 function fillForm() {
   const data = store.get(STORE_KEY);
   const form = $('#rsvpForm');
-  if (data) Object.entries(data).forEach(([k, v]) => { if (form.elements[k]) form.elements[k].value = v; });
-  else if (guestName !== CONFIG.defaultName && !form.elements.name.value) form.elements.name.value = guestName;
+  // Kalau pernah RSVP lalu cancel, isian lamanya dipakai lagi supaya tidak perlu mengetik ulang
+  const prev = data || store.get(DECLINE_KEY)?.rsvp;
+  if (prev) Object.entries(prev).forEach(([k, v]) => { if (form.elements[k] && form.elements[k].type !== 'radio') form.elements[k].value = v; });
+  if (prev?.attend) { const opt = form.querySelector(`input[name="attend"][value="${prev.attend}"]`); if (opt) opt.checked = true; }
+  if (!prev && guestName !== CONFIG.defaultName && !form.elements.name.value) form.elements.name.value = guestName;
   toggleAttendNote();
 }
 
@@ -335,25 +338,59 @@ $('#rsvpForm').addEventListener('submit', async e => {
   }
 });
 
-// Pop-up "No"
+// Pop-up "No" dan "Cancel your RSVP" (memakai pop-up yang sama)
 const modal = $('#reasonModal');
-function openModal() {
+let modalMode = 'decline';
+function openModal(mode = 'decline') {
+  modalMode = mode;
+  $('#reasonTitle').textContent = mode === 'cancel'
+    ? 'Cancel your RSVP? Please state your reason'
+    : 'Please state your reason';
+  $('#reasonError').hidden = true;
   $('#reasonStep').hidden = false;
   $('#thanksStep').hidden = true;
   modal.hidden = false;
   setTimeout(() => $('#reasonText').focus(), 50);
 }
-function closeModal() { modal.hidden = true; $('#noBtn').focus(); }
+function closeModal() {
+  modal.hidden = true;
+  const back = [$('#noBtn'), $('#cancelRsvp'), $('#yesBtn')].find(b => !b.hidden);
+  if (back) back.focus();
+}
 
-$('#noBtn').addEventListener('click', openModal);
+$('#noBtn').addEventListener('click', () => openModal('decline'));
+$('#cancelRsvp').addEventListener('click', () => openModal('cancel'));
+$('#viewTicketBtn').addEventListener('click', () => { location.hash = '#ticket'; });
 $$('[data-close]', modal).forEach(el => el.addEventListener('click', closeModal));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal.hidden) closeModal(); });
 
 $('#reasonSubmit').addEventListener('click', async () => {
   const reason = $('#reasonText').value.trim();
-  const data = { name: guestName, reason, submittedAt: new Date().toISOString() };
-  try { await postJSON(CONFIG.sheetEndpoint, { type: 'decline', ...data }); } catch { /* tetap lanjut */ }
-  store.set(DECLINE_KEY, data);
+  const btn = $('#reasonSubmit');
+  const rsvp = store.get(STORE_KEY);
+
+  if (modalMode === 'cancel' && rsvp) {
+    // Batalkan RSVP: baris di Google Sheets ditandai abu-abu + dicoret (tidak dihapus)
+    btn.disabled = true;
+    try {
+      await postJSON(CONFIG.sheetEndpoint, { type: 'cancel', name: rsvp.name, email: rsvp.email, reason });
+    } catch {
+      $('#reasonError').hidden = false;
+      btn.disabled = false;
+      return;
+    }
+    btn.disabled = false;
+    localStorage.removeItem(STORE_KEY);
+    store.set(DECLINE_KEY, { name: rsvp.name, reason, cancelled: true, rsvp, submittedAt: new Date().toISOString() });
+    $('#thanksText').innerHTML = 'Your RSVP has been cancelled<br>Changed your mind? You can RSVP again anytime';
+    renderTicket();
+  } else {
+    const data = { name: guestName, reason, submittedAt: new Date().toISOString() };
+    try { await postJSON(CONFIG.sheetEndpoint, { type: 'decline', ...data }); } catch { /* tetap lanjut */ }
+    store.set(DECLINE_KEY, data);
+    $('#thanksText').innerHTML = 'Thank you for telling us<br>See you next time';
+  }
+  $('#reasonText').value = '';
   renderRsvpStatus();
   $('#reasonStep').hidden = true;
   $('#thanksStep').hidden = false;

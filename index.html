@@ -21,7 +21,7 @@
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
   <link rel="stylesheet" href="css/style.css?v=13">
   <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
-  <link rel="stylesheet" href="css/scarlet.css?v=54">
+  <link rel="stylesheet" href="css/scarlet.css?v=55">
 </head>
 <body class="is-loading">
 
@@ -147,12 +147,14 @@
           </article>
 
           <article class="rsvp-card paper reveal" id="rsvpCard">
-            <p class="rsvp-card__q">Do you accept the<br>invitation?</p>
+            <p class="rsvp-card__q" id="rsvpQ">Do you accept the<br>invitation?</p>
             <div class="rsvp-card__actions">
               <button class="btn-gold" type="button" id="yesBtn">Yes</button>
               <button class="btn-gold" type="button" id="noBtn">No</button>
+              <button class="btn-gold rsvp-card__view" type="button" id="viewTicketBtn" hidden>View your ticket</button>
             </div>
             <p class="rsvp-card__status" id="rsvpStatus" hidden></p>
+            <button class="rsvp-card__cancel" type="button" id="cancelRsvp" hidden>Cancel your RSVP</button>
           </article>
           </div>
         </section>
@@ -330,16 +332,17 @@
     <div class="modal__card paper" role="dialog" aria-modal="true" aria-labelledby="reasonTitle">
       <div class="modal__step" id="reasonStep">
         <p class="modal__title" id="reasonTitle">Please state your reason</p>
+        <p class="modal__error" id="reasonError" hidden>Sorry, something went wrong. Please try again.</p>
         <textarea id="reasonText" rows="3" aria-label="Your reason"></textarea>
         <button class="btn-gold" type="button" id="reasonSubmit">Submit</button>
       </div>
       <div class="modal__step" id="thanksStep" hidden>
-        <p class="modal__title">Thank you for telling us<br>See you next time</p>
+        <p class="modal__title" id="thanksText">Thank you for telling us<br>See you next time</p>
       </div>
       <button class="modal__close" type="button" data-close aria-label="Close">×</button>
     </div>
   </div>
 
-  <script src="js/script.js?v=13"></script>
+  <script src="js/script.js?v=14"></script>
 </body>
 </html>
