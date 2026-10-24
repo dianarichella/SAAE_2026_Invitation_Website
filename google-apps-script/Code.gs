@@ -29,7 +29,7 @@ const RSVP_HEADERS = [
 ];
 
 const DECLINE_SHEET = 'Declined';
-const DECLINE_HEADERS = ['Submitted At', 'Name (from link)', 'Reason', 'Email'];
+const DECLINE_HEADERS = ['Submitted At', 'Name (from link)', 'Reason', 'Email', 'Ref'];
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
@@ -40,7 +40,7 @@ function doPost(e) {
 
     if (data.type === 'decline') {
       const sheet = getDeclineSheet_(ss);
-      sheet.appendRow([new Date(), clean_(data.name), clean_(data.reason), '']);
+      sheet.appendRow([new Date(), clean_(data.name), clean_(data.reason), '', clean_(data.ref)]);
       return json_({ ok: true });
     }
 
@@ -55,7 +55,7 @@ function doPost(e) {
         markCancelled_(sheet, r, true);
       }
       const note = 'Cancelled RSVP' + (code ? ' (' + code + ')' : '') + (data.reason ? ': ' + data.reason : '');
-      getDeclineSheet_(ss).appendRow([new Date(), clean_(data.name), clean_(note), clean_(data.email)]);
+      getDeclineSheet_(ss).appendRow([new Date(), clean_(data.name), clean_(note), clean_(data.email), '']);
       return json_({ ok: true, found: !!r });
     }
 
@@ -124,22 +124,25 @@ function nextCode_(sheet, codeCol) {
 
 function getDeclineSheet_(ss) {
   const sheet = getSheet_(ss, DECLINE_SHEET, DECLINE_HEADERS);
-  if (!sheet.getRange(1, 4).getValue()) sheet.getRange(1, 4).setValue('Email').setFontWeight('bold');
+  DECLINE_HEADERS.forEach((h, i) => {
+    if (!sheet.getRange(1, i + 1).getValue()) sheet.getRange(1, i + 1).setValue(h).setFontWeight('bold');
+  });
   return sheet;
 }
 
 // Coret baris di tab Declined milik tamu yang akhirnya RSVP
-// (dicocokkan lewat email, atau nama di link undangan / nama lengkap)
+// (dicocokkan lewat kode Ref dari browser yang sama, email, atau nama di link undangan / nama lengkap)
 function strikeDeclines_(ss, data) {
   const sheet = ss.getSheetByName(DECLINE_SHEET);
   if (!sheet || sheet.getLastRow() < 2) return;
   const norm = v => String(v || '').trim().toLowerCase();
   const names = [norm(data.name), norm(data.linkName)].filter(Boolean);
   const email = norm(data.email);
-  const rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 4).getValues();
+  const ref = norm(data.declineRef);
+  const rows = sheet.getRange(2, 1, sheet.getLastRow() - 1, 5).getValues();
   rows.forEach((r, i) => {
-    if ((email && norm(r[3]) === email) || names.includes(norm(r[1]))) {
-      sheet.getRange(i + 2, 1, 1, 4).setBackground('#d9d9d9').setFontColor('#7f7f7f').setFontLine('line-through');
+    if ((ref && norm(r[4]) === ref) || (email && norm(r[3]) === email) || names.includes(norm(r[1]))) {
+      sheet.getRange(i + 2, 1, 1, 5).setBackground('#d9d9d9').setFontColor('#7f7f7f').setFontLine('line-through');
     }
   });
 }

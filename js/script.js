@@ -324,7 +324,8 @@ $('#rsvpForm').addEventListener('submit', async e => {
   try {
     // Nomor tiket dibuat oleh Google Sheets sesuai urutan RSVP (001, 002, ...)
     const linkName = guestName !== CONFIG.defaultName ? guestName : '';
-    const out = await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data, linkName });
+    const declineRef = store.get(DECLINE_KEY)?.ref || '';   // kalau sebelumnya klik "No" di browser ini
+    const out = await postJSON(CONFIG.sheetEndpoint, { type: 'rsvp', ...data, linkName, declineRef });
     data.code = out?.code || old?.code || '';
     store.set(STORE_KEY, data);
     localStorage.removeItem(DECLINE_KEY);
@@ -386,7 +387,8 @@ $('#reasonSubmit').addEventListener('click', async () => {
     $('#thanksText').textContent = 'Your RSVP has been cancelled';
     renderTicket();
   } else {
-    const data = { name: guestName, reason, submittedAt: new Date().toISOString() };
+    const ref = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const data = { name: guestName, reason, ref, submittedAt: new Date().toISOString() };
     try { await postJSON(CONFIG.sheetEndpoint, { type: 'decline', ...data }); } catch { /* tetap lanjut */ }
     store.set(DECLINE_KEY, data);
     $('#thanksText').innerHTML = 'Thank you for telling us<br>See you next time';
