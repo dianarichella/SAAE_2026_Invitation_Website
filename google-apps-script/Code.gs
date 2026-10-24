@@ -352,7 +352,7 @@ function sendInvite_(email, name) {
     `You're invited to attend Student Ambassador Appreciation Night.\n\n` +
     `Date: ${EVENT.date}\nTime: 18.30 – 22.00 (registration opens 18.00)\nVenue: ${EVENT.venue}\n\n` +
     `Please RSVP here: ${link}\n\n` +
-    `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nDiana Richella Krisan – @dianark8\n\n` +
+    `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nYu Zhengdong – @internalzomb\n\n` +
     `${SENDER_NAME}`;
   sendMail_(email, INVITE_SUBJECT, inviteHtml_(name, link), plain);
 }
@@ -380,7 +380,7 @@ function inviteHtml_(name, link) {
     </td></tr>
     <tr><td ${bg(red)};padding:0 24px"><div class="lk-rule" style="border-top:1px solid #e8cfc0;font-size:0;line-height:0">&nbsp;</div></td></tr>
     <tr><td ${bg(red)};padding:30px 44px 30px;font-family:${font};font-size:14px;line-height:1.6;color:${cream}">
-      For more inquiries, please contact us on Telegram:<br>Min Hal Jin – <a href="https://t.me/minhaljin" class="lk-ivory" style="color:${cream}">@minhaljin</a><br>Diana Richella Krisan – <a href="https://t.me/dianark8" class="lk-ivory" style="color:${cream}">@dianark8</a>
+      For more inquiries, please contact us on Telegram:<br>Min Hal Jin – <a href="https://t.me/minhaljin" class="lk-ivory" style="color:${cream}">@minhaljin</a><br>Yu Zhengdong – <a href="https://t.me/internalzomb" class="lk-ivory" style="color:${cream}">@internalzomb</a>
     </td></tr>
     <tr><td ${bg(dark)};padding:22px 0;text-align:center;font-family:${font};font-size:12px;font-weight:bold;line-height:1.8;color:${cream}">
       ${SENDER_NAME}<br>Singapore | October 2026
