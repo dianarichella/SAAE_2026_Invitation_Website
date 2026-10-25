@@ -21,7 +21,7 @@
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
   <link rel="stylesheet" href="css/style.css?v=13">
   <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
-  <link rel="stylesheet" href="css/scarlet.css?v=55">
+  <link rel="stylesheet" href="css/scarlet.css?v=56">
 </head>
 <body class="is-loading">
 
@@ -333,7 +333,8 @@
       <div class="modal__step" id="reasonStep">
         <p class="modal__title" id="reasonTitle">Please state your reason</p>
         <p class="modal__error" id="reasonError" hidden>Sorry, something went wrong. Please try again.</p>
-        <textarea id="reasonText" rows="3" aria-label="Your reason"></textarea>
+        <input class="modal__input" id="declineName" type="text" placeholder="Your full name" aria-label="Your full name" autocomplete="name">
+        <textarea id="reasonText" rows="3" placeholder="Your reason" aria-label="Your reason"></textarea>
         <button class="btn-gold" type="button" id="reasonSubmit">Submit</button>
       </div>
       <div class="modal__step" id="thanksStep" hidden>
@@ -343,6 +344,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=16"></script>
+  <script src="js/script.js?v=17"></script>
 </body>
 </html>

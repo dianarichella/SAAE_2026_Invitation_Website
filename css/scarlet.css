@@ -869,3 +869,19 @@ html, body { overflow-x: clip; }
 }
 .rsvp-card__cancel:hover { color: var(--ivory); }
 .modal__error { color: #ff8a80; font-family: var(--font-body); font-style: italic; margin: 0 0 10px; }
+
+/* Pop-up "No": kolom nama */
+.modal .modal__input {
+  width: 92%;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 19px;
+  color: #3a0610;
+  background: #fff5ee;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 3px 10px rgba(60, 30, 10, .25) inset, 0 1px 0 rgba(255, 255, 255, .7);
+}
+.modal .modal__input:focus { outline: 2px solid var(--gold-btn); }
+.modal .modal__input.is-invalid { outline: 2px solid #ff8a80; }
+.modal textarea::placeholder, .modal .modal__input::placeholder { color: rgba(58, 6, 16, .45); font-style: italic; }

@@ -255,7 +255,9 @@ function fillForm() {
   const prev = data || store.get(DECLINE_KEY)?.rsvp;
   if (prev) Object.entries(prev).forEach(([k, v]) => { if (form.elements[k] && form.elements[k].type !== 'radio') form.elements[k].value = v; });
   if (prev?.attend) { const opt = form.querySelector(`input[name="attend"][value="${prev.attend}"]`); if (opt) opt.checked = true; }
-  if (!prev && guestName !== CONFIG.defaultName && !form.elements.name.value) form.elements.name.value = guestName;
+  const declinedName = store.get(DECLINE_KEY)?.name;
+  const knownName = guestName !== CONFIG.defaultName ? guestName : (declinedName || '');
+  if (!prev && knownName && !form.elements.name.value) form.elements.name.value = knownName;
   toggleAttendNote();
 }
 
@@ -349,10 +351,15 @@ function openModal(mode = 'decline') {
     ? 'Cancel your RSVP? Please state your reason'
     : 'Please state your reason';
   $('#reasonError').hidden = true;
+  // Saat klik "No", tamu wajib menulis namanya (link undangan sama untuk semua orang)
+  const nameBox = $('#declineName');
+  nameBox.hidden = mode === 'cancel';
+  nameBox.classList.remove('is-invalid');
+  if (mode !== 'cancel' && !nameBox.value && guestName !== CONFIG.defaultName) nameBox.value = guestName;
   $('#reasonStep').hidden = false;
   $('#thanksStep').hidden = true;
   modal.hidden = false;
-  setTimeout(() => $('#reasonText').focus(), 50);
+  setTimeout(() => (mode === 'cancel' ? $('#reasonText') : $('#declineName')).focus(), 50);
 }
 function closeModal() {
   modal.hidden = true;
@@ -377,6 +384,7 @@ $('#reasonSubmit').addEventListener('click', async () => {
     try {
       await postJSON(CONFIG.sheetEndpoint, { type: 'cancel', name: rsvp.name, email: rsvp.email, reason });
     } catch {
+      $('#reasonError').textContent = 'Sorry, something went wrong. Please try again.';
       $('#reasonError').hidden = false;
       btn.disabled = false;
       return;
@@ -387,8 +395,16 @@ $('#reasonSubmit').addEventListener('click', async () => {
     $('#thanksText').textContent = 'Your RSVP has been cancelled';
     renderTicket();
   } else {
+    const name = $('#declineName').value.trim();
+    if (!name) {
+      $('#reasonError').textContent = 'Please fill in your name.';
+      $('#reasonError').hidden = false;
+      $('#declineName').classList.add('is-invalid');
+      $('#declineName').focus();
+      return;
+    }
     const ref = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-    const data = { name: guestName, reason, ref, submittedAt: new Date().toISOString() };
+    const data = { name, reason, ref, submittedAt: new Date().toISOString() };
     try { await postJSON(CONFIG.sheetEndpoint, { type: 'decline', ...data }); } catch { /* tetap lanjut */ }
     store.set(DECLINE_KEY, data);
     $('#thanksText').innerHTML = 'Thank you for telling us<br>See you next time';
