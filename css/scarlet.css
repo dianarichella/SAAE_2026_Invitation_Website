@@ -885,3 +885,7 @@ html, body { overflow-x: clip; }
 .modal .modal__input:focus { outline: 2px solid var(--gold-btn); }
 .modal .modal__input.is-invalid { outline: 2px solid #ff8a80; }
 .modal textarea::placeholder, .modal .modal__input::placeholder { color: rgba(58, 6, 16, .45); font-style: italic; }
+
+/* Venue jadi 2 baris ("Metropolitan YMCA – / Vine Ballroom"), jadi area kartu undangan
+   ditambah setinggi 1 baris teks supaya jarak ke blok "What is SAAE?" tetap sama */
+@media (min-width: 901px) { .hero__stage { height: calc(1370 * var(--w) + max(24px, calc(62.4 * var(--w)))); } }
