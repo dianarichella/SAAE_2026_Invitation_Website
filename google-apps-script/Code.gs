@@ -19,7 +19,7 @@ const EVENT = {
   theme: 'Scarlet Gala',
   date: 'Friday, 13 November 2026',
   time: '18.30 – 22.00 (registration opens 18.00)',
-  venue: 'Metropolitan YMCA, 60 Stevens Rd, Singapore 257854',
+  venue: 'Metropolitan YMCA – Vine Ballroom, 60 Stevens Rd, Singapore 257854',
 };
 
 const RSVP_SHEET = 'RSVP';
@@ -224,7 +224,7 @@ function sendTicket_(d) {
               ${row('Guest', `<span style="font-size:24px">${esc_(d.name)}</span>`)}
               ${row('Date', esc_(EVENT.date))}
               ${row('Time', '18.30 – 22.00', 'Registration opens 18.00')}
-              ${row('Venue', esc_(venueName), esc_(venueRest.join(', ')))}
+              ${row('Venue', esc_(venueName).replace(' – ', '&nbsp;– ').replace('Vine Ballroom', 'Vine&nbsp;Ballroom'), esc_(venueRest.join(', ')))}
               ${row('Ticket No.', esc_(String(d.code).replace(/^SAAE-/, '')))}
             </table>
           </td></tr>
@@ -350,7 +350,7 @@ function sendInvite_(email, name) {
   const plain =
     `Dear ${name},\n\n` +
     `You're invited to attend Student Ambassador Appreciation Night.\n\n` +
-    `Date: ${EVENT.date}\nTime: 18.30 – 22.00 (registration opens 18.00)\nVenue: ${EVENT.venue}\n\n` +
+    `Date: ${EVENT.date}\nTime: 18.30 – 22.00 (registration opens 18.00)\nVenue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854\n\n` +
     `Please RSVP here: ${link}\n\n` +
     `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nYu Zhengdong – @internalzomb\n\n` +
     `${SENDER_NAME}`;

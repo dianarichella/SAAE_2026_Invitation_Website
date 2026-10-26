@@ -5,7 +5,7 @@ Guests open a wax-sealed envelope, read the invitation, and RSVP — all in the 
 
 **Theme:** Scarlet Gala
 **When:** Friday, 13 November 2026 · 18.30 – 22.00 (registration opens 18.00)
-**Where:** Metropolitan YMCA, 60 Stevens Rd, Singapore 257854
+**Where:** Metropolitan YMCA – Vine Ballroom, 60 Stevens Rd, Singapore 257854
 
 ## Features
 
