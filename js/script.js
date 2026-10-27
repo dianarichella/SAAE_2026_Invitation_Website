@@ -52,7 +52,18 @@ makeEnvelope($('#heroEnv'));
 // Juga membaca nama yang ditulis setelah tanda # (misalnya ...#home?name=Diana)
 const params = new URLSearchParams(location.search || (location.hash.split('?')[1] || ''));
 const guestName = (params.get('name') || params.get('to') || CONFIG.defaultName).trim().slice(0, 40);
-$('#guestName').textContent = guestName;
+// Sapaan "Dear ...," di halaman utama: pakai nama yang diisi saat RSVP / klik No,
+// kalau belum ada pakai nama dari link, kalau tidak ada juga → "Guest"
+function renderGreeting() {
+  let saved = '';
+  try {
+    saved = JSON.parse(localStorage.getItem('saae-rsvp') || 'null')?.name
+         || JSON.parse(localStorage.getItem('saae-decline') || 'null')?.name || '';
+  } catch { /* abaikan */ }
+  if (saved === CONFIG.defaultName) saved = '';
+  $('#guestName').textContent = (saved || guestName).trim().slice(0, 40);
+}
+renderGreeting();
 
 // Kilau emas & silver di latar
 (function makeSparkles() {
@@ -225,7 +236,6 @@ function renderTicket() {
   $('#ticketFull').hidden = !data;
   $('#ticketKicker').textContent = data ? 'You’re Registered!' : 'You’re Not Registered Yet!';
   if (data) {
-    $('#ticketName').textContent = data.name;
     // nomor tiket = urutan RSVP dari Google Sheets (SAAE-001 → 001)
     $('#ticketCode').textContent = String(data.code || '').replace(/^SAAE-/, '') || '—';
   }
@@ -236,6 +246,7 @@ function renderTicket() {
 // - sudah RSVP      → tombol "View your ticket" + tulisan kecil "Cancel your RSVP"
 // - menolak/cancel  → hanya Yes + "Changed your mind? Tap Yes to RSVP."
 function renderRsvpStatus() {
+  renderGreeting();
   const status = $('#rsvpStatus');
   const data = store.get(STORE_KEY);
   const declined = !data && store.get(DECLINE_KEY);

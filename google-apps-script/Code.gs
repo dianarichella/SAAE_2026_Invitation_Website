@@ -221,7 +221,6 @@ function sendTicket_(d) {
           <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
           <tr><td style="padding:20px 44px 8px">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-              ${row('Guest', `<span style="font-size:24px">${esc_(d.name)}</span>`)}
               ${row('Date', esc_(EVENT.date))}
               ${row('Time', '18.30 – 22.00', 'Registration opens 18.00')}
               ${row('Venue', esc_(venueName).replace(' – ', '&nbsp;– ').replace('Vine Ballroom', 'Vine&nbsp;Ballroom'), esc_(venueRest.join(', ')))}
