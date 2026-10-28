@@ -1,4 +1,4 @@
-# Student Ambassador Appreciation Night — Invitation Website
+# Student Ambassador Appreciation Event — Invitation Website
 
 An interactive digital invitation for the **Student Ambassador Appreciation Event (SAAE) 2026**.
 Guests open a wax-sealed envelope, read the invitation, and RSVP — all in the browser.

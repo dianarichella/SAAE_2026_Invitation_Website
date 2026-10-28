@@ -15,7 +15,7 @@ const SEND_TICKET_EMAIL = true;
 
 // Detail acara di email tiket — samakan dengan isi website
 const EVENT = {
-  name: 'Student Ambassador Appreciation Night',
+  name: 'Student Ambassador Appreciation Event',
   theme: 'Scarlet Gala',
   date: 'Friday, 13 November 2026',
   time: '18.30 – 22.00 (registration opens 18.00)',
@@ -175,7 +175,7 @@ function esc_(s) {
   return String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 }
 
-// Gambar kepala tiket (logo + Scarlet Gala + Appreciation Night) diambil dari website.
+// Gambar kepala tiket (logo + Scarlet Gala + Appreciation Event) diambil dari website.
 // Pastikan file assets/email-header.jpg sudah di-push ke GitHub.
 const EMAIL_HEADER_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/assets/email-header.jpg';
 // Warna latar email juga dipasang sebagai GAMBAR polos (assets/email-bg-*.png).
@@ -218,7 +218,7 @@ function sendTicket_(d) {
     <table class="lk-tk" role="presentation" width="100%" cellpadding="0" cellspacing="0" ${bgImg_('ticket', bg)};max-width:520px;margin:0 auto;border:1px solid ${gold};border-radius:16px;border-collapse:separate">
       <tr><td style="padding:6px">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid rgba(214,180,105,.55);border-radius:11px;border-collapse:separate">
-          <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Night" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
+          <tr><td><img src="${EMAIL_HEADER_URL}" width="506" alt="Student Ambassador — Scarlet Gala — Appreciation Event" style="display:block;width:100%;height:auto;border:0;border-radius:10px 10px 0 0;color:${cream};font-family:${font};font-size:22px;text-align:center"></td></tr>
           <tr><td style="padding:20px 44px 8px">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
               ${row('Date', esc_(EVENT.date))}
@@ -252,7 +252,7 @@ const SITE_URL = 'https://dianarichella.github.io/SAAE_2026_Invitation_Website/'
 const INVITE_HEADER_URL = SITE_URL + 'assets/invite-header.jpg';
 const INVITE_SHEET = 'Invites';
 const INVITE_HEADERS = ['Name', 'Email', 'Status', 'Sent At'];
-const INVITE_SUBJECT = 'You’re invited — Student Ambassador Appreciation Night 2026';
+const INVITE_SUBJECT = 'You’re invited — Student Ambassador Appreciation Event 2026';
 const SENDER_NAME = 'SIM Student Ambassador Appreciation Event Team';
 // Alamat pengirim (dipakai Power Automate) & alamat balasan (kalau SEND_VIA_OUTLOOK = false).
 const SENDER_EMAIL = 'krisan001@mymail.sim.edu.sg';
@@ -348,7 +348,7 @@ function sendInvite_(email, name) {
   const link = inviteLink_(name);
   const plain =
     `Dear ${name},\n\n` +
-    `You're invited to attend Student Ambassador Appreciation Night.\n\n` +
+    `You're invited to attend Student Ambassador Appreciation Event.\n\n` +
     `Date: ${EVENT.date}\nTime: 18.30 – 22.00 (registration opens 18.00)\nVenue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854\n\n` +
     `Please RSVP here: ${link}\n\n` +
     `For more inquiries, please contact us on Telegram:\nMin Hal Jin – @minhaljin\nYu Zhengdong – @internalzomb\n\n` +
@@ -367,10 +367,10 @@ function inviteHtml_(name, link) {
   <div style="background:#f2f2f2;padding:20px 8px">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;border-radius:10px;overflow:hidden">
     <tr><td ${bg(dark)};padding:20px 0;text-align:center;font-family:${font};font-size:20px;letter-spacing:.5px;color:${cream}">SAAE INVITATION</td></tr>
-    <tr><td ${bg(dark)}"><a href="${link}"><img src="${INVITE_HEADER_URL}" width="600" alt="Scarlet Gala — Student Ambassador Appreciation Night 2026" style="display:block;width:100%;height:auto;border:0"></a></td></tr>
+    <tr><td ${bg(dark)}"><a href="${link}"><img src="${INVITE_HEADER_URL}" width="600" alt="Scarlet Gala — Student Ambassador Appreciation Event 2026" style="display:block;width:100%;height:auto;border:0"></a></td></tr>
     <tr><td ${bg(red)};padding:34px 44px 8px;font-family:${font};color:${cream};text-align:left">
       <p class="lk-ivory" style="margin:0 0 14px;font-size:16px;color:${cream}">Dear ${esc_(name)},</p>
-      <p class="lk-ivory" style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Night</p>
+      <p class="lk-ivory" style="margin:0 0 24px;font-size:20px;line-height:1.4;color:${cream}">You're invited to attend Student Ambassador Appreciation Event</p>
       <p class="lk-ivory" style="margin:0 0 6px;font-size:15px;font-weight:bold;color:${cream}">Event details:</p>
       <p class="lk-ivory" style="margin:0;font-size:15px;line-height:1.6;color:${cream}">Date: ${esc_(EVENT.date)}<br>Time: 18.30 – 22.00 (registration opens 18.00)<br>Venue: Metropolitan YMCA, 60 Stevens Rd, Singapore 257854</p>
     </td></tr>
