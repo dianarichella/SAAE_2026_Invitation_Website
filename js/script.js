@@ -265,20 +265,18 @@ function fillForm() {
   // Kalau pernah RSVP lalu cancel, isian lamanya dipakai lagi supaya tidak perlu mengetik ulang
   const prev = data || store.get(DECLINE_KEY)?.rsvp;
   if (prev) Object.entries(prev).forEach(([k, v]) => { if (form.elements[k] && form.elements[k].type !== 'radio') form.elements[k].value = v; });
-  if (prev?.attend) { const opt = form.querySelector(`input[name="attend"][value="${prev.attend}"]`); if (opt) opt.checked = true; }
   const declinedName = store.get(DECLINE_KEY)?.name;
   const knownName = guestName !== CONFIG.defaultName ? guestName : (declinedName || '');
   if (!prev && knownName && !form.elements.name.value) form.elements.name.value = knownName;
-  toggleAttendNote();
+  toggleDietaryOther();
 }
 
-// Kolom "bagian mana yang dihadiri" hanya muncul kalau memilih "No"
-function toggleAttendNote() {
+// Kolom "Others" untuk dietary hanya muncul kalau memilih "Others (please specify)"
+function toggleDietaryOther() {
   const form = $('#rsvpForm');
-  const partial = form.elements.attend.value === 'No';
-  $('#attendNoteField').hidden = !partial;
+  $('#dietaryOtherField').hidden = form.elements.dietaryChoice.value !== 'Others';
 }
-$('#rsvpForm').addEventListener('change', e => { if (e.target.name === 'attend') toggleAttendNote(); });
+$('#rsvpForm').addEventListener('change', e => { if (e.target.name === 'dietaryChoice') toggleDietaryOther(); });
 
 // Kotak pesan membesar sendiri mengikuti isi
 const msgBox = $('#rsvpForm textarea[name="message"]');
@@ -311,11 +309,10 @@ $('#rsvpForm').addEventListener('submit', async e => {
   if (!name) { problems.push('your full name'); form.elements.name.closest('.field').classList.add('is-invalid'); }
   // Hanya email SIM (…@mymail.sim.edu.sg / …@sim.edu.sg), supaya tiket dari Outlook SIM tidak masuk spam
   if (!/^[^\s@]+@(mymail\.)?sim\.edu\.sg$/i.test(email)) { problems.push('your SIM email (e.g. abc001@mymail.sim.edu.sg)'); form.elements.email.closest('.field').classList.add('is-invalid'); }
-  if (!form.elements.attend.value) { problems.push('whether you can attend the full event'); $('#attendField').classList.add('is-invalid'); }
-  // Kalau datang telat / pulang cepat, wajib isi perkiraan jamnya
-  if (form.elements.attend.value === 'No' && !form.elements.attendNote.value.trim()) {
-    problems.push('roughly what time you will arrive or leave');
-    $('#attendNoteField').classList.add('is-invalid');
+  // Dietary "Others" wajib diisi keterangannya
+  if (form.elements.dietaryChoice.value === 'Others' && !form.elements.dietaryOther.value.trim()) {
+    problems.push('your dietary requirements');
+    $('#dietaryOtherField').classList.add('is-invalid');
   }
   if (problems.length) {
     err.textContent = `Please fill in ${problems.join(', ')}.`;
@@ -328,7 +325,10 @@ $('#rsvpForm').addEventListener('submit', async e => {
   const data = Object.fromEntries(new FormData(form));
   data.name = name;
   data.email = email;
-  if (data.attend !== 'No') data.attendNote = '';
+  // Kolom "Dietary Requirements" di Google Sheets: No preference / Vegetarian / Others: …
+  const other = (data.dietaryOther || '').trim();
+  data.dietary = data.dietaryChoice === 'Others' ? `Others: ${other}` : data.dietaryChoice;
+  if (data.dietaryChoice !== 'Others') data.dietaryOther = '';
   data.submittedAt = new Date().toISOString();
 
   const btn = $('#submitBtn');

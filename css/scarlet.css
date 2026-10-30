@@ -891,3 +891,29 @@ html, body { overflow-x: clip; }
   .ticket .tk-info { gap: 1cqw; }
   .ticket .tk-grid { gap: 1cqw 2cqw; }
 }
+
+/* RSVP: pilihan Dietary Requirements (dropdown) dengan gaya yang sama seperti kolom isian lain */
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content: ""; position: absolute; right: 6px; top: 50%; width: .5em; height: .5em;
+  border-right: 1.5px solid #d9b285; border-bottom: 1.5px solid #d9b285;
+  transform: translateY(-70%) rotate(45deg); pointer-events: none;
+  font-size: max(19px, calc(34 * var(--w)));
+}
+.field select {
+  width: 100%;
+  padding: 10px 2.2em 10px 2px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: max(19px, calc(34 * var(--w)));
+  color: var(--ivory);
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(186, 182, 182, .55);
+  border-radius: 0;
+  -webkit-appearance: none; appearance: none;
+  cursor: pointer;
+  transition: border-color .25s, box-shadow .25s;
+}
+.field select:focus { outline: none; border-bottom-color: var(--gold-active); box-shadow: 0 1px 0 var(--gold-active); }
+.field select option { color: #fdf6ea; background: #4a0812; font-style: normal; }

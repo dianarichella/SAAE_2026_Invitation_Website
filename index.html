@@ -21,7 +21,7 @@
   <!-- Naikkan angka v= setiap update supaya HP tamu langsung memuat versi terbaru -->
   <link rel="stylesheet" href="css/style.css?v=13">
   <!-- Tema Scarlet Gala: warna & font (dimuat setelah style.css) -->
-  <link rel="stylesheet" href="css/scarlet.css?v=58">
+  <link rel="stylesheet" href="css/scarlet.css?v=59">
 </head>
 <body class="is-loading">
 
@@ -304,21 +304,19 @@
               <input type="text" name="programme" placeholder="e.g. University of London">
             </label>
 
-            <fieldset class="field field--full choice" id="attendField">
-              <legend>Will you be able to stay for the whole evening?</legend>
-              <div class="choice__options">
-                <label class="choice__opt"><input type="radio" name="attend" value="Yes"><span>Yes, I’ll be there all night</span></label>
-                <label class="choice__opt"><input type="radio" name="attend" value="No"><span>No, I may arrive late or leave early</span></label>
-              </div>
-            </fieldset>
-            <label class="field field--full" id="attendNoteField" hidden>
-              <span>Roughly what time will you arrive or leave? (e.g. arriving around 19.30)</span>
-              <input type="text" name="attendNote">
-            </label>
-
             <label class="field field--full">
               <span>Dietary Requirements</span>
-              <input type="text" name="dietary" placeholder="e.g. vegetarian, allergies">
+              <div class="select-wrap">
+                <select name="dietaryChoice">
+                  <option value="No preference">No preference</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Others">Others (please specify)</option>
+                </select>
+              </div>
+            </label>
+            <label class="field field--full" id="dietaryOtherField" hidden>
+              <span>Please specify your dietary requirements</span>
+              <input type="text" name="dietaryOther" placeholder="e.g. halal, no beef, nut allergy">
             </label>
             <label class="field field--full">
               <span>Additional Notes</span>
@@ -354,6 +352,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=18"></script>
+  <script src="js/script.js?v=19"></script>
 </body>
 </html>

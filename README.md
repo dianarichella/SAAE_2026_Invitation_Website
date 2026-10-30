@@ -14,7 +14,7 @@ Guests open a wax-sealed envelope, read the invitation, and RSVP — all in the 
 - **What is SAAE?, Dresscode, Contact** — event description with photos from SAAE 2025,
   colour palette and dress guide, and committee Telegram contacts
 - **RSVP form** — only SIM emails (`…@mymail.sim.edu.sg`) are accepted, so tickets don't land in spam.
-  Guests who will arrive late or leave early must give a rough time.
+  Dietary requirements is a dropdown (No preference / Vegetarian / Others); choosing Others asks guests to specify.
 - **Event ticket** — shown on the site after RSVP and emailed to the guest, numbered in RSVP order
   (001, 002, …)
 - **Decline & cancel**
