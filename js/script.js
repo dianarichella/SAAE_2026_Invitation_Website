@@ -9,6 +9,10 @@ const CONFIG = {
   // Nama tamu default. Untuk nama per orang, buka web dengan
   // alamat ...index.html?name=Diana  →  "Dear Diana,"
   defaultName: 'Guest',
+
+  // Pendaftaran RSVP ditutup: true = form RSVP diganti tulisan "Sorry, the registration is closed".
+  // Ganti ke false untuk membuka pendaftaran lagi.
+  registrationClosed: true,
   
   sheetEndpoint: 'https://script.google.com/macros/s/AKfycbwjn2PWP7q6lmLZ7HEwHWykSeQhSfKGKWK04HjGrz2cnx6QksLw9GdYZYO7sHnvIHWp7A/exec',
 };
@@ -174,7 +178,7 @@ $('#skipBtn').addEventListener('click', () => enterApp('home'));
 function showPage(name) {
   $$('.page').forEach(p => { p.hidden = p.dataset.page !== name; });
   if (name === 'ticket') renderTicket();
-  if (name === 'rsvp') fillForm();
+  if (name === 'rsvp') { renderRegistrationClosed(); fillForm(); }
 }
 
 function setActive(name) {
@@ -259,6 +263,13 @@ function renderRsvpStatus() {
   status.textContent = declined ? 'Changed your mind? Tap Yes to RSVP.' : '';
 }
 
+function renderRegistrationClosed() {
+  const closed = !!CONFIG.registrationClosed;
+  $('#rsvpForm').hidden = closed;
+  $('#submitBtn').hidden = closed;
+  $('#rsvpClosed').hidden = !closed;
+}
+
 function fillForm() {
   const data = store.get(STORE_KEY);
   const form = $('#rsvpForm');
@@ -299,6 +310,7 @@ $('#yesBtn').addEventListener('click', () => { location.hash = store.get(STORE_K
 
 $('#rsvpForm').addEventListener('submit', async e => {
   e.preventDefault();
+  if (CONFIG.registrationClosed) return;
   const form = e.currentTarget;
   const err = $('#formError');
   const name = form.elements.name.value.trim();

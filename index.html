@@ -328,6 +328,12 @@
           </form>
 
           <button class="btn-paper" type="submit" form="rsvpForm" id="submitBtn">Submit</button>
+
+          <!-- Pendaftaran ditutup (CONFIG.registrationClosed = true di js/script.js) -->
+          <div class="panel ticket-empty rsvp-closed" id="rsvpClosed" hidden>
+            <p>Sorry, the registration<br>is closed</p>
+            <a class="link-gold" href="#home">Back to Home</a>
+          </div>
         </section>
       </div>
 
@@ -352,6 +358,6 @@
     </div>
   </div>
 
-  <script src="js/script.js?v=19"></script>
+  <script src="js/script.js?v=20"></script>
 </body>
 </html>
