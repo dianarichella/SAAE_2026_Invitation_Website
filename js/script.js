@@ -12,7 +12,7 @@ const CONFIG = {
 
   // Pendaftaran RSVP ditutup: true = form RSVP diganti tulisan "Sorry, the registration is closed".
   // Ganti ke false untuk membuka pendaftaran lagi.
-  registrationClosed: true,
+  registrationClosed: false,
   
   sheetEndpoint: 'https://script.google.com/macros/s/AKfycbwjn2PWP7q6lmLZ7HEwHWykSeQhSfKGKWK04HjGrz2cnx6QksLw9GdYZYO7sHnvIHWp7A/exec',
 };
